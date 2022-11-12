@@ -1,9 +1,11 @@
 Proposal
 ================
 
-# Stay safe at Columbia UNiversity
+# Project Title
 
-## Members
+Stay safe at Columbia UNiversity
+
+## Group Members
 
 -   Haochen Sun ( hs3393 )
 -   Zhenyu Zhou ( zz2900 )
