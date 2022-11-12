@@ -40,10 +40,12 @@ dataset is provided by NYPD, and is recently updated on Oct.19th. This
 dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is
 expected to be accurate, authoritative, prompt and worth analyzing.
 
+## Planned analyses/visualizations/coding challenges
+
 ## Planned timeline
 
-1.  Nov. 11 – Nov. 18: Data download, cleaning, and EDA
-
-2.  Nov. 19 – Nov. 25: Data visualization, making website
-
-3.  Nov. 25 – Dec. 10: Writing report and creating screencast
+|       Date        |              Descriptions              |
+|:-----------------:|:--------------------------------------:|
+| Nov. 11 – Nov. 18 |    Data download, cleaning, and EDA    |
+| Nov. 19 – Nov. 25 |   Data visualization, making website   |
+| Nov. 25 – Dec. 10 | Writing report and creating screencast |
