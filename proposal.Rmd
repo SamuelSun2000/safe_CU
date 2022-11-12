@@ -1,0 +1,32 @@
+---
+title: "Proposal"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Stay safe at Columbia UNiversity
+
+## Members
+
++ Haochen Sun ( hs3393 )
+
+## Motivation and intention
+
+Studying at Columbia University, except enjoying fascinating school life, we should always concern about the safety problem. Frequent email alert, Citizen app popping up, and terrifying news, they are all reminding us that there are many underlying unsafe factors around us. Although New York government have made a public crime map at https://maps.nyc.gov/crime/.
+the information in it, however, is way too much redundant for a student as we are more concerned about the safety condition around our campus and our places of residence. Luckily, NYPD have posted the up-to-date dataset includes all valid felony, misdemeanor, and violation crimes reported to the New York City Police Department, and it includes more information that we are interested in, for example, the time of occurrence of the complaint, the victim’s statistic. After analyzing the dataset, we can have a more comprehensive understanding about the crimes around us. Finally, we want to draw a fine map locating the crime incidents around our campus, informing us what time may be more dangerous and we can avoid activities at that time. Finally, we want this result can help all the staffs and students in Columbia University have an opportunity to evaluate the risk, avoid the danger, and enjoy a safer campus life.
+
+## Anticipated data sources
+
+The data is from NYC Opendata, https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This dataset is provided by NYPD, and is recently updated on Oct.19th. This dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is expected to be accurate, authoritative, prompt and worth analyzing. 
+
+## Planned timeline
+
+1. Nov. 11 – Nov. 18: Data download, cleaning, and EDA
+
+2. Nov. 19 – Nov. 25: Data visualization, making website 
+3. Nov. 25 – Dec. 10: Writing report and creating screencast
+
+
