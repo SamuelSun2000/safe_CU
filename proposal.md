@@ -13,6 +13,8 @@ Stay safe at Columbia UNiversity
 
 -   Zhenyu Zhou ( zz2900 )
 
+-   Yuze Yuan ( yy3296 )
+
 ## Motivation and intention
 
 Studying at Columbia University, except enjoying fascinating school
