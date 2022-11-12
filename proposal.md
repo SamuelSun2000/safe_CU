@@ -8,11 +8,10 @@ Stay safe at Columbia UNiversity
 ## Group Members
 
 -   Haochen Sun ( hs3393 )
-<<<<<<< HEAD
+
 -   Yuanhao Zhang ( yz4436 )
-=======
+
 -   Zhenyu Zhou ( zz2900 )
->>>>>>> 727b51818bc5024da7c7d99ae90e9bfe01629bd0
 
 ## Motivation and intention
 
@@ -45,15 +44,7 @@ dataset is provided by NYPD, and is recently updated on Oct.19th. This
 dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is
 expected to be accurate, authoritative, prompt and worth analyzing.
 
-<<<<<<< HEAD
 ## Analyses / visualizations / coding challenges
-
-## Planned timeline
-
-1.  Nov. 11 – Nov. 18: Data download, cleaning, and EDA
-=======
-## Planned analyses/visualizations/coding challenges
->>>>>>> 727b51818bc5024da7c7d99ae90e9bfe01629bd0
 
 ## Planned timeline
 
