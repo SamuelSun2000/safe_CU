@@ -7,12 +7,18 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Stay safe at Columbia UNiversity
+# Project Title
 
-## Members
+Stay safe at Columbia UNiversity
+
+## Group Members
 
 + Haochen Sun ( hs3393 )
+<<<<<<< HEAD
 + Yuanhao Zhang ( yz4436 )
+=======
++ Zhenyu Zhou ( zz2900 )
+>>>>>>> 727b51818bc5024da7c7d99ae90e9bfe01629bd0
 
 ## Motivation and intention
 
@@ -24,16 +30,22 @@ The information in it, however, is way too redundant for a student as we are mor
 
 The data is from NYC Opendata, https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This dataset is provided by NYPD, and is recently updated on Oct.19th. This dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is expected to be accurate, authoritative, prompt and worth analyzing. 
 
+<<<<<<< HEAD
 
 ## Analyses / visualizations / coding challenges
 
 
+=======
+## Planned analyses/visualizations/coding challenges
+>>>>>>> 727b51818bc5024da7c7d99ae90e9bfe01629bd0
 
 ## Planned timeline
+|          Date     |                Descriptions            |
+|:-----------------:|:--------------------------------------:|
+| Nov. 11 – Nov. 18 | Data download, cleaning, and EDA       |
+| Nov. 19 – Nov. 25 | Data visualization, making website     |
+| Nov. 25 – Dec. 10 | Writing report and creating screencast |
 
-1. Nov. 11 – Nov. 18: Data download, cleaning, and EDA
 
-2. Nov. 19 – Nov. 25: Data visualization, making website 
-3. Nov. 25 – Dec. 10: Writing report and creating screencast
 
 
