@@ -6,28 +6,30 @@ Proposal
 ## Members
 
 -   Haochen Sun ( hs3393 )
+-   Yuanhao Zhang ( yz4436 )
 
 ## Motivation and intention
 
 Studying at Columbia University, except enjoying fascinating school
-life, we should always concern about the safety problem. Frequent email
-alert, Citizen app popping up, and terrifying news, they are all
+life, we should always be concerned about the safety problem. Frequent
+email alerts, Citizen apps popping up, and terrifying news, they are all
 reminding us that there are many underlying unsafe factors around us.
-Although New York government have made a public crime map at
-<https://maps.nyc.gov/crime/>. the information in it, however, is way
-too much redundant for a student as we are more concerned about the
-safety condition around our campus and our places of residence. Luckily,
-NYPD have posted the up-to-date dataset includes all valid felony,
+The New York government has made a public crime map at
+<https://maps.nyc.gov/crime/>. The information in it, however, is way
+too redundant for a student as we are more concerned about the safety
+conditions around our campus and our places of residence. Luckily, NYPD
+has posted the up-to-date dataset that includes all valid felony,
 misdemeanor, and violation crimes reported to the New York City Police
 Department, and it includes more information that we are interested in,
 for example, the time of occurrence of the complaint, the victim’s
-statistic. After analyzing the dataset, we can have a more comprehensive
-understanding about the crimes around us. Finally, we want to draw a
-fine map locating the crime incidents around our campus, informing us
-what time may be more dangerous and we can avoid activities at that
-time. Finally, we want this result can help all the staffs and students
-in Columbia University have an opportunity to evaluate the risk, avoid
-the danger, and enjoy a safer campus life.
+statistics. After analyzing the dataset, we can have a more
+comprehensive understanding about the crimes around us. Finally, we want
+to draw a fine map locating the crime incidents around our campus,
+informing us what time may be more dangerous and we can avoid activities
+at that time. We also want this result to help all the staff and
+students in Columbia University have an opportunity to evaluate the
+risk, avoid the danger, and allow them to access crime rates in the
+areas they care about to keep themselves safe.
 
 ## Anticipated data sources
 
@@ -36,6 +38,8 @@ The data is from NYC Opendata,
 dataset is provided by NYPD, and is recently updated on Oct.19th. This
 dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is
 expected to be accurate, authoritative, prompt and worth analyzing.
+
+## Analyses / visualizations / coding challenges
 
 ## Planned timeline
 
