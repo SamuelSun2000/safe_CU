@@ -6,6 +6,7 @@ Proposal
 ## Members
 
 -   Haochen Sun ( hs3393 )
+-   Zhenyu Zhou ( zz2900 )
 
 ## Motivation and intention
 

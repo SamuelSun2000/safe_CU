@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Members
 
 + Haochen Sun ( hs3393 )
++ Zhenyu Zhou ( zz2900 )
 
 ## Motivation and intention
 
