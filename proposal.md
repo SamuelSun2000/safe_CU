@@ -3,7 +3,7 @@ Proposal
 
 # Project Title
 
-Stay safe at Columbia UNiversity
+Stay safe at Columbia University
 
 ## Group Members
 

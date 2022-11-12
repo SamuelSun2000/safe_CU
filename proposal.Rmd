@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Project Title
 
-Stay safe at Columbia UNiversity
+Stay safe at Columbia University
 
 ## Group Members
 
