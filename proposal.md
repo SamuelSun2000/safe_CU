@@ -48,6 +48,21 @@ expected to be accurate, authoritative, prompt and worth analyzing.
 
 ## Analyses / visualizations / coding challenges
 
+1.  As the dataset is large, it maybe hard to filter the useful
+    information. For example, we need to careful consider what the time
+    range is more appropriate, the data from early dates may not be
+    informative for reference now, but few data cannot generate
+    significant conclusion as well.
+
+2.  As we wished, the safety map should reflect the dangerous level of
+    each location across one day. It requires us to draw a timeline and
+    as we scroll it, the map will shift. This step may take some time to
+    reach this goal and make the map concise and attractive.
+
+3.  We want to build a model to predict the risk of one student going
+    out at a specific time and to a location, it maybe hard to select a
+    model and variables to realize this function.
+
 ## Planned timeline
 
 |       Date        |              Descriptions              |
