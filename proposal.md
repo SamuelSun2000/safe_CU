@@ -15,6 +15,8 @@ Stay safe at Columbia University
 
 -   Yuze Yuan ( yy3296 )
 
+-   Anzhuo Xie ( ax2173 )
+
 ## Motivation and intention
 
 Studying at Columbia University, except enjoying fascinating school
