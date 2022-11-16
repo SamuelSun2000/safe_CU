@@ -1,0 +1,56 @@
+---
+title: "Code"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Install packages
+```{r}
+library(tidyverse)
+library(rvest)
+library(httr)
+```
+
+## Download the data
+```{r}
+
+# The data has already downloaded, we do not need to rerun the code...
+# The output is already in data/original data
+while(FALSE)
+{
+data =
+  GET("https://data.cityofnewyork.us/resource/5uac-w243.csv",
+      query = list("$limit" = 396978 )) %>% 
+  content("parsed")
+
+write_csv(data, file = "data/original_data.csv")
+}
+```
+
+## data cleaning
+```{r}
+# extract manhattan data
+
+cut_off <- 
+  as.POSIXct("2010-01-01", format = "%Y-%m-%d")
+
+man_data =
+  data %>% 
+  janitor::clean_names() %>% 
+  drop_na(cmplnt_fr_dt) %>% 
+  filter(boro_nm == "MANHATTAN",
+         cmplnt_fr_dt > cut_off) %>% 
+  select(cmplnt_num,
+         boro_nm, cmplnt_fr_dt:crm_atpt_cptd_cd,
+         ky_cd: rpt_dt,
+         susp_age_group:susp_sex,
+         vic_age_group:lat_lon) %>% 
+  filter(latitude > 40.7865 & latitude < 40.848256,
+        longitude > -73.9816 & longitude < -73.79268)
+
+```
+
+In this step, the data is clean and tidied by : 1. select the rows recording date later than 2010-01-01. 2. Select the borogh as Manhattan. 3. select thevariables we are interseted in. 4. filter the latitude and logitude to limit it around columbia campus (roughly). The latitude range is approximately from 86 street subway station to George Washing Bridge (West 178th street). The longitude range is from Hudson river to Harlem river and Central park. 
