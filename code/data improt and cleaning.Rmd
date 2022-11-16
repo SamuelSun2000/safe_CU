@@ -32,13 +32,13 @@ write_csv(data, file = "data/original_data.csv")
 
 ## data cleaning
 ```{r}
-# extract manhattan data
+# extract Manhattan data
 
 cut_off <- 
   as.POSIXct("2010-01-01", format = "%Y-%m-%d")
 
 man_data =
-  data %>% 
+  read_csv("") %>% 
   janitor::clean_names() %>% 
   drop_na(cmplnt_fr_dt) %>% 
   filter(boro_nm == "MANHATTAN",
@@ -53,4 +53,6 @@ man_data =
 
 ```
 
-In this step, the data is clean and tidied by : 1. select the rows recording date later than 2010-01-01. 2. Select the borogh as Manhattan. 3. select thevariables we are interseted in. 4. filter the latitude and logitude to limit it around columbia campus (roughly). The latitude range is approximately from 86 street subway station to George Washing Bridge (West 178th street). The longitude range is from Hudson river to Harlem river and Central park. 
+In this step, the data is clean and tidied by : 1. select the rows recording date later than 2010-01-01. 2. Select the borogh as Manhattan. 3. select the variables we are interseted in. 4. filter the latitude and longitude to limit it around columbia campus (roughly). The latitude range is approximately from 86 street subway station to George Washing Bridge (West 178th street). The longitude range is from Hudson river to Harlem river and Central park. This region covers Columbia University campus (and CUIMC) and the neighborhood area.
+
+
