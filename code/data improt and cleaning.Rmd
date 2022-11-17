@@ -12,6 +12,18 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(rvest)
 library(httr)
+
+knitr::opts_chunk$set(
+  fig.width = 5,
+  out.width = "60%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
 ```
 
 ## Download the data
@@ -31,14 +43,14 @@ write_csv(data, file = "data/original_data.csv")
 ```
 
 ## data cleaning
-```{r}
+```{r data cleaning}
 # extract Manhattan data
 
 cut_off <- 
   as.POSIXct("2010-01-01", format = "%Y-%m-%d")
 
 man_data =
-  read_csv("") %>% 
+  read_csv("./data/original_data.csv") %>% 
   janitor::clean_names() %>% 
   drop_na(cmplnt_fr_dt) %>% 
   filter(boro_nm == "MANHATTAN",
@@ -55,4 +67,25 @@ man_data =
 
 In this step, the data is clean and tidied by : 1. select the rows recording date later than 2010-01-01. 2. Select the borogh as Manhattan. 3. select the variables we are interseted in. 4. filter the latitude and longitude to limit it around columbia campus (roughly). The latitude range is approximately from 86 street subway station to George Washing Bridge (West 178th street). The longitude range is from Hudson river to Harlem river and Central park. This region covers Columbia University campus (and CUIMC) and the neighborhood area.
 
+```{r EDA}
 
+# change some data to factor level
+# 
+# The code is not very elegant... any idea? to use map function i used aes_string as it can accept strings as arguments, not object (object is hard to assign)
+
+bar_fun <- function(colname){
+  ggplot(data = man_data, aes_string(x = colname)) +
+  geom_bar(stat = "count") +
+    coord_flip()
+}
+
+fac_list <- c("law_cat_cd","loc_of_occur_desc","ofns_desc","prem_typ_desc", 
+"susp_age_group","susp_race", 
+"susp_sex","vic_age_group", "vic_race", "vic_sex")
+
+man_data <- man_data %>% 
+  mutate_at(fac_list, as.factor) 
+
+plots <- map(fac_list, bar_fun)
+  
+```
