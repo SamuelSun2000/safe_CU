@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(rvest)
 library(httr)
+library(patchwork)
+library(randomcoloR)
 
 knitr::opts_chunk$set(
   fig.width = 5,
@@ -46,8 +48,14 @@ write_csv(data, file = "data/original_data.csv")
 ```{r data cleaning}
 # extract Manhattan data
 
+# select the time after 2010, which is more meaningful
 cut_off <- 
   as.POSIXct("2010-01-01", format = "%Y-%m-%d")
+
+# the list of variable names that is to be converted as factors
+fac_list <- c("law_cat_cd","loc_of_occur_desc","ofns_desc","prem_typ_desc", 
+"susp_age_group","susp_race", "crm_atpt_cptd_cd",
+"susp_sex","vic_age_group", "vic_race", "vic_sex")
 
 man_data =
   read_csv("./data/original_data.csv") %>% 
@@ -59,13 +67,50 @@ man_data =
          boro_nm, cmplnt_fr_dt:crm_atpt_cptd_cd,
          ky_cd: rpt_dt,
          susp_age_group:susp_sex,
-         vic_age_group:lat_lon) %>% 
+         vic_age_group:vic_sex, latitude:lat_lon) %>% 
   filter(latitude > 40.7865 & latitude < 40.848256,
-        longitude > -73.9816 & longitude < -73.79268)
+        longitude > -73.9816 & longitude < -73.79268) %>%
+  mutate_at(fac_list, as.factor) 
 
 ```
 
 In this step, the data is clean and tidied by : 1. select the rows recording date later than 2010-01-01. 2. Select the borogh as Manhattan. 3. select the variables we are interseted in. 4. filter the latitude and longitude to limit it around columbia campus (roughly). The latitude range is approximately from 86 street subway station to George Washing Bridge (West 178th street). The longitude range is from Hudson river to Harlem river and Central park. This region covers Columbia University campus (and CUIMC) and the neighborhood area.
+
+```{r}
+#To make the variable more 
+# readable and easy to spell, raname them as below.
+# 
+
+man_data <- man_data %>% 
+  rename_at(vars(colnames(man_data)), ~ c("id", "boro", "occur_date", "occur_time",
+                            "end_date", "end_time", "success_fail", "classification_code", "level", "location", "description", "park", "patrol", "3_classification_code",
+                            "internal_code", "premise",
+                            "report_date", "susp_age", "susp_race", "susp_sex", "vic_age", "vic_race", "vic_sex", "latitude", "logitude", "lat_lon")) %>% 
+  select(-id, -boro, -classification_code, -`3_classification_code`, -report_date, -patrol, -internal_code)
+```
+
+Here are the brief description to the selected data: 
+
++ boro are set as Manhattan so it will not occur in the simplified dataset. 
++ Occur_data: Exact date of occurrence for the reported event. 
++ Occur_time: Exact time of occurrence for the reported event. 
++ End_date: Ending date of occurrence for the reported event.	
++ End_time: Ending time of occurrence for the reported event, if exact time of occurrence is unknown.
++ Success_fail: Indicator of whether crime was successfully completed or attempted, but failed or was interrupted prematurely.
++ Level: Level of offense: felony, misdemeanor, violation.
++ Location: 	
+Specific location of occurrence in or around the premises; inside, opposite of, front of, rear of.
++ Description: 	
+Description of offense corresponding with key code.
++ Park: Name of NYC park, playground or greenspace of occurrence, if applicable.
++ Premise: 	
+Specific description of premises; grocery store, residence, street, etc.
++ Susp_age-sex: the age, race and sex of suspect.
++ Vic_age-sex: the age, race and sex of victim.
++ Logitude and latitude at Global Coordinate System.
+
+## EDA
+We picked some variables we are most interested in for EDA.
 
 ```{r EDA}
 
@@ -73,19 +118,28 @@ In this step, the data is clean and tidied by : 1. select the rows recording dat
 # 
 # The code is not very elegant... any idea? to use map function i used aes_string as it can accept strings as arguments, not object (object is hard to assign)
 
-bar_fun <- function(colname){
-  ggplot(data = man_data, aes_string(x = colname)) +
-  geom_bar(stat = "count") +
-    coord_flip()
-}
+p <- c()
 
-fac_list <- c("law_cat_cd","loc_of_occur_desc","ofns_desc","prem_typ_desc", 
-"susp_age_group","susp_race", 
-"susp_sex","vic_age_group", "vic_race", "vic_sex")
+p[[1]] <- ggplot(aes(x = level, fill = level), data = man_data) + 
+  geom_bar() +
+  labs(x = "Crime level", y = "Number")
 
-man_data <- man_data %>% 
-  mutate_at(fac_list, as.factor) 
+p[[2]] <- ggplot(aes(x = success_fail, fill = success_fail), data = 
+                  man_data)+
+    geom_bar()+
+  labs(x = "The crime completed or not", y = "Number")
 
-plots <- map(fac_list, bar_fun)
-  
+p[[3]] <- man_data %>% 
+  filter(susp_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
+                         "UNKNOWN")) %>% 
+ggplot(aes(x = susp_age, fill = susp_age))+
+  geom_bar()+
+  labs(x = "Suspect age", y = "Number")
+
+p[[4]] <- man_data %>% 
+  filter (susp_race != "(null)") %>% 
+  ggplot(aes(x = susp_race, fill = susp_race)) +
+  geom_bar() +
+  labs(x = "Suspect race", y = "Number") + 
+  coord_flip()
 ```
