@@ -122,24 +122,74 @@ p <- c()
 
 p[[1]] <- ggplot(aes(x = level, fill = level), data = man_data) + 
   geom_bar() +
-  labs(x = "Crime level", y = "Number")
+  labs(x = "Crime level", y = "Number") + guides(fill = "none")
 
 p[[2]] <- ggplot(aes(x = success_fail, fill = success_fail), data = 
                   man_data)+
     geom_bar()+
-  labs(x = "The crime completed or not", y = "Number")
+  labs(x = "The crime completed or not", y = "Number")+ guides(fill = "none")
 
 p[[3]] <- man_data %>% 
   filter(susp_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
                          "UNKNOWN")) %>% 
 ggplot(aes(x = susp_age, fill = susp_age))+
   geom_bar()+
-  labs(x = "Suspect age", y = "Number")
+  labs(x = "Suspect age", y = "Number") +
+  coord_flip()+ guides(fill = "none")
 
 p[[4]] <- man_data %>% 
   filter (susp_race != "(null)") %>% 
   ggplot(aes(x = susp_race, fill = susp_race)) +
   geom_bar() +
   labs(x = "Suspect race", y = "Number") + 
-  coord_flip()
+  coord_flip()+ guides(fill = "none")
+
+p[[5]] <- man_data %>% 
+  filter (susp_sex != "(null)") %>% 
+  ggplot(aes(x = susp_sex, fill = susp_sex)) +
+  geom_bar() +
+  labs(x = "Suspect sex", y = "Number") + 
+  coord_flip()+ guides(fill = "none")
+
+p[[6]] <- man_data %>% 
+  filter(vic_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
+                         "UNKNOWN")) %>% 
+ggplot(aes(x = vic_age, fill = vic_age))+
+  geom_bar()+
+  labs(x = "Victim age", y = "Number") +
+  coord_flip()+ guides(fill = "none")
+
+p[[7]] <- man_data %>% 
+  filter (vic_race != "(null)") %>% 
+  ggplot(aes(x = vic_race, fill = vic_race)) +
+  geom_bar() +
+  labs(x = "Victim race", y = "Number") + 
+  coord_flip()+ guides(fill = "none")
+
+p[[8]] <- man_data %>% 
+  filter (vic_sex != "(null)" & vic_sex != "L") %>% 
+  ggplot(aes(x = vic_sex, fill = vic_sex)) +
+  geom_bar() +
+  labs(x = "Victim sex", y = "Number") + 
+  coord_flip()+ guides(fill = "none")
+
+# D means organization, and E means People of the State of New York, I don't know whether or not it's better to exclude them. 
+
+p[[1]] + p[[2]]
+p[[3]]+p[[4]]+p[[5]]
+p[[6]]+p[[7]]+p[[8]]
+
+# detailed description of suspect group
+man_data %>% 
+  group_by(susp_age, susp_race, susp_sex) %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number))
+
+# detailed description of victim group
+
+man_data %>% 
+  group_by(vic_age, vic_race, vic_sex) %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number))
 ```
+
