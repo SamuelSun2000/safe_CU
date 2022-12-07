@@ -4,4 +4,4 @@
 .Ruserdata
 
 .DS_Store
-/data/original_data.csv
+/data/*.csv

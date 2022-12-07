@@ -86,7 +86,7 @@ man_data <- man_data %>%
                             "end_date", "end_time", "success_fail", "classification_code", "level", "location", "description", "park", "patrol", "3_classification_code",
                             "internal_code", "premise",
                             "report_date", "susp_age", "susp_race", "susp_sex", "vic_age", "vic_race", "vic_sex", "latitude", "longitude", "lat_lon")) %>% 
-  select(-id, -boro, -classification_code, -`3_classification_code`, -report_date, -patrol, -internal_code)
+  select(-id, -boro, -classification_code, -`3_classification_code`, -report_date, -patrol, -internal_code, -park)
 ```
 
 Here are the brief description to the selected data: 
@@ -197,5 +197,8 @@ man_data %>%
   geom_point()
 
 # qusetions to be discussed : should we only limit the cases not in the apartment? 
+
+man_wohome <- man_data %>% 
+  filter(!(premise %in% c("RESIDENCE - APT. HOUSE","RESIDENCE-HOUSE", "RESIDENCE - PUBLIC HOUSING")))  # about 20,000 data
 ```
 
