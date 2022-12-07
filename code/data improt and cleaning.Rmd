@@ -69,7 +69,7 @@ man_data =
          susp_age_group:susp_sex,
          vic_age_group:vic_sex, latitude:lat_lon) %>% 
   filter(latitude > 40.7865 & latitude < 40.848256,
-        longitude > -73.9816 & longitude < -73.79268) %>%
+        longitude > -73.9816 & longitude < -73.925) %>%
   mutate_at(fac_list, as.factor) 
 
 ```
@@ -85,7 +85,7 @@ man_data <- man_data %>%
   rename_at(vars(colnames(man_data)), ~ c("id", "boro", "occur_date", "occur_time",
                             "end_date", "end_time", "success_fail", "classification_code", "level", "location", "description", "park", "patrol", "3_classification_code",
                             "internal_code", "premise",
-                            "report_date", "susp_age", "susp_race", "susp_sex", "vic_age", "vic_race", "vic_sex", "latitude", "logitude", "lat_lon")) %>% 
+                            "report_date", "susp_age", "susp_race", "susp_sex", "vic_age", "vic_race", "vic_sex", "latitude", "longitude", "lat_lon")) %>% 
   select(-id, -boro, -classification_code, -`3_classification_code`, -report_date, -patrol, -internal_code)
 ```
 
@@ -191,5 +191,11 @@ man_data %>%
   group_by(vic_age, vic_race, vic_sex) %>% 
   summarise(number = n()) %>% 
   arrange(desc(number))
+
+man_data %>% 
+  ggplot(aes(x = longitude, y = latitude)) +
+  geom_point()
+
+# qusetions to be discussed : should we only limit the cases not in the apartment? 
 ```
 
