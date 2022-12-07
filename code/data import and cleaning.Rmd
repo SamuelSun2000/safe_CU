@@ -1,5 +1,5 @@
 ---
-title: "Code"
+title: "Data import and cleaning"
 output: github_document
 ---
 
@@ -113,9 +113,6 @@ Specific description of premises; grocery store, residence, street, etc.
 We picked some variables we are most interested in for EDA.
 
 ```{r EDA}
-
-# change some data to factor level
-# 
 # The code is not very elegant... any idea? to use map function i used aes_string as it can accept strings as arguments, not object (object is hard to assign)
 
 p <- c()
@@ -199,6 +196,10 @@ man_data %>%
 # qusetions to be discussed : should we only limit the cases not in the apartment? 
 
 man_wohome <- man_data %>% 
-  filter(!(premise %in% c("RESIDENCE - APT. HOUSE","RESIDENCE-HOUSE", "RESIDENCE - PUBLIC HOUSING")))  # about 20,000 data
+  filter(!(premise %in% c("RESIDENCE - APT. HOUSE","RESIDENCE-HOUSE", "RESIDENCE - PUBLIC HOUSING")))  # about 20,000 data 
+
+write_csv(man_data, "data/Manhattan_tidy_data.csv")
+
+write_csv(man_data, "data/Manhattan_tidy_nohome.csv")
 ```
 
