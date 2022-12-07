@@ -13,7 +13,6 @@ library(tidyverse)
 library(rvest)
 library(httr)
 library(patchwork)
-library(randomcoloR)
 
 knitr::opts_chunk$set(
   fig.width = 5,

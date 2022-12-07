@@ -1,0 +1,10 @@
+---
+title: "Interactive map"
+output: github_document
+---
+
+## Install packages
+```{r}
+library(tidyverse)
+library(leaflet)
+```
