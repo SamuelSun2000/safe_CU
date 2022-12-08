@@ -30,6 +30,8 @@ Column
 
 ```
 
+
+
 renderPlotly({
   nyc_airbnb %>% 
     filter(borough == input[['borough_choice']],
