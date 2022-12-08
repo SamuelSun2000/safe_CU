@@ -86,6 +86,14 @@ man_data <- man_data %>%
                             "internal_code", "premise",
                             "report_date", "susp_age", "susp_race", "susp_sex", "vic_age", "vic_race", "vic_sex", "latitude", "longitude", "lat_lon")) %>% 
   select(-id, -boro, -classification_code, -`3_classification_code`, -report_date, -patrol, -internal_code, -park)
+
+man_data <- man_data %>% 
+  mutate(susp_race = recode(susp_race, "ASIAN / PACIFIC ISLANDER" = "ASIAN/PACIFIC",
+            "AMERICAN INDIAN/ALASKAN NATIVE" = "AMERICAN INDIAN")) %>% 
+  mutate(vic_race = recode(vic_race, "ASIAN / PACIFIC ISLANDER" = "ASIAN/PACIFIC",
+            "AMERICAN INDIAN/ALASKAN NATIVE" = "AMERICAN INDIAN"))
+  
+  
 ```
 
 Here are the brief description to the selected data: 
