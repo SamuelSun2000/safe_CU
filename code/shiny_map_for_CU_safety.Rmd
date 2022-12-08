@@ -11,7 +11,7 @@ runtime: shiny
 library(tidyverse)
 library(plotly)
 
-cu_df = read_csv()
+cu_df = read_csv("../data/full_filter_data.csv")
 ```
 
 Column {.sidebar}
@@ -27,6 +27,9 @@ Column
 ### Safety Map around Columbia University
 
 ```{r}
+
+```
+
 renderPlotly({
   nyc_airbnb %>% 
     filter(borough == input[['borough_choice']],
@@ -36,4 +39,3 @@ renderPlotly({
     plot_ly(x = ~lat, y = ~long, color = ~price,
            type = 'scatter', mode = 'markers', alpha = .5)
 })
-```
