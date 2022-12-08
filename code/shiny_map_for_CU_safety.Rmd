@@ -18,12 +18,13 @@ Column {.sidebar}
 -----------------------------------------------------------------------
 
 ```{r}
-Year = cu_df %>% distinct(year) %>% pull()
+Year0 = cu_df %>% distinct(year) 
+Year1 = arrange(Year0, desc(year))
 
 selectInput(
   inputId = 'year_choice',
   label = h3('Year Choice'),
-  choices = Year,
+  choices = Year1,
   selected = '2022'
 )
 
