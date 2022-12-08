@@ -64,15 +64,6 @@ radioButtons(
 )
 ```
 
-room_types = nyc_airbnb %>% distinct(room_type) %>% pull()
-
-radioButtons(
-  inputId = 'room_choice',
-  label = h3('Room Type'),
-  choices = room_types,
-  selected = 'Entire home/apt'   ##this decides the default choice
-)
-
 
 Column 
 -----------------------------------------------------------------------
