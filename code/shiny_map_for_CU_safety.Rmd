@@ -49,8 +49,8 @@ selectInput(
 )
 
 sliderInput(
-  inputId = 'time_range',
-  label = h3('Time Range'),
+  inputId = 'hour_range',
+  label = h3('Hour Range'),
   min = 0, max = 24, value = c(8, 18)
 )
 
@@ -71,7 +71,18 @@ Column
 ### Safety Map around Columbia University
 
 ```{r}
-
+renderPlotly({
+  cu_df %>% 
+    filter(
+      year == input[['year_choice']],
+      month == input[['month_choice']],
+      day == input[['day_choice']],
+      hour >= input[['hour_range']][1],
+      hour <= input[['hour_range']][2],
+    ) %>% 
+    plot_ly(x = ~latitude, y = ~longitude, color = "red",
+            type = 'scatter', mode = 'makers', alpha = .5)
+})
 ```
 
 renderPlotly({
