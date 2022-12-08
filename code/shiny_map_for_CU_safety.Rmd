@@ -37,6 +37,16 @@ selectInput(
   choices = Month1,
   selected = '1'
 )
+
+Day0 = cu_df %>% distinct(day) 
+Day1 = arrange(Day0, day)
+
+selectInput(
+  inputId = 'day_choice',
+  label = h3('Day Choice'),
+  choices = Day1,
+  selected = '1'
+)
 ```
 
 boroughs = nyc_airbnb %>% distinct(borough) %>% pull()
