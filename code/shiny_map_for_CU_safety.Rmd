@@ -47,16 +47,13 @@ selectInput(
   choices = Day1,
   selected = '1'
 )
-```
 
-boroughs = nyc_airbnb %>% distinct(borough) %>% pull()
-
-selectInput(
-  inputId = 'borough_choice',
-  label = h3('Borough Choice'),
-  choices = boroughs,
-  selected = 'Manhattan'
+sliderInput(
+  inputId = 'time_range',
+  label = h3('Time Range'),
+  min = 0, max = 24, value = c(8, 18)
 )
+```
 
 sliderInput(
   inputId = 'price_range',
