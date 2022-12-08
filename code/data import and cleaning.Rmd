@@ -40,22 +40,27 @@ data =
   content("parsed")
 
 write_csv(data, file = "data/original_data.csv")
+
+data_hist =
+  GET("https://data.cityofnewyork.us/resource/qgea-i56i.csv",
+      query = list("$limit" = 7825499 )) %>% 
+  content("parsed")
+
+write_csv(data_hist, file = "data/original_data_hist.csv")
 }
+
+
+
 ```
 
 ## data cleaning
 ```{r data cleaning}
 # extract Manhattan data
-
 # select the time after 2010, which is more meaningful
 cut_off <- 
   as.POSIXct("2010-01-01", format = "%Y-%m-%d")
 
 # the list of variable names that is to be converted as factors
-fac_list <- c("law_cat_cd","loc_of_occur_desc","ofns_desc","prem_typ_desc", 
-"susp_age_group","susp_race", "crm_atpt_cptd_cd",
-"susp_sex","vic_age_group", "vic_race", "vic_sex")
-
 man_data =
   read_csv("./data/original_data.csv") %>% 
   janitor::clean_names() %>% 
@@ -63,14 +68,27 @@ man_data =
   filter(boro_nm == "MANHATTAN",
          cmplnt_fr_dt > cut_off) %>% 
   select(cmplnt_num,
-         boro_nm, cmplnt_fr_dt:crm_atpt_cptd_cd,
-         ky_cd: rpt_dt,
-         susp_age_group:susp_sex,
-         vic_age_group:vic_sex, latitude:lat_lon) %>% 
+         boro_nm, cmplnt_fr_dt, cmplnt_fr_tm, 
+         crm_atpt_cptd_cd, law_cat_cd, ofns_desc,
+         prem_typ_desc, susp_age_group:susp_sex,
+         vic_age_group:vic_sex, latitude, longitude) %>% 
   filter(latitude > 40.7865 & latitude < 40.848256,
-        longitude > -73.9816 & longitude < -73.925) %>%
-  mutate_at(fac_list, as.factor) 
+        longitude > -73.9816 & longitude < -73.925)
 
+man_data_hist = read_csv("./data/original_data_hist.csv") %>% 
+  janitor::clean_names() %>% 
+  drop_na(cmplnt_fr_dt) %>% 
+  filter(boro_nm == "MANHATTAN",
+         cmplnt_fr_dt > cut_off) %>% 
+  select(cmplnt_num,
+         boro_nm, cmplnt_fr_dt, cmplnt_fr_tm, 
+         crm_atpt_cptd_cd, law_cat_cd, ofns_desc,
+         prem_typ_desc, susp_age_group:susp_sex,
+         vic_age_group:vic_sex, latitude, longitude) %>% 
+  filter(latitude > 40.7865 & latitude < 40.848256,
+        longitude > -73.9816 & longitude < -73.925)
+
+full_data <- rbind(man_data, man_data_hist)
 ```
 
 In this step, the data is clean and tidied by : 1. select the rows recording date later than 2010-01-01. 2. Select the borogh as Manhattan. 3. select the variables we are interseted in. 4. filter the latitude and longitude to limit it around columbia campus (roughly). The latitude range is approximately from 86 street subway station to George Washing Bridge (West 178th street). The longitude range is from Hudson river to Harlem river and Central park. This region covers Columbia University campus (and CUIMC) and the neighborhood area.
@@ -79,24 +97,27 @@ In this step, the data is clean and tidied by : 1. select the rows recording dat
 #To make the variable more 
 # readable and easy to spell, raname them as below.
 # 
-
-man_data <- man_data %>% 
-  rename_at(vars(colnames(man_data)), ~ c("id", "boro", "occur_date", "occur_time",
-                            "end_date", "end_time", "success_fail", "classification_code", "level", "location", "description", "park", "patrol", "3_classification_code",
-                            "internal_code", "premise",
-                            "report_date", "susp_age", "susp_race", "susp_sex", "vic_age", "vic_race", "vic_sex", "latitude", "longitude", "lat_lon")) %>% 
-  select(-id, -boro, -classification_code, -`3_classification_code`, -report_date, -patrol, -internal_code, -park, -end_date, -end_time)
-
-man_data <- man_data %>% 
+tidy_data <- full_data %>% 
+  rename_at(vars(colnames(man_data)), ~c("id", "boro", "occur_date", 
+      "occur_time", "success_fail", "level", "description", "location",
+      "susp_age", "susp_race", "susp_sex", "vic_age", "vic_race", "vic_sex", "latitude", "longitude")) %>% 
   mutate(susp_race = recode(susp_race, "ASIAN / PACIFIC ISLANDER" = "ASIAN/PACIFIC",
             "AMERICAN INDIAN/ALASKAN NATIVE" = "AMERICAN INDIAN")) %>% 
   mutate(vic_race = recode(vic_race, "ASIAN / PACIFIC ISLANDER" = "ASIAN/PACIFIC",
-            "AMERICAN INDIAN/ALASKAN NATIVE" = "AMERICAN INDIAN")) 
-
-man_data <- man_data %>% 
+            "AMERICAN INDIAN/ALASKAN NATIVE" = "AMERICAN INDIAN"))%>% 
   separate(occur_date, sep = "-", into = c("year", "month", "day")) %>% 
   separate(occur_time, sep = ":", into = c("hour", "minute", "second")) %>% 
-  mutate_at(c("year","month", "day", "hour", "minute", "second"), as.numeric)
+  mutate_at(c("year","month", "day", "hour", "minute", "second"), as.numeric) %>% 
+  mutate_at(c("success_fail", "level", "description", "location", 
+              "susp_age", "susp_race", "susp_sex", "vic_age",
+              "vic_race", "vic_sex"), as.factor)
+
+filter_data <- tidy_data %>% 
+  filter(!(location %in% c("RESIDENCE - APT. HOUSE","RESIDENCE-HOUSE", "RESIDENCE - PUBLIC HOUSING")))
+
+# original 514197 -> filtered 291052
+
+write_csv(filter_data, "data/full_filter_data.csv")
 ```
 
 Here are the brief description to the selected data: 
@@ -127,12 +148,12 @@ We picked some variables we are most interested in for EDA.
 
 p <- c()
 
-p[[1]] <- ggplot(aes(x = level, fill = level), data = man_data) + 
+p[[1]] <- ggplot(aes(x = level, fill = level), data = filter_data) + 
   geom_bar() +
   labs(x = "Crime level", y = "Number") + guides(fill = "none")
 
 p[[2]] <- ggplot(aes(x = success_fail, fill = success_fail), data = 
-                  man_data)+
+                  filter_data)+
     geom_bar()+
   labs(x = "The crime completed or not", y = "Number")+ guides(fill = "none")
 
@@ -210,6 +231,6 @@ man_wohome <- man_data %>%
 
 write_csv(man_data, "data/Manhattan_tidy_data.csv")
 
-write_csv(man_data, "data/Manhattan_tidy_nohome.csv")
+write_csv(man_wohome, "data/Manhattan_tidy_nohome.csv")
 ```
 
