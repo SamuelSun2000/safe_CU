@@ -28,7 +28,15 @@ selectInput(
   selected = '2022'
 )
 
+Month0 = cu_df %>% distinct(month) 
+Month1 = arrange(Month0, month)
 
+selectInput(
+  inputId = 'month_choice',
+  label = h3('Month Choice'),
+  choices = Month1,
+  selected = '1'
+)
 ```
 
 boroughs = nyc_airbnb %>% distinct(borough) %>% pull()
