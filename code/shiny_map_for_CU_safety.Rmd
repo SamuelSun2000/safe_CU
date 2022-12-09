@@ -75,7 +75,10 @@ renderLeaflet({
     setView(lng = -73.95524,lat = 40.80729, zoom = 16) %>% 
     addTiles() %>% 
     addPopups(-73.96249, 40.80747, content, options = popupOptions(closeButton = FALSE)) %>% 
-    addMarkers(~longitude, ~latitude)
+    addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
 })
 ```
 
+leaflet(quakes) %>% addTiles() %>% addMarkers(
+  clusterOptions = markerClusterOptions()
+)
