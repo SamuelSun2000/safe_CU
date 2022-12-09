@@ -1,14 +1,26 @@
-name: "Yay internet!"
+title: Stay safe at Columbia University
+name: "Stay safe at Columbia University"
 output_dir: "."
 navbar:
   title: "Home"
   right:
-    - text: "About"
-      href: about.html
-    - icon: fa-envelope fa-lg
-      href: mailto:<you@youremail.com>
+    - text: "Project Report"
+      href: 
+    - text: "Summary"
+      menu:
+      - text: "Need to Edit "
+        href: 
+      - text: "Need to Edit  "
+        href: 
+    - text: "Statistical Analysis"
+      href: 
+    - text: "Shiny Map for CU Safety"
+      href:    
+    - icon: fa-youtube fa-lg    
+      href: 
     - icon: fa-github fa-lg
-      href: http://github.com/<YOUR_GH_NAME>/
+      href: https://github.com/SamuelSun2000/safe_CU.github.io.git
+      
 output:
   html_document:
-    theme: paper
+    theme: cosmo
