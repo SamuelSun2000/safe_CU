@@ -78,7 +78,3 @@ renderLeaflet({
     addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
 })
 ```
-
-leaflet(quakes) %>% addTiles() %>% addMarkers(
-  clusterOptions = markerClusterOptions()
-)
