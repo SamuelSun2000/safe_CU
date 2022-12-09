@@ -55,10 +55,16 @@ Column
 ### Safety Map around Columbia University
 
 ```{r}
-content <- paste(sep = "<br/>",
+content_main = paste(sep = "<br/>",
   "<b><a href='https://www.columbia.edu/'>Columbia University</a></b>",
   "2960 Broadway",
   "New York, NY 10027-6902"
+)
+
+content_cumc = paste(sep = "<br/>",
+  "<b><a href='https://www.publichealth.columbia.edu/'>Columbia Mailman School for Public Health</a></b>",
+  "West 168th Street, 722",
+  "New York, NY 10032"
 )
 
 renderLeaflet({
@@ -73,9 +79,10 @@ renderLeaflet({
       level == input[['level_choice']]
     ) %>% 
     leaflet() %>% 
-    setView(lng = -73.95524,lat = 40.80729, zoom = 16) %>% 
+    setView(lng = -73.94184,lat = 40.8394, zoom = 14) %>% 
     addTiles() %>% 
-    addPopups(-73.96249, 40.80747, content, options = popupOptions(closeButton = FALSE)) %>% 
+    addPopups(-73.96249, 40.80747, content_main, options = popupOptions(closeButton = FALSE)) %>% 
+    addPopups(-73.9434, 40.84259, content_cumc, options = popupOptions(closeButton = FALSE)) %>% 
     addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
 })
 ```
