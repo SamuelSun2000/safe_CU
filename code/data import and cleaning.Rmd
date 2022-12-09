@@ -66,7 +66,7 @@ man_data =
   janitor::clean_names() %>% 
   drop_na(cmplnt_fr_dt) %>% 
   filter(boro_nm == "MANHATTAN",
-         cmplnt_fr_dt > cut_off) %>% 
+         cmplnt_fr_dt >= cut_off) %>% 
   select(cmplnt_num,
          boro_nm, cmplnt_fr_dt, cmplnt_fr_tm, 
          crm_atpt_cptd_cd, law_cat_cd, ofns_desc,
@@ -157,7 +157,7 @@ p[[2]] <- ggplot(aes(x = success_fail, fill = success_fail), data =
     geom_bar()+
   labs(x = "The crime completed or not", y = "Number")+ guides(fill = "none")
 
-p[[3]] <- man_data %>% 
+p[[3]] <- filter_data %>% 
   filter(susp_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
                          "UNKNOWN")) %>% 
 ggplot(aes(x = susp_age, fill = susp_age))+
@@ -165,21 +165,21 @@ ggplot(aes(x = susp_age, fill = susp_age))+
   labs(x = "Suspect age", y = "Number") +
   coord_flip()+ guides(fill = "none")
 
-p[[4]] <- man_data %>% 
+p[[4]] <- filter_data %>% 
   filter (susp_race != "(null)") %>% 
   ggplot(aes(x = susp_race, fill = susp_race)) +
   geom_bar() +
   labs(x = "Suspect race", y = "Number") + 
   coord_flip()+ guides(fill = "none")
 
-p[[5]] <- man_data %>% 
+p[[5]] <- filter_data %>% 
   filter (susp_sex != "(null)") %>% 
   ggplot(aes(x = susp_sex, fill = susp_sex)) +
   geom_bar() +
   labs(x = "Suspect sex", y = "Number") + 
   coord_flip()+ guides(fill = "none")
 
-p[[6]] <- man_data %>% 
+p[[6]] <- filter_data %>% 
   filter(vic_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
                          "UNKNOWN")) %>% 
 ggplot(aes(x = vic_age, fill = vic_age))+
@@ -187,14 +187,14 @@ ggplot(aes(x = vic_age, fill = vic_age))+
   labs(x = "Victim age", y = "Number") +
   coord_flip()+ guides(fill = "none")
 
-p[[7]] <- man_data %>% 
+p[[7]] <- filter_data %>% 
   filter (vic_race != "(null)") %>% 
   ggplot(aes(x = vic_race, fill = vic_race)) +
   geom_bar() +
   labs(x = "Victim race", y = "Number") + 
   coord_flip()+ guides(fill = "none")
 
-p[[8]] <- man_data %>% 
+p[[8]] <- filter_data %>% 
   filter (vic_sex != "(null)" & vic_sex != "L") %>% 
   ggplot(aes(x = vic_sex, fill = vic_sex)) +
   geom_bar() +
@@ -208,26 +208,23 @@ p[[3]]+p[[4]]+p[[5]]
 p[[6]]+p[[7]]+p[[8]]
 
 # detailed description of suspect group
-man_data %>% 
+filter_data %>% 
   group_by(susp_age, susp_race, susp_sex) %>% 
   summarise(number = n()) %>% 
   arrange(desc(number))
 
 # detailed description of victim group
 
-man_data %>% 
+filter_data %>% 
   group_by(vic_age, vic_race, vic_sex) %>% 
   summarise(number = n()) %>% 
   arrange(desc(number))
 
-man_wohome %>% 
+filter_data %>% 
   ggplot(aes(x = longitude, y = latitude)) +
   geom_point()
 
 # qusetions to be discussed : should we only limit the cases not in the apartment? 
-
-man_wohome <- man_data %>% 
-  filter(!(premise %in% c("RESIDENCE - APT. HOUSE","RESIDENCE-HOUSE", "RESIDENCE - PUBLIC HOUSING")))  # about 20,000 data 
 
 write_csv(man_data, "data/Manhattan_tidy_data.csv")
 

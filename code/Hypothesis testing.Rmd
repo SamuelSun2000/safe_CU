@@ -1,0 +1,88 @@
+---
+title: "statistical testing"
+author: "Haochen Sun"
+date: "2022-12-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# in this part, we wanna see whether the crime numbers are different from month to month across the years...
+
+```{r}
+data <- read_csv("data/full_filter_data.csv")
+
+# is there any difference between case number in every months across years?
+month_data <- data %>%  
+  group_by(year, month) %>% 
+  summarise(number = n()) %>% 
+  mutate(month = as.factor(month),
+         year = as.factor(year))
+
+aov_model <- aov(number ~ month, data = month_data)
+
+summary(aov_model)
+
+aov_posthoc <- TukeyHSD(aov_model, conf.level = .95) %>% 
+  broom::tidy() %>% 
+  filter(adj.p.value < 0.05) %>% 
+  arrange(adj.p.value) %>% 
+  separate(contrast, sep = "-", into = c("A", "B"))
+
+# plot of case numbers of every month
+month_data %>% 
+  ggplot(aes(x = month, y = number, fill = month)) +
+  geom_boxplot() +
+  guides(fill = "none") 
+```
+
+```{r}
+
+# Is there differnece between case numbers in every hour? 
+hour_data = data %>% 
+  group_by(year, month, hour) %>% 
+  summarise(number = n()) %>%
+  mutate(hour = as.factor(hour),
+    hour = fct_inseq(hour)) 
+
+aov_hour <- aov(number ~ hour, data = hour_data)
+
+summary(aov_hour)
+
+hour_data %>% 
+  ggplot(aes(x = hour, y = number, fill = hour)) +
+  geom_boxplot() +
+  guides(fill = "none") 
+
+# moreover we wanna see the pattern of different levels of crime
+
+level_hour <- data %>% 
+  group_by(year, month, hour, level) %>% 
+  summarise(number = n()) %>%
+  mutate(hour = as.factor(hour),
+    hour = fct_inseq(hour))
+
+level_hour_plot <- level_hour %>% 
+  mutate(level = as.factor(level)) %>% 
+  ggplot(aes(x = hour, y = number, fill = level)) +
+  geom_boxplot()+
+  ylim(0,120)
+
+# which day, across years, has the most cases?
+
+data %>% 
+  group_by(month, day) %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number))
+
+data %>% 
+  group_by(month, day) %>% 
+  summarise(number = n()) %>% 
+  arrange((number))
+```
+
+It may be conuter-intuitive that more cases are happened in the afternoon-evening, rather than in the night.
+
+Some impressive findings: the day having the most cases is new year's day, and then, Children's day. The least is ..christmas days. (this can be a biased result)
