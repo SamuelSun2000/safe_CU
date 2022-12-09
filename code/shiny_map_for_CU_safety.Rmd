@@ -19,24 +19,16 @@ Column {.sidebar}
 -----------------------------------------------------------------------
 
 ```{r}
-Year0 = cu_df %>% distinct(year) 
-Year1 = arrange(Year0, desc(year))
-
-selectInput(
-  inputId = 'year_choice',
-  label = h3('Year Choice'),
-  choices = Year1,
-  selected = '2022'
+sliderInput(
+  inputId = 'year_range',
+  label = h3('Year Range'),
+  min = 2010, max = 2022, value = c(2021, 2022)
 )
 
-Month0 = cu_df %>% distinct(month) 
-Month1 = arrange(Month0, month)
-
-selectInput(
-  inputId = 'month_choice',
-  label = h3('Month Choice'),
-  choices = Month1,
-  selected = '1'
+sliderInput(
+  inputId = 'month_range',
+  label = h3('Month Range'),
+  min = 1, max = 12, value = c(1, 2)
 )
 
 sliderInput(
@@ -56,6 +48,31 @@ radioButtons(
 ```
 
 
+Year0 = cu_df %>% distinct(year) 
+Year1 = arrange(Year0, desc(year))
+
+selectInput(
+  inputId = 'year_choice',
+  label = h3('Year Choice'),
+  choices = Year1,
+  selected = '2022'
+)
+
+
+Month0 = cu_df %>% distinct(month) 
+Month1 = arrange(Month0, month)
+
+selectInput(
+  inputId = 'month_choice',
+  label = h3('Month Choice'),
+  choices = Month1,
+  selected = '1'
+)
+
+
+
+
+
 Column 
 -----------------------------------------------------------------------
 
@@ -65,8 +82,10 @@ Column
 renderLeaflet({
   cu_df %>% 
     filter(
-      year == input[['year_choice']],
-      month == input[['month_choice']],
+      year >= input[['year_range']][1],
+      year <= input[['year_range']][2],
+      month >= input[['month_range']][1],
+      month <= input[['month_range']][2],
       hour >= input[['hour_range']][1],
       hour <= input[['hour_range']][2],
     ) %>% 
