@@ -10,6 +10,7 @@ runtime: shiny
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(plotly)
+library(leaflet)
 
 cu_df = read_csv("../data/full_filter_data.csv")
 ```
@@ -71,6 +72,21 @@ Column
 ### Safety Map around Columbia University
 
 ```{r}
+renderLeaflet({
+  cu_df %>% 
+    filter(
+      year == input[['year_choice']],
+      month == input[['month_choice']],
+      day == input[['day_choice']],
+      hour >= input[['hour_range']][1],
+      hour <= input[['hour_range']][2],
+    ) %>% 
+    leaflet() %>% 
+    addTiles() %>% 
+    addMarkers(~longitude, ~latitude)
+})
+```
+
 renderPlotly({
   cu_df %>% 
     filter(
@@ -83,14 +99,15 @@ renderPlotly({
     plot_ly(x = ~latitude, y = ~longitude, color = "red",
             type = 'scatter', mode = 'makers', alpha = .5)
 })
-```
 
-renderPlotly({
-  nyc_airbnb %>% 
-    filter(borough == input[['borough_choice']],
-           price >= input[['price_range']][1],
-           price <= input[['price_range']][2],
-           room_type == input[['room_choice']]) %>% 
-    plot_ly(x = ~lat, y = ~long, color = ~price,
-           type = 'scatter', mode = 'markers', alpha = .5)
-})
+cu_df %>% 
+    filter(
+      year == input[['year_choice']],
+      month == input[['month_choice']],
+      day == input[['day_choice']],
+      hour >= input[['hour_range']][1],
+      hour <= input[['hour_range']][2],
+    ) %>%
+  leaflet() %>% 
+  addTiles() %>% 
+  addMarkers(~latitude, ~longitude)
