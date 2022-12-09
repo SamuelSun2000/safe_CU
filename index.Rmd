@@ -13,6 +13,7 @@ h1.title {
 </style>
 
 <center>
+
 **by [Haochen Sun (hs3393)], [Yuanhao Zhang (yz4436), [Zhenyu Zhou (zz2900)], [Yuze Yuan (yy3296)], [Anzhuo Xie (ax2173)]**
 
 <img src="images/columbia.jpg" style="width:100%">
@@ -25,6 +26,7 @@ h1.title {
 <br/>
 
 ## *Motivation and intention*
+
 <div align="left"> 
 Studying at Columbia University, except enjoying fascinating school life, we should always be concerned about the safety problem. Frequent email alerts, Citizen apps popping up, and terrifying news, they are all reminding us that there are many underlying unsafe factors around us. The New York government has made a public crime map at https://maps.nyc.gov/crime/.
 The information in it, however, is way too redundant for a student as we are more concerned about the safety conditions around our campus and our places of residence. Luckily, NYPD has posted the up-to-date dataset that includes all valid felony, misdemeanor, and violation crimes reported to the New York City Police Department, and it includes more information that we are interested in, for example, the time of occurrence of the complaint, the victim’s statistics. After analyzing the dataset, we can have a more comprehensive understanding about the crimes around us. Finally, we want to draw a fine map locating the crime incidents around our campus, informing us what time may be more dangerous and we can avoid activities at that time. We also want this result to help all the staff and students in Columbia University have an opportunity to evaluate the risk, avoid the danger, and allow them to access crime rates in the areas they care about to keep themselves safe.
@@ -32,11 +34,14 @@ The information in it, however, is way too redundant for a student as we are mor
 <br/>
 
 ## *Anticipated data sources*
+
 <div align="left"> 
 The data is from NYC Opendata, https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This dataset is provided by NYPD, and is recently updated on Oct.19th. This dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is expected to be accurate, authoritative, prompt and worth analyzing. 
+
 <br/>
 
 ## *Analyses / visualizations / coding challenges*
+
 <div align="left"> 
 * As the dataset is large, it maybe hard to filter the useful information. For example, we need to careful consider what the time range is more appropriate, the data from early dates may not be informative for reference now, but few data cannot generate significant conclusion as well.
 
