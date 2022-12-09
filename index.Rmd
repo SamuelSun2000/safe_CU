@@ -14,7 +14,7 @@ h1.title {
 
 <center>
 
-**by [Haochen Sun (hs3393)], [Yuanhao Zhang (yz4436), [Zhenyu Zhou (zz2900)], [Yuze Yuan (yy3296)], [Anzhuo Xie (ax2173)]**
+**by Haochen Sun, Yuanhao Zhang, Zhenyu Zhou, Yuze Yuan, Anzhuo Xie**
 
 <img src="images/columbia.jpg" style="width:100%">
 
@@ -48,3 +48,16 @@ The data is from NYC Opendata, https://data.cityofnewyork.us/Public-Safety/NYPD-
 * As we wished, the safety map should reflect the dangerous level of each location across one day. It requires us to  draw a timeline and as we scroll it, the map will shift. This step may take some time to reach this goal and make the map concise and attractive.
 
 * We want to build a model to predict the risk of one student going out at a specific time and to a location, it maybe hard to select a model and variables to realize this function.
+
+## *Group Members*
+
+<div align="left"> 
+* Haochen Sun ( hs3393 )
+
+* Yuanhao Zhang ( yz4436 )
+
+* Zhenyu Zhou ( zz2900 )
+
+* Yuze Yuan ( yy3296 )
+
+* Anzhuo Xie ( ax2173 )
