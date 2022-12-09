@@ -48,31 +48,6 @@ radioButtons(
 ```
 
 
-Year0 = cu_df %>% distinct(year) 
-Year1 = arrange(Year0, desc(year))
-
-selectInput(
-  inputId = 'year_choice',
-  label = h3('Year Choice'),
-  choices = Year1,
-  selected = '2022'
-)
-
-
-Month0 = cu_df %>% distinct(month) 
-Month1 = arrange(Month0, month)
-
-selectInput(
-  inputId = 'month_choice',
-  label = h3('Month Choice'),
-  choices = Month1,
-  selected = '1'
-)
-
-
-
-
-
 Column 
 -----------------------------------------------------------------------
 
