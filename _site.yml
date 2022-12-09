@@ -6,7 +6,7 @@ navbar:
   right:
     - text: "Project Report"
       href: 
-    - text: "Summary"
+    - text: "Exploratory Analyses"
       menu:
       - text: "Need to Edit "
         href: 
