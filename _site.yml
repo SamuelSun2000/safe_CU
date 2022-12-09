@@ -20,7 +20,9 @@ navbar:
       href: 
     - icon: fa-github fa-lg
       href: https://github.com/SamuelSun2000/safe_CU.github.io.git
+    - icon: fa-database fa-lg
+      href: https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243
       
 output:
   html_document:
-    theme: cosmo
+    theme: flatly
