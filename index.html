@@ -29,7 +29,11 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -225,7 +229,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -235,6 +305,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -293,6 +373,14 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Stay safe at Columbia University</h1>
@@ -310,12 +398,77 @@ h1.title {
 }
 </style>
 <center>
-<div id="this-is-a-welcome-page" class="section level1">
-<h1>This is a welcome page</h1>
+<p><strong>by [Haochen Sun (hs3393)], [Yuanhao Zhang (yz4436), [Zhenyu
+Zhou (zz2900)], [Yuze Yuan (yy3296)], [Anzhuo Xie (ax2173)]</strong></p>
+<p><img src="images/columbia.jpg" style="width:100%"></p>
+<p><br/></p>
+<div id="demonstration-video" class="section level2">
+<h2><em>Demonstration Video</em></h2>
+<iframe width="800" height="500" src="https://www.youtube.com/" frameborder="0" allowfullscreen>
+</iframe>
+<p><br/></p>
+</div>
+<div id="motivation-and-intention" class="section level2">
+<h2><em>Motivation and intention</em></h2>
+<div align="left">
+<p>Studying at Columbia University, except enjoying fascinating school
+life, we should always be concerned about the safety problem. Frequent
+email alerts, Citizen apps popping up, and terrifying news, they are all
+reminding us that there are many underlying unsafe factors around us.
+The New York government has made a public crime map at <a
+href="https://maps.nyc.gov/crime/"
+class="uri">https://maps.nyc.gov/crime/</a>. The information in it,
+however, is way too redundant for a student as we are more concerned
+about the safety conditions around our campus and our places of
+residence. Luckily, NYPD has posted the up-to-date dataset that includes
+all valid felony, misdemeanor, and violation crimes reported to the New
+York City Police Department, and it includes more information that we
+are interested in, for example, the time of occurrence of the complaint,
+the victim’s statistics. After analyzing the dataset, we can have a more
+comprehensive understanding about the crimes around us. Finally, we want
+to draw a fine map locating the crime incidents around our campus,
+informing us what time may be more dangerous and we can avoid activities
+at that time. We also want this result to help all the staff and
+students in Columbia University have an opportunity to evaluate the
+risk, avoid the danger, and allow them to access crime rates in the
+areas they care about to keep themselves safe.</p>
+<p><br/></p>
+</div>
+<div id="anticipated-data-sources" class="section level2">
+<h2><em>Anticipated data sources</em></h2>
+<div align="left">
+<p>The data is from NYC Opendata, <a
+href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This"
+class="uri">https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This</a>
+dataset is provided by NYPD, and is recently updated on Oct.19th. This
+dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is
+expected to be accurate, authoritative, prompt and worth analyzing.
+<br/></p>
+</div>
+<div id="analyses-visualizations-coding-challenges"
+class="section level2">
+<h2><em>Analyses / visualizations / coding challenges</em></h2>
+<div align="left">
+<ul>
+<li><p>As the dataset is large, it maybe hard to filter the useful
+information. For example, we need to careful consider what the time
+range is more appropriate, the data from early dates may not be
+informative for reference now, but few data cannot generate significant
+conclusion as well.</p></li>
+<li><p>As we wished, the safety map should reflect the dangerous level
+of each location across one day. It requires us to draw a timeline and
+as we scroll it, the map will shift. This step may take some time to
+reach this goal and make the map concise and attractive.</p></li>
+<li><p>We want to build a model to predict the risk of one student going
+out at a specific time and to a location, it maybe hard to select a
+model and variables to realize this function.</p></li>
+</ul>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -347,7 +500,41 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

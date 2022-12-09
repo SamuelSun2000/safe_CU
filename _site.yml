@@ -26,3 +26,6 @@ navbar:
 output:
   html_document:
     theme: flatly
+    toc : true
+    toc_float: true
+    code_folding: hide
