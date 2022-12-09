@@ -65,6 +65,7 @@ renderLeaflet({
       hour <= input[['hour_range']][2],
     ) %>% 
     leaflet() %>% 
+    setView(lng = -73.95524,lat = 40.80729, zoom = 16) %>% 
     addTiles() %>% 
     addMarkers(~longitude, ~latitude)
 })
