@@ -13,7 +13,11 @@ navbar:
       - text: "Need to Edit  "
         href: 
     - text: "Statistical Analysis"
-      href: 
+      menu:
+      - text: "Need to Edit "
+        href: 
+      - text: "Need to Edit  "
+        href:  
     - text: "Shiny Map for CU Safety"
       href:    
     - icon: fa-youtube fa-lg    
