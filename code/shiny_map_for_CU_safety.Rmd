@@ -54,6 +54,12 @@ Column
 ### Safety Map around Columbia University
 
 ```{r}
+content <- paste(sep = "<br/>",
+  "<b><a href='https://www.columbia.edu/'>Columbia University</a></b>",
+  "2960 Broadway",
+  "New York, NY 10027-6902"
+)
+
 renderLeaflet({
   cu_df %>% 
     filter(
@@ -67,7 +73,13 @@ renderLeaflet({
     leaflet() %>% 
     setView(lng = -73.95524,lat = 40.80729, zoom = 16) %>% 
     addTiles() %>% 
+    addPopups(-73.96249, 40.80747, content, options = popupOptions(closeButton = FALSE)) %>% 
     addMarkers(~longitude, ~latitude)
 })
 ```
 
+
+leaflet() %>% addTiles() %>%
+  addPopups(-122.327298, 47.597131, content,
+    options = popupOptions(closeButton = FALSE)
+  )
