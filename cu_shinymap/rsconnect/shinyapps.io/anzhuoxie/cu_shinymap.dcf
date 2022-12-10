@@ -1,0 +1,13 @@
+name: cu_shinymap
+title: cu_shinymap
+username:
+account: anzhuoxie
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7864838
+bundleId: 6621274
+url: https://anzhuoxie.shinyapps.io/cu_shinymap/
+when: 1670710062.05585
+lastSyncTime: 1670710062.05587
+asMultiple: FALSE
+asStatic: FALSE
