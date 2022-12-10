@@ -1,9 +1,3 @@
----
-title: "EDA"
-author: "Haochen Sun"
-date: "2022-12-10"
-output: html_document
----
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -23,6 +17,7 @@ options(
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
+
 # Exploratory Analysis
 After reading this page, you will have an overall sense about the crimes around Columbia University campus (including CUIMC). 
 We pictured the proportion of each level of crimes, and the charactristic of suspects and victims. We also focused on the total crime numbers across the years, showing a pattern of the fluctation of offense number with the months and times, so that we can have an idea about when it will be more dangerous and need more caution. At the same time, we also captured some interesting point of offense number.
@@ -41,8 +36,16 @@ p[[2]] <- ggplot(aes(x = success_fail, fill = success_fail), data =
 p[[1]] + p[[2]]
 ```
 
-The number of misdemeanor crime is the most (62.1%), which includes simple assault, petty theft, drug possession, indecent exposure, etc. While the number of felony is approximately half of misdemeanor (28.7%), which includes homicide offense, rubbery, burglary, sexual offense, drug crime, etc. The least type is violation (10%), including littering, drinking in public, walking unleashed dog, etc. Here exists a selection bias, most of people would not report a violation to the police. This figure does not indicate violation crimes is the least type in reality. At the meanwhile, nearly all (98%) of the crimes are completed -- do not put your faith in luck that someone can help you, try to avoid them as much as you can! 
+The number of misdemeanor crime is the most (62.1%), while the number of felony is approximately half of misdemeanor (28.7%). The least type is violation (10%). Here exists a selection bias, most of people would not report a violation to the police. This figure does not indicate violation crimes is the least type in reality. At the meanwhile, nearly all (98%) of the crimes are completed -- do not put your faith in luck that someone can help you, try to avoid them as much as you can! 
 Next, we focus on the portrait of suspects and victims.
+
+To have a closer look to the different levels, we listed top 5 descriptions from different level. 
+
+```{r}
+
+```
+
+
 
 ```{r}
 p[[3]] <- filter_data %>% 
@@ -90,7 +93,11 @@ p[[8]] <- filter_data %>%
   layout(title = "Victims' Sex", xaxis = list(title = ""), yaxis = list(title = "Number"))
 ```
 Through the data, we can see that except unknown, suspects' age is centered at 25-44 years old, black man. As for the victim, the age group is still centered at 25-44 years old. But the race is more evenly spread, and female number is much more than the suspect group.
+
 Next, we want to look into the fluctuation of crime cases among months and hours, to see if the case number have a correlation with time.
+
+#### Month data {.tabset}
+##### Total crimes
 ```{r}
 data <- filter_data
 month_data <- data %>%  
@@ -103,6 +110,8 @@ month_data %>%
   layout(title = "Crime Number Across Months", xaxis = list(title = "Month"), yaxis = list(title = "Number"))
 ```
 We can roughly see that, in summer there are more crimes, especially from May to August. December and February have fewer cases. We will verify if there is a significant difference between months in Statistical testing part.
+
+##### Hours
 ```{r}
 hour_data = data %>% 
   group_by(year, month, hour) %>% 
@@ -113,4 +122,31 @@ hour_data %>%
   plot_ly(y = ~number, color = ~hour, type = "box", colors = "viridis") %>% 
   layout(title = "Crime Number Across Hours", xaxis = list(title = "Hour"), yaxis = list(title = "Number"))
 ```
-Obvious pattern. It's counter-intuitive that the time with most cases is not in the midnight, but in the afternoon. 
+
+#### {-}
+
+Obvious pattern. It's counter-intuitive that the time with most cases is not in the midnight, but in the afternoon.
+
+### what about specific days? 
+
+```{r}
+data %>% 
+  group_by(month, day) %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number)) %>% 
+  head(10) %>% 
+  knitr::kable()
+
+data %>% 
+  group_by(month, day) %>% 
+  summarise(number = n()) %>% 
+  arrange((number)) %>%
+  filter(month != 2 & day != 29)%>% 
+  head(10)
+  knitr::kable()
+```
+
+The crime numbers in each day across years also varies a lot. It's a interesting finding that New Years' day enjoys the most crime cases, and the second is International Children's Day (sadly).  The days with fewest crimes is around Chirstmas Holiday, when most people will stay safely with family at home. 
+
+
+
