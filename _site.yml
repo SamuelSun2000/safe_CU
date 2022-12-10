@@ -5,21 +5,13 @@ navbar:
   title: "Home"
   right:
     - text: "Project Report"
-      href: 
+      href: report.html
     - text: "Exploratory Analyses"
-      menu:
-      - text: "Need to Edit "
-        href: 
-      - text: "Need to Edit  "
-        href: 
+      href: EDA.html
     - text: "Statistical Analysis"
-      menu:
-      - text: "Need to Edit "
-        href: 
-      - text: "Need to Edit  "
-        href:  
+      href: hypo.html 
     - text: "Shiny Map for CU Safety"
-      href:    
+      href: shiny_map_for_CU_safety.html   
     - icon: fa-youtube fa-lg    
       href: 
     - icon: fa-github fa-lg

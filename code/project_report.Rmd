@@ -1,0 +1,353 @@
+---
+title: "Project Report"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
+runtime: shiny
+---
+
+The written report produced by your team is central to this project. This will detail how you completed your project, and should cover data collection and cleaning, exploratory analyses, alternative strategies, descriptions of approaches, and a discussion of results. We anticipate that your project will change somewhat over time; these changes and the reasons for them should be documented! You will write one report document per group, and be sure to include all group member names in the document.
+
+Motivation {.sidebar}
+-----------------------------------------------------------------------
+
+Motivation: 
+
+* Studying at Columbia University, except enjoying fascinating school life, we should always be concerned about the safety problem. Frequent email alerts, Citizen apps popping up, and terrifying news, they are all reminding us that there are many underlying unsafe factors around us. The New York government has made a public crime map at https://maps.nyc.gov/crime/.
+The information in it, however, is way too redundant for a student as we are more concerned about the safety conditions around our campus and our places of residence. Luckily, NYPD has posted the up-to-date dataset that includes all valid felony, misdemeanor, and violation crimes reported to the New York City Police Department, and it includes more information that we are interested in, for example, the time of occurrence of the complaint, the victim’s statistics. After analyzing the dataset, we can have a more comprehensive understanding about the crimes around us. Finally, we want to draw a fine map locating the crime incidents around our campus, informing us what time may be more dangerous and we can avoid activities at that time. The map will give students the option of looking up when they go outside most often to help them more accurately determine the likelihood of danger. We also want this result to help all the staff and students in Columbia University have an opportunity to evaluate the risk, avoid the danger, and allow them to access crime rates in the areas they care about to keep themselves safe.
+
+
+Related work and thoughts about our project {.sidebar}
+-----------------------------------------------------------------------
+
+Related work: 
+
+* When we were looking for information about the crime rate near Columbia University, we saw the paper "Columbia stabbing puts spotlight on school's poor crime, safety record" which talked about some crimes in New York City. It inspired us to research more about the crime near Columbia University such as where and when the crime rate is higher and then we can try to avoid dangerous places to avoid being hurt. Besides some introduction to crime, there is also a pie chart in the paper, which makes us know the proportion of some types of criminal events directly. But this pie chart only provides a general summary of criminal events, and we think there are many details that can be added. Therefore, we want to analyze the crime rate near Columbia University according to our data set, and give the distribution more intuitively through some plots. This is the link of the paper: https://nypost.com/2021/12/04/columbia-grad-student-murder-puts-spotlight-on-crime-safety-record/.
+
+* Besides, a website which includes some crime data in US also inspired us. There are some very valuable plots on this website, such as comparing the crime rate of New York and the United States through a line plot, comparing the crime rate of New York and cities of the same size, and ranking the cities that are most suitable for living. But what is not enough is that this website is too wide for staffs and students of Columbia University. After all, staffs and students of Columbia University in some regions hardly go there; and some of the statistics here are too broad, which encourages us to make some pictures and websites which focus on the crime rate near Columbia University and include more specific data, which can provide more help for students of Columbia University.This is the link of the website: https://realestate.usnews.com/places/new-york/new-york-city/crime
+
+
+Initial questions about this project {.sidebar}
+-----------------------------------------------------------------------
+
+* We hope to use the map on the website to answer which time period and which place near Columbia University are experiencing security incidents, and which regions have higher security incidents. We originally wanted to express which area has a higher crime rate by the color depth on the map, but in the process of analysis, we thought that we could label the data on the area and make the map more accurate as far as possible, so that students in Columbia University could find it more easily.
+
+
+Data {.sidebar}
+-----------------------------------------------------------------------
+
+Data import and clean:
+
+* The data is from NYC Opendata, https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This dataset is provided by NYPD, and is recently updated on Oct.19th. This dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is expected to be accurate, authoritative, prompt and worth analyzing. 
+* Since the main purpose of this product is to help all the staff and students in Columbia University, so we decide to let our map cover the Manhattan area, and in order to give them most meaningful results, we focus the year after 2010. Then, we do the fowllowing: 1. select the rows recording date later than 2010-01-01. 2. Select the borogh as Manhattan. 3. select the variables we are interseted in. 4. filter the latitude and longitude to limit it around columbia campus (roughly). The latitude range is approximately from 86 street subway station to George Washing Bridge (West 178th street). The longitude range is from Hudson river to Harlem river and Central park. This region covers Columbia University campus (and CUIMC) and the neighborhood area. You could find details here: [Data cleaning](code/data import and cleaning.Rmd)
+* We use the following items to do our project:
+
+  *`id`: case id numbers.
+  
+  *`bor0`: Manhattan area.
+  
+  *`year`: The year this specific case happened.
+  
+  *`month`: The month this specific case happened.
+  
+  *`day`: The day this specific case happened.
+  
+  *`hour`: The exact hour this specific case happened.
+  
+  *`minute`: The exact minute this specific case happened.
+  
+  *`second`: The exact second this specific case happened.
+  
+  *`success_fail`: Indicator of whether crime was successfully completed or attempted, but failed or was interrupted prematurely.
+  
+  *`level`: Level of offense: felony, misdemeanor, violation.
+  
+  *`description`: Description of offense corresponding with key code.
+  
+  *`location`: Specific location of occurrence in or around the premises; inside, opposite of, front of, rear of.
+  
+  *`susp_age`: the age of suspect.
+  
+  *`susp_race`: the race of suspect.
+  
+  *`susp_sex`: the sex of suspect.
+  
+  *`vic_age`: the age of victim.
+  
+  *`vic_race`: the race of victim.
+  
+  *`vic_sex`: the sex of victim.
+  
+  *`logitude`: Logitude at Global Coordinate System.
+  
+  *`latitude`: Latitude at Global Coordinate System.
+   
+Statistical analysis {.sidebar}
+-----------------------------------------------------------------------
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(patchwork)
+library(plotly)
+knitr::opts_chunk$set(
+  fig.width = 5,
+  out.width = "60%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+Whether there is a significant difference in the number of male and female suspects. We calculate how many male and female suspects in month, year, then plot the disturbution of number of male and female suspects.
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+gender_data <- data %>%  
+  group_by(year, month, susp_sex) %>% 
+  summarise(number = n()) %>% 
+  mutate(susp_sex = as.factor(susp_sex)) %>%
+  filter(susp_sex %in% c("F", "M", "U"))
+aov_model_1 <- aov(number ~ susp_sex, data = gender_data)
+
+summary(aov_model_1)
+
+gender_data %>% 
+  ggplot(aes(x = susp_sex, y = number, fill = susp_sex)) +
+  geom_boxplot() +
+  guides(fill = "none")  
+```
+* This is a significant difference in the number of male and female suspects. Through the boxplot, we could easily see that male is more likely to be suspencts than females if we consider the unknown.
+
+
+Whether there is a significant difference in the number of male and female victims. We calculate how many male and female victims in month, year, then plot the disturbution of number of male and female victims. And I also do the same steps for vic_sex include D=Business/Organization, 
+E=PSNY/People of the State of New York.
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+gender_data_1 <- data %>%  
+  group_by(year, month, vic_sex) %>% 
+  summarise(number = n()) %>% 
+  mutate(vic_sex = as.factor(vic_sex)) %>%
+  filter(vic_sex %in% c("F", "M", "U"))
+gender_data_2 <- data %>%  
+  group_by(year, month, vic_sex) %>% 
+  summarise(number = n()) %>% 
+  mutate(vic_sex = as.factor(vic_sex)) %>%
+  filter(vic_sex %in% c("F", "M", "D", "E"))
+aov_model_1 <- aov(number ~ vic_sex, data = gender_data_1)
+
+summary(aov_model_1)
+
+
+gender_data_1 %>% 
+  ggplot(aes(x = vic_sex, y = number, fill = vic_sex)) +
+  geom_boxplot() +
+  guides(fill = "none")
+gender_data_2 %>% 
+  ggplot(aes(x = vic_sex, y = number, fill = vic_sex)) +
+  geom_boxplot() +
+  guides(fill = "none") 
+```
+* This is a significant difference in the number of male and female suspects. Through the boxplot, we could see that male is more likely to be victims than females.
+
+Exploratory analysis {.sidebar}
+-----------------------------------------------------------------------
+
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(patchwork)
+library(plotly)
+knitr::opts_chunk$set(
+  fig.width = 5,
+  out.width = "60%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+After reading this page, you will have an overall sense about the crimes around Columbia University campus (including CUIMC). 
+We pictured the proportion of each level of crimes, and the charactristic of suspects and victims. We also focused on the total crime numbers across the years, showing a pattern of the fluctation of offense number with the months and times, so that we can have an idea about when it will be more dangerous and need more caution. At the same time, we also captured some interesting point of offense number.
+
+Overview about offenses around CU campus
+```{r EDA, echo = FALSE}
+filter_data = read_csv("../data/full_filter_data.csv", , show_col_types = FALSE)
+p <- c() # a list to save plots
+p[[1]] <- ggplot(aes(x = level, fill = level), data = filter_data) + 
+  geom_bar() +
+  labs(x = "Crime Level", y = "Number") + guides(fill = "none")
+p[[2]] <- ggplot(aes(x = success_fail, fill = success_fail), data = 
+                  filter_data)+
+    geom_bar()+
+  labs(x = "Crime Completed or Not", y = "Number")+ guides(fill = "none")
+p[[1]] + p[[2]]
+```
+
+The number of misdemeanor crime is the most (62.1%), which includes simple assault, petty theft, drug possession, indecent exposure, etc. While the number of felony is approximately half of misdemeanor (28.7%), which includes homicide offense, rubbery, burglary, sexual offense, drug crime, etc. The least type is violation (10%), including littering, drinking in public, walking unleashed dog, etc. Here exists a selection bias, most of people would not report a violation to the police. This figure does not indicate violation crimes is the least type in reality. At the meanwhile, nearly all (98%) of the crimes are completed -- do not put your faith in luck that someone can help you, try to avoid them as much as you can! 
+Next, we focus on the portrait of suspects and victims.
+
+```{r, echo = FALSE}
+p[[3]] <- filter_data %>% 
+  filter(susp_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
+                         "UNKNOWN")) %>%
+  mutate(susp_age = as.factor(susp_age)) %>% 
+  count(susp_age, level) %>% 
+  plot_ly(x = ~ susp_age, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
+  layout(title = "Suspects' Age Group", xaxis = list(title = ""), yaxis = list(title = "Number"))
+p[[4]] <- filter_data %>% 
+  filter (susp_race != "(null)") %>% 
+  mutate(susp_age = as.factor(susp_race)) %>% 
+  count(susp_race, level) %>% 
+  plot_ly(x = ~ susp_race, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
+  layout(title = "Suspects' Race", xaxis = list(title = ""), yaxis = list(title = "Number"))
+p[[5]] <- filter_data %>% 
+  filter (susp_sex != "(null)")  %>% 
+  mutate(susp_sex = as.factor(susp_sex)) %>% 
+  count(susp_sex, level) %>% 
+  mutate(susp_sex = recode(susp_sex, U = "Unknown", F = "Female", "M" = "Male")) %>% 
+  plot_ly(x = ~ susp_sex, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
+  layout(title = "Suspects' Sex", xaxis = list(title = ""), yaxis = list(title = "Number"))
+```
+
+```{r, echo = FALSE}
+p[[6]] <- filter_data %>% 
+  filter(vic_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
+                         "UNKNOWN")) %>%
+  mutate(vic_age = as.factor(vic_age)) %>% 
+  count(vic_age, level) %>% 
+  plot_ly(x = ~ vic_age, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
+  layout(title = "Victims' Age Group", xaxis = list(title = ""), yaxis = list(title = "Number"))
+p[[7]] <- filter_data %>% 
+  filter (vic_race != "(null)") %>% 
+  mutate(vic_age = as.factor(vic_race)) %>% 
+  count(vic_race, level) %>% 
+  plot_ly(x = ~ vic_race, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
+  layout(title = "Victims' Race", xaxis = list(title = ""), yaxis = list(title = "Number"))
+p[[8]] <- filter_data %>% 
+  filter (vic_sex %in% c("D", "E", "F", "M"))  %>% 
+  mutate(vic_sex = as.factor(vic_sex)) %>% 
+  count(vic_sex, level) %>% 
+  mutate(vic_sex = recode(vic_sex, F = "Female", "M" = "Male")) %>% 
+  plot_ly(x = ~ vic_sex, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
+  layout(title = "Victims' Sex", xaxis = list(title = ""), yaxis = list(title = "Number"))
+```
+Through the data, we can see that except unknown, suspects' age is centered at 25-44 years old, black man. As for the victim, the age group is still centered at 25-44 years old. But the race is more evenly spread, and female number is much more than the suspect group.
+Next, we want to look into the fluctuation of crime cases among months and hours, to see if the case number have a correlation with time.
+```{r, echo = FALSE}
+data <- filter_data
+month_data <- data %>%  
+  group_by(year, month) %>% 
+  summarise(number = n()) %>% 
+  mutate(month = as.factor(month),
+         year = as.factor(year))
+month_data %>% 
+  plot_ly(y = ~number, color = ~month, type = "box", colors = "viridis") %>% 
+  layout(title = "Crime Number Across Months", xaxis = list(title = "Month"), yaxis = list(title = "Number"))
+```
+We can roughly see that, in summer there are more crimes, especially from May to August. December and February have fewer cases. We will verify if there is a significant difference between months in Statistical testing part.
+```{r, echo = FALSE}
+hour_data = data %>% 
+  group_by(year, month, hour) %>% 
+  summarise(number = n()) %>%
+  mutate(hour = as.factor(hour),
+    hour = fct_inseq(hour)) 
+hour_data %>% 
+  plot_ly(y = ~number, color = ~hour, type = "box", colors = "viridis") %>% 
+  layout(title = "Crime Number Across Hours", xaxis = list(title = "Hour"), yaxis = list(title = "Number"))
+```
+Obvious pattern. It's counter-intuitive that the time with most cases is not in the midnight, but in the afternoon. 
+
+
+
+Map {.sidebar}
+-----------------------------------------------------------------------
+
+Crimes Map around Columbia University:
+
+
+```{r, include=FALSE}
+library(tidyverse)
+library(plotly)
+library(leaflet)
+
+cu_df = read_csv("../data/full_filter_data.csv")
+```
+
+
+```{r, echo = FALSE}
+sliderInput(
+  inputId = 'year_range',
+  label = h3('Year Range'),
+  min = 2010, max = 2022, value = c(2021, 2022)
+)
+
+sliderInput(
+  inputId = 'month_range',
+  label = h3('Month Range'),
+  min = 1, max = 12, value = c(1, 2)
+)
+
+sliderInput(
+  inputId = 'hour_range',
+  label = h3('Hour Range'),
+  min = 0, max = 24, value = c(8, 18)
+)
+
+Level = cu_df %>% distinct(level) %>% pull()
+
+radioButtons(
+  inputId = 'level_choice',
+  label = h3('Crime Level'),
+  choices = Level,
+  selected = 'VIOLATION'
+)
+```
+
+
+### Safety Map around Columbia University
+
+```{r, echo = FALSE}
+content_main = paste(sep = "<br/>",
+  "<b><a href='https://www.columbia.edu/'>Columbia University</a></b>",
+  "2960 Broadway",
+  "New York, NY 10027-6902"
+)
+
+content_cumc = paste(sep = "<br/>",
+  "<b><a href='https://www.publichealth.columbia.edu/'>Columbia Mailman School for Public Health</a></b>",
+  "West 168th Street, 722",
+  "New York, NY 10032"
+)
+
+renderLeaflet({
+  cu_df %>% 
+    filter(
+      year >= input[['year_range']][1],
+      year <= input[['year_range']][2],
+      month >= input[['month_range']][1],
+      month <= input[['month_range']][2],
+      hour >= input[['hour_range']][1],
+      hour <= input[['hour_range']][2],
+      level == input[['level_choice']]
+    ) %>% 
+    leaflet() %>% 
+    setView(lng = -73.94184,lat = 40.8394, zoom = 14) %>% 
+    addTiles() %>% 
+    addPopups(-73.96249, 40.80747, content_main, options = popupOptions(closeButton = FALSE)) %>% 
+    addPopups(-73.9434, 40.84259, content_cumc, options = popupOptions(closeButton = FALSE)) %>% 
+    addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
+})
+```
+
