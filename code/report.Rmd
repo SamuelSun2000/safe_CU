@@ -1,0 +1,178 @@
+---
+title: "Report"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
+runtime: shiny
+---
+
+The written report produced by your team is central to this project. This will detail how you completed your project, and should cover data collection and cleaning, exploratory analyses, alternative strategies, descriptions of approaches, and a discussion of results. We anticipate that your project will change somewhat over time; these changes and the reasons for them should be documented! You will write one report document per group, and be sure to include all group member names in the document.
+
+Motivation {.sidebar}
+-----------------------------------------------------------------------
+
+Motivation: 
+
+* Studying at Columbia University, except enjoying fascinating school life, we should always be concerned about the safety problem. Frequent email alerts, Citizen apps popping up, and terrifying news, they are all reminding us that there are many underlying unsafe factors around us. The New York government has made a public crime map at https://maps.nyc.gov/crime/.
+The information in it, however, is way too redundant for a student as we are more concerned about the safety conditions around our campus and our places of residence. Luckily, NYPD has posted the up-to-date dataset that includes all valid felony, misdemeanor, and violation crimes reported to the New York City Police Department, and it includes more information that we are interested in, for example, the time of occurrence of the complaint, the victim’s statistics. After analyzing the dataset, we can have a more comprehensive understanding about the crimes around us. Finally, we want to draw a fine map locating the crime incidents around our campus, informing us what time may be more dangerous and we can avoid activities at that time. The map will give students the option of looking up when they go outside most often to help them more accurately determine the likelihood of danger. We also want this result to help all the staff and students in Columbia University have an opportunity to evaluate the risk, avoid the danger, and allow them to access crime rates in the areas they care about to keep themselves safe.
+
+
+Related work and thoughts about our project {.sidebar}
+-----------------------------------------------------------------------
+
+Related work: 
+
+* When we were looking for information about the crime rate near Columbia University, we saw the paper "Columbia stabbing puts spotlight on school's poor crime, safety record" which talked about some crimes in New York City. It inspired us to research more about the crime near Columbia University such as where and when the crime rate is higher and then we can try to avoid dangerous places to avoid being hurt. Besides some introduction to crime, there is also a pie chart in the paper, which makes us know the proportion of some types of criminal events directly. But this pie chart only provides a general summary of criminal events, and we think there are many details that can be added. Therefore, we want to analyze the crime rate near Columbia University according to our data set, and give the distribution more intuitively through some plots. This is the link of the paper https://nypost.com/2021/12/04/columbia-grad-student-murder-puts-spotlight-on-crime-safety-record/.
+
+
+Initial questions about this project {.sidebar}
+-----------------------------------------------------------------------
+
+What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
+
+
+
+Data {.sidebar}
+-----------------------------------------------------------------------
+
+Data import and clean:
+
+* The data is from NYC Opendata, https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This dataset is provided by NYPD, and is recently updated on Oct.19th. This dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is expected to be accurate, authoritative, prompt and worth analyzing. 
+* Since the main purpose of this product is to help all the staff and students in Columbia University, so we decide to let our map cover the Manhattan area, and in order to give them most meaningful results, we focus the year after 2010. Then, we do the fowllowing: 1. select the rows recording date later than 2010-01-01. 2. Select the borogh as Manhattan. 3. select the variables we are interseted in. 4. filter the latitude and longitude to limit it around columbia campus (roughly). The latitude range is approximately from 86 street subway station to George Washing Bridge (West 178th street). The longitude range is from Hudson river to Harlem river and Central park. This region covers Columbia University campus (and CUIMC) and the neighborhood area. You could find details here: [Data cleaning](code/data import and cleaning.Rmd)
+* We use the following items to do our project:
+
+  *`id`: case id numbers.
+  
+  *`bor0`: Manhattan area.
+  
+  *`year`: The year this specific case happened.
+  
+  *`month`: The month this specific case happened.
+  
+  *`day`: The day this specific case happened.
+  
+  *`hour`: The exact hour this specific case happened.
+  
+  *`minute`: The exact minute this specific case happened.
+  
+  *`second`: The exact second this specific case happened.
+  
+  *`success_fail`: Indicator of whether crime was successfully completed or attempted, but failed or was interrupted prematurely.
+  
+  *`level`: Level of offense: felony, misdemeanor, violation.
+  
+  *`description`: Description of offense corresponding with key code.
+  
+  *`location`: Specific location of occurrence in or around the premises; inside, opposite of, front of, rear of.
+  
+  *`susp_age`: the age of suspect.
+  
+  *`susp_race`: the race of suspect.
+  
+  *`susp_sex`: the sex of suspect.
+  
+  *`vic_age`: the age of victim.
+  
+  *`vic_race`: the race of victim.
+  
+  *`vic_sex`: the sex of victim.
+  
+  *`logitude`: Logitude at Global Coordinate System.
+  
+  *`latitude`: Latitude at Global Coordinate System.
+   
+
+
+Exploratory analysis {.sidebar}
+-----------------------------------------------------------------------
+
+Exploratory analysis: Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
+
+Statistical analysis {.sidebar}
+-----------------------------------------------------------------------
+
+Statistical analysis: If you undertake formal statistical analyses, describe these in detail
+Discussion: What were your findings? Are they what you expect? What insights into the data can you make?
+
+Map {.sidebar}
+-----------------------------------------------------------------------
+
+Crimes Map around Columbia University:
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(plotly)
+library(leaflet)
+
+cu_df = read_csv("../data/full_filter_data.csv")
+```
+
+
+```{r, echo = FALSE}
+sliderInput(
+  inputId = 'year_range',
+  label = h3('Year Range'),
+  min = 2010, max = 2022, value = c(2021, 2022)
+)
+
+sliderInput(
+  inputId = 'month_range',
+  label = h3('Month Range'),
+  min = 1, max = 12, value = c(1, 2)
+)
+
+sliderInput(
+  inputId = 'hour_range',
+  label = h3('Hour Range'),
+  min = 0, max = 24, value = c(8, 18)
+)
+
+Level = cu_df %>% distinct(level) %>% pull()
+
+radioButtons(
+  inputId = 'level_choice',
+  label = h3('Crime Level'),
+  choices = Level,
+  selected = 'VIOLATION'
+)
+```
+
+
+### Safety Map around Columbia University
+
+```{r, echo = FALSE}
+content_main = paste(sep = "<br/>",
+  "<b><a href='https://www.columbia.edu/'>Columbia University</a></b>",
+  "2960 Broadway",
+  "New York, NY 10027-6902"
+)
+
+content_cumc = paste(sep = "<br/>",
+  "<b><a href='https://www.publichealth.columbia.edu/'>Columbia Mailman School for Public Health</a></b>",
+  "West 168th Street, 722",
+  "New York, NY 10032"
+)
+
+renderLeaflet({
+  cu_df %>% 
+    filter(
+      year >= input[['year_range']][1],
+      year <= input[['year_range']][2],
+      month >= input[['month_range']][1],
+      month <= input[['month_range']][2],
+      hour >= input[['hour_range']][1],
+      hour <= input[['hour_range']][2],
+      level == input[['level_choice']]
+    ) %>% 
+    leaflet() %>% 
+    setView(lng = -73.94184,lat = 40.8394, zoom = 14) %>% 
+    addTiles() %>% 
+    addPopups(-73.96249, 40.80747, content_main, options = popupOptions(closeButton = FALSE)) %>% 
+    addPopups(-73.9434, 40.84259, content_cumc, options = popupOptions(closeButton = FALSE)) %>% 
+    addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
+})
+```
+
