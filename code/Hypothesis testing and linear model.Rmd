@@ -134,6 +134,8 @@ aov_fig3 + aov_fig4
 
 The result corresponded with the findings in EDA part. The most dangerous hour is 12:00 - 21:00, all of them are at high ranks in the left figure. Comparatively, 1:00 - 9:00 is the most peaceful time. But it's our consensus that midnights are more hazardous. So we questioned on if more server levels of crime take place more in the midnights. 
 
+We use group_by and summarize function to get the number of cases in each level, hour, month and year, and select the data which level equals FELONY, then use the number of cases and hour_level to make an ANOVA model to test whether there is a significant difference of level of crime cases among each hour.  Then, we use Turkey methods to analyze the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the hours become "high" and "low" in the process of comparing. 
+
 ```{r}
 hour_level = data %>% 
   group_by(year, month, hour, level) %>% 
@@ -169,8 +171,8 @@ aov_fig5 <- level_group %>%
 aov_fig6 <- level_group %>% 
   ggplot(aes(x = low, fill = low)) +
   geom_bar(stat = "count") +
-  labs(x = "Month", y = "Count",title = 
-         "Months Having Fewer Felony Crimes \n in Multiple Comparisons") + guides(fill = "none")
+  labs(x = "Hour", y = "Count",title = 
+         "Hours Having Fewer Felony Crimes \n in Multiple Comparisons") + guides(fill = "none")
 
 aov_fig5 + aov_fig6
 ```
