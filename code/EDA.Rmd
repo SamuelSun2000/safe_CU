@@ -35,7 +35,7 @@ We pictured the proportion of each level of crimes, and the charactristic of sus
 
 ### Numerical characteristics
 ```{r EDA, message=F}
-filter_data = read_csv("data/full_filter_data.csv")
+filter_data = read_csv("../data/full_filter_data.csv")
 p <- c() # a list to save plots
 p[[1]] <- ggplot(aes(x = level, fill = level), data = filter_data) + 
   geom_bar() +
@@ -56,28 +56,49 @@ Next, we focus on the portrait of suspects and victims.
 
 ### Crime level examples
 To have a closer look to the different levels, we listed top 5 descriptions from different level. 
-
 ```{r}
+felony <- filter_data %>% 
+  group_by(level, description) %>% 
+  filter(level == "FELONY") %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number)) %>% 
+  head(5)
 
+mis <- filter_data %>% 
+  group_by(level, description) %>% 
+  filter(level == "MISDEMEANOR") %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number)) %>% 
+  head(5)
+
+vio <- filter_data %>% 
+  group_by(level, description) %>% 
+  filter(level == "VIOLATION") %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number)) %>% 
+  head(5)
+  
+rbind(felony, mis, vio) %>% 
+  knitr::kable()
 ```
-
-
-
+### 
 ```{r}
-p[[3]] <- filter_data %>% 
+filter_data %>% 
   filter(susp_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
                          "UNKNOWN")) %>%
   mutate(susp_age = as.factor(susp_age)) %>% 
   count(susp_age, level) %>% 
   plot_ly(x = ~ susp_age, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Suspects' Age Group", xaxis = list(title = ""), yaxis = list(title = "Number"))
-p[[4]] <- filter_data %>% 
+
+filter_data %>% 
   filter (susp_race != "(null)") %>% 
   mutate(susp_age = as.factor(susp_race)) %>% 
   count(susp_race, level) %>% 
   plot_ly(x = ~ susp_race, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Suspects' Race", xaxis = list(title = ""), yaxis = list(title = "Number"))
-p[[5]] <- filter_data %>% 
+
+filter_data %>% 
   filter (susp_sex != "(null)")  %>% 
   mutate(susp_sex = as.factor(susp_sex)) %>% 
   count(susp_sex, level) %>% 
