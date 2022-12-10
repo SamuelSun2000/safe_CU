@@ -2,10 +2,11 @@ title: Stay safe at Columbia University
 name: "Stay safe at Columbia University"
 output_dir: "."
 navbar:
-  title: "Home"
   right:
+    - text: "Home"
+      href: ../index.html
     - text: "Project Report"
-      href: report.html
+      href: ../report.html
     - text: "Exploratory Analyses"
       href: EDA.html
     - text: "Statistical Analysis"
