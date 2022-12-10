@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
-library(ggplot)
+library(ggplot2)
 library(patchwork)
 library(plotly)
 
@@ -34,7 +34,7 @@ We pictured the proportion of each level of crimes, and the charactristic of sus
 
 ## Overview about offenses around CU campus
 ```{r EDA}
-filter_data = read_csv("./data/full_filter_data.csv")
+filter_data = read_csv("../data/full_filter_data.csv")
 
 p <- c() # a list to save plots
 
@@ -55,7 +55,7 @@ The number of misdemeanor crime is the most (62.1%), which includes simple assau
 Next, we focus on the portrait of suspects and victims.
 
 ```{r}
-p[[3]] <- filter_data %>% 
+filter_data %>% 
   filter(susp_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
                          "UNKNOWN")) %>%
   mutate(susp_age = as.factor(susp_age)) %>% 
@@ -63,24 +63,26 @@ p[[3]] <- filter_data %>%
   plot_ly(x = ~ susp_age, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Suspects' Age Group", xaxis = list(title = ""), yaxis = list(title = "Number"))
 
-p[[4]] <- filter_data %>% 
+filter_data %>% 
   filter (susp_race != "(null)") %>% 
   mutate(susp_age = as.factor(susp_race)) %>% 
   count(susp_race, level) %>% 
   plot_ly(x = ~ susp_race, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Suspects' Race", xaxis = list(title = ""), yaxis = list(title = "Number"))
 
-p[[5]] <- filter_data %>% 
+filter_data %>% 
   filter (susp_sex != "(null)")  %>% 
   mutate(susp_sex = as.factor(susp_sex)) %>% 
   count(susp_sex, level) %>% 
   mutate(susp_sex = recode(susp_sex, U = "Unknown", F = "Female", "M" = "Male")) %>% 
   plot_ly(x = ~ susp_sex, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Suspects' Sex", xaxis = list(title = ""), yaxis = list(title = "Number"))
+
+
 ```
 
 ```{r}
-p[[6]] <- filter_data %>% 
+filter_data %>% 
   filter(vic_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
                          "UNKNOWN")) %>%
   mutate(vic_age = as.factor(vic_age)) %>% 
@@ -88,14 +90,14 @@ p[[6]] <- filter_data %>%
   plot_ly(x = ~ vic_age, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Victims' Age Group", xaxis = list(title = ""), yaxis = list(title = "Number"))
 
-p[[7]] <- filter_data %>% 
+filter_data %>% 
   filter (vic_race != "(null)") %>% 
   mutate(vic_age = as.factor(vic_race)) %>% 
   count(vic_race, level) %>% 
   plot_ly(x = ~ vic_race, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Victims' Race", xaxis = list(title = ""), yaxis = list(title = "Number"))
 
-p[[8]] <- filter_data %>% 
+filter_data %>% 
   filter (vic_sex %in% c("D", "E", "F", "M"))  %>% 
   mutate(vic_sex = as.factor(vic_sex)) %>% 
   count(vic_sex, level) %>% 
