@@ -98,5 +98,28 @@ gender_data_rate %>%
 * This is a significant relationship between gender of suspects and sucessful rate. Through the boxplot, we could see that distribution of the successful rate of male suspects is lower than distribution of the successful rate of male suspects.
 
 
+Whether there is a significant relationship between gender of victims and sucessful rate.
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+gender_data_rate_1 <- data %>%  
+  filter(vic_sex %in% c("F", "M", "D", "E")) %>%
+  mutate(success_fail = ifelse(success_fail == "COMPLETED", 1, 0))
 
+reg_successrate_1 = glm(success_fail ~ vic_sex, family=binomial(link="logit"), data = gender_data_rate_1)
+summary(reg_successrate_1)
+
+
+gender_data_rate_1 %>% 
+  group_by(year, success_fail, vic_sex) %>% 
+  summarise(number = n()) %>%
+  mutate(success_fail = ifelse(success_fail == 1, "COMPLETED", "ATTEMPTED")) %>%
+  pivot_wider(
+  names_from = "success_fail", 
+  values_from = "number") %>%
+  mutate(total = ATTEMPTED+COMPLETED, 
+         rate = COMPLETED/total) %>%
+  ggplot(aes(x = vic_sex, y = rate, fill = vic_sex)) +
+  geom_boxplot()
+```
+* Through the summary, we could see that male is not significant to the whether victims is succedd or fail. According to the boxplot, we could see that distribution of the successful rate of male victims is also lower than distribution of the successful rate of male victims.
 
