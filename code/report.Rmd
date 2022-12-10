@@ -105,7 +105,9 @@ options(
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
+
 Whether there is a significant difference in the number of male and female suspects. We calculate how many male and female suspects in month, year, then plot the disturbution of number of male and female suspects.
+
 ```{r}
 data <- read_csv("../data/full_filter_data.csv")
 gender_data <- data %>%  
@@ -122,11 +124,13 @@ gender_data %>%
   geom_boxplot() +
   guides(fill = "none")  
 ```
+
 * This is a significant difference in the number of male and female suspects. Through the boxplot, we could easily see that male is more likely to be suspencts than females if we consider the unknown.
 
 
 Whether there is a significant difference in the number of male and female victims. We calculate how many male and female victims in month, year, then plot the disturbution of number of male and female victims. And I also do the same steps for vic_sex include D=Business/Organization, 
 E=PSNY/People of the State of New York.
+
 ```{r}
 data <- read_csv("../data/full_filter_data.csv")
 gender_data_1 <- data %>%  
@@ -153,10 +157,12 @@ gender_data_2 %>%
   geom_boxplot() +
   guides(fill = "none") 
 ```
+
 * This is a significant difference in the number of male and female suspects. Through the boxplot, we could see that male is more likely to be victims than females.
 
 
 Whether there is a significant relationship between gender of suspects and sucessful rate.
+
 ```{r}
 data <- read_csv("../data/full_filter_data.csv")
 gender_data_rate <- data %>%  
@@ -179,7 +185,37 @@ gender_data_rate %>%
   ggplot(aes(x = susp_sex, y = rate, fill = susp_sex)) +
   geom_boxplot()
 ```
+
 * This is a significant relationship between gender of suspects and sucessful rate. Through the boxplot, we could see that distribution of the successful rate of male suspects is lower than distribution of the successful rate of male suspects.
+
+
+Whether there is a significant relationship between gender of victims and sucessful rate.
+
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+gender_data_rate_1 <- data %>%  
+  filter(vic_sex %in% c("F", "M", "D", "E")) %>%
+  mutate(success_fail = ifelse(success_fail == "COMPLETED", 1, 0))
+
+reg_successrate_1 = glm(success_fail ~ vic_sex, family=binomial(link="logit"), data = gender_data_rate_1)
+summary(reg_successrate_1)
+
+
+gender_data_rate_1 %>% 
+  group_by(year, success_fail, vic_sex) %>% 
+  summarise(number = n()) %>%
+  mutate(success_fail = ifelse(success_fail == 1, "COMPLETED", "ATTEMPTED")) %>%
+  pivot_wider(
+  names_from = "success_fail", 
+  values_from = "number") %>%
+  mutate(total = ATTEMPTED+COMPLETED, 
+         rate = COMPLETED/total) %>%
+  ggplot(aes(x = vic_sex, y = rate, fill = vic_sex)) +
+  geom_boxplot()
+```
+
+* Through the summary, we could see that male is not significant to the whether victims is succedd or fail. According to the boxplot, we could see that distribution of the successful rate of male victims is also lower than distribution of the successful rate of male victims.
+
 
 
 Exploratory analysis {.sidebar}
