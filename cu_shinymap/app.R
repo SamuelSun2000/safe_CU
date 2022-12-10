@@ -8,10 +8,8 @@
 #
 
 library(tidyverse)
-library(plotly)
 library(leaflet)
 library(rsconnect)
-library(shiny)
 
 cu_df = read_csv("../data/full_filter_data.csv")
 
@@ -66,29 +64,33 @@ ui <- fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-          renderLeaflet({
-            cu_df %>% 
-              filter(
-                year >= input[['year_range']][1],
-                year <= input[['year_range']][2],
-                month >= input[['month_range']][1],
-                month <= input[['month_range']][2],
-                hour >= input[['hour_range']][1],
-                hour <= input[['hour_range']][2],
-                level == input[['level_choice']]
-              ) %>% 
-              leaflet() %>% 
-              setView(lng = -73.94184,lat = 40.8394, zoom = 14) %>% 
-              addTiles() %>% 
-              addPopups(-73.96249, 40.80747, content_main, options = popupOptions(closeButton = FALSE)) %>% 
-              addPopups(-73.9434, 40.84259, content_cumc, options = popupOptions(closeButton = FALSE)) %>% 
-              addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
-          })
+          leafletOutput("cu_shinymap")
         )
     )
 )
 
+# Define server logic required to draw a histogram
+server = function(input, output) {
 
+    output$cu_shinymap = renderLeaflet({
+      cu_df %>% 
+        filter(
+          year >= input[['year_range']][1],
+          year <= input[['year_range']][2],
+          month >= input[['month_range']][1],
+          month <= input[['month_range']][2],
+          hour >= input[['hour_range']][1],
+          hour <= input[['hour_range']][2],
+          level == input[['level_choice']]
+        ) %>% 
+        leaflet() %>% 
+        setView(lng = -73.94184,lat = 40.8394, zoom = 14) %>% 
+        addTiles() %>% 
+        addPopups(-73.96249, 40.80747, content_main, options = popupOptions(closeButton = FALSE)) %>% 
+        addPopups(-73.9434, 40.84259, content_cumc, options = popupOptions(closeButton = FALSE)) %>% 
+        addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
+    })
+} 
 
 # Run the application 
 shinyApp(ui = ui, server = server)
