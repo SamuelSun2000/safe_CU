@@ -34,3 +34,27 @@ level_data %>%
   ggplot(aes(x = level, y = number)) + 
   geom_point()
 ```
+
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+susp_age_data <- data %>%  
+  group_by(susp_age) %>% 
+  summarise(number = n()) %>%
+  drop_na() %>%
+  filter(susp_age != "UNKNOWN")
+
+susp_age_data %>%
+  ggplot(aes(x = susp_age, y = number)) + 
+  geom_point()
+```
+
+
+
+
+
+
+
+
+
+
+
