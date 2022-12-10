@@ -12,6 +12,7 @@ library(tidyverse)
 library(plotly)
 library(leaflet)
 library(rsconnect)
+library(shiny)
 
 cu_df = read_csv("../data/full_filter_data.csv")
 ```
