@@ -1,0 +1,126 @@
+---
+title: "EDA"
+author: "Haochen Sun"
+date: "2022-12-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(ggplot)
+library(patchwork)
+
+knitr::opts_chunk$set(
+  fig.width = 5,
+  out.width = "60%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+# Exploratory Analysis
+
+After reading this page, you will have an overall sense about the crimes around Columbia University campus (including CUIMC). 
+
+We pictured the proportion of each level of crimes, and the charactristic of suspects and victims. We also focused on the total crime numbers across the years, showing a pattern of the fluctation of offense number with the months and times, so that we can have an idea about when it will be more dangerous and need more caution. At the same time, we also captured some interesting point of offense number.
+
+## Overview about offenses around CU campus
+```{r EDA}
+filter_data = read_csv("./data/full_filter_data.csv")
+
+p <- c() # a list to save plots
+
+p[[1]] <- ggplot(aes(x = level, fill = level), data = filter_data) + 
+  geom_bar() +
+  labs(x = "Crime Level", y = "Number") + guides(fill = "none")
+
+p[[2]] <- ggplot(aes(x = success_fail, fill = success_fail), data = 
+                  filter_data)+
+    geom_bar()+
+  labs(x = "", y = "Complete or Not")+ guides(fill = "none")
+
+p[[1]] + p[[2]]
+
+filter_data %>% 
+  group_by()
+```
+
+The number of misdemanor crime is the most, which includes simple assault, petty theft, drug possession, indecent exposure, etc. While the number of felony is half of misdemanor, which includes homicide offense, rubbery, bulglary, sexual offense, drug crime, etc. The least catagory is violation, including littering, drinking in public, walking unleashed dog, etc. Here exists a selection bias, most of people would not report a violation to the police. This figure does not indicate violation crimes is the least type in reality. At the meanwhile, nealy all of the crimes are completed -- do not put your faith in luck that someone can help you, try to avoid them as much as you can! 
+
+```{r}
+p[[3]] <- filter_data %>% 
+  filter(susp_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
+                         "UNKNOWN")) %>% 
+ggplot(aes(x = susp_age, fill = susp_age))+
+  geom_bar()+
+  labs(x = "Suspect age", y = "Number") +
+  coord_flip()+ guides(fill = "none")
+
+p[[4]] <- filter_data %>% 
+  filter (susp_race != "(null)") %>% 
+  ggplot(aes(x = susp_race, fill = susp_race)) +
+  geom_bar() +
+  labs(x = "Suspect race", y = "Number") + 
+  coord_flip()+ guides(fill = "none")
+
+p[[5]] <- filter_data %>% 
+  filter (susp_sex != "(null)") %>% 
+  ggplot(aes(x = susp_sex, fill = susp_sex)) +
+  geom_bar() +
+  labs(x = "Suspect sex", y = "Number") + 
+  coord_flip()+ guides(fill = "none")
+
+p[[6]] <- filter_data %>% 
+  filter(vic_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
+                         "UNKNOWN")) %>% 
+ggplot(aes(x = vic_age, fill = vic_age))+
+  geom_bar()+
+  labs(x = "Victim age", y = "Number") +
+  coord_flip()+ guides(fill = "none")
+
+p[[7]] <- filter_data %>% 
+  filter (vic_race != "(null)") %>% 
+  ggplot(aes(x = vic_race, fill = vic_race)) +
+  geom_bar() +
+  labs(x = "Victim race", y = "Number") + 
+  coord_flip()+ guides(fill = "none")
+
+p[[8]] <- filter_data %>% 
+  filter (vic_sex != "(null)" & vic_sex != "L") %>% 
+  ggplot(aes(x = vic_sex, fill = vic_sex)) +
+  geom_bar() +
+  labs(x = "Victim sex", y = "Number") + 
+  coord_flip()+ guides(fill = "none")
+
+# D means organization, and E means People of the State of New York, I don't know whether or not it's better to exclude them. 
+
+p[[1]] + p[[2]]
+p[[3]]+p[[4]]+p[[5]]
+p[[6]]+p[[7]]+p[[8]]
+
+# detailed description of suspect group
+filter_data %>% 
+  group_by(susp_age, susp_race, susp_sex) %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number))
+
+# detailed description of victim group
+
+filter_data %>% 
+  group_by(vic_age, vic_race, vic_sex) %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number))
+
+# qusetions to be discussed : should we only limit the cases not in the apartment? 
+
+write_csv(man_data, "data/Manhattan_tidy_data.csv")
+write_csv(man_wohome, "data/Manhattan_tidy_nohome.csv")
+```
+
+
