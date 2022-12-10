@@ -52,7 +52,7 @@ The data is from NYC Opendata, https://data.cityofnewyork.us/Public-Safety/NYPD-
 
 * [Statistical Analysis](code/hypo.html)
 
-* [Shiny Map for CU Safety](code/shiny_map_for_CU_safety.html)
+* [Map for CU Safety](code/map.html)
 
 <br/>
 </div>
