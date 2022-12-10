@@ -435,9 +435,17 @@ aov_model %&gt;%
 </tr>
 </tbody>
 </table>
-<p>There are very significant difference in the crime numbers between
-months. Therefore, we utilized Tukey’s method for post hoc tests, to see
-which months are different.</p>
+<p>By the result above, we find that there are very significant
+difference in the crime numbers between months. Therefore, we utilized
+Tukey’s method for post hoc tests, to see which months are
+different.</p>
+<p>Firstly, we use Turkey methods to analogize the ANOVA model, select
+the variables which p-value are smaller than 0.05, and arrange them by
+adj p_value. Then, we separate the contrast to A and B and add two
+variables “high” and “low” depending on whether estimate is larger than
+0 to decide how A and B to fit high and low. Finally, we make a two
+panel plot to show the order of the months become “high” and “low” in
+the process of comparing.</p>
 <pre class="r"><code>aov_posthoc &lt;- TukeyHSD(aov_model, conf.level = .95) %&gt;% 
   broom::tidy() %&gt;% 
   filter(adj.p.value &lt; 0.05) %&gt;% 

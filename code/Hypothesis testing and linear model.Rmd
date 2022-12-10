@@ -26,6 +26,7 @@ In the EDA part, we see that there exist some pattern in month and time in one d
 ## Month
 
 We use group_by and summarize function to get the number of cases in each month and year, and then use the number of cases and month_data to make an ANOVA model to test whether there is a significant difference of number of crime cases among each month. 
+
 ```{r}
 data <- read_csv("../data/full_filter_data.csv")
 
@@ -42,7 +43,9 @@ aov_model %>%
   knitr::kable(digits = 4 )
 ```
 
-There are very significant difference in the crime numbers between months. Therefore, we utilized Tukey's method for post hoc tests, to see which months are different.
+By the result above, we find that there are very significant difference in the crime numbers between months. Therefore, we utilized Tukey's method for post hoc tests, to see which months are different. 
+
+Firstly, we use Turkey methods to analogize the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the months become "high" and "low" in the process of comparing. 
 
 ```{r}
 aov_posthoc <- TukeyHSD(aov_model, conf.level = .95) %>% 
