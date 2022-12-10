@@ -1,3 +1,12 @@
+---
+title: "Data cleaning"
+output:
+  html_document:
+    theme: paper
+    toc : true
+    toc_float: true
+---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -54,7 +63,7 @@ cut_off <-
 
 # the list of variable names that is to be converted as factors
 man_data =
-  read_csv("./data/original_data.csv") %>% 
+  read_csv("../data/original_data.csv") %>% 
   janitor::clean_names() %>% 
   drop_na(cmplnt_fr_dt) %>% 
   filter(boro_nm == "MANHATTAN",
@@ -67,7 +76,7 @@ man_data =
   filter(latitude > 40.7865 & latitude < 40.848256,
         longitude > -73.9816 & longitude < -73.925)
 
-man_data_hist = read_csv("./data/original_data_hist.csv") %>% 
+man_data_hist = read_csv("../data/original_data_hist.csv") %>% 
   janitor::clean_names() %>% 
   drop_na(cmplnt_fr_dt) %>% 
   filter(boro_nm == "MANHATTAN",

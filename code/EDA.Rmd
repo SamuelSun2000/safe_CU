@@ -1,3 +1,11 @@
+---
+title: "report"
+output:
+  html_document:
+    theme: paper
+    toc : true
+    toc_float: true
+---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -134,15 +142,15 @@ data %>%
   group_by(month, day) %>% 
   summarise(number = n()) %>% 
   arrange(desc(number)) %>% 
-  head(10) %>% 
+  head( 5) %>% 
   knitr::kable()
 
 data %>% 
   group_by(month, day) %>% 
   summarise(number = n()) %>% 
   arrange((number)) %>%
-  filter(month != 2 & day != 29)%>% 
-  head(10)
+  filter(month != 2 & day != 29) %>% 
+  head(5) %>% 
   knitr::kable()
 ```
 
