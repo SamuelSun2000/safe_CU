@@ -43,3 +43,36 @@ gender_data %>%
 ```
 * This is a significant difference in the number of male and female suspects. Through the boxplot, we could easily see that male is more likely to be suspencts than females if we consider the unknown.
 
+Whether there is a significant difference in the number of male and female victims. We calculate how many male and female victims in month, year, then plot the disturbution of number of male and female victims. And I also do the same steps for vic_sex include D=Business/Organization, 
+E=PSNY/People of the State of New York.
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+gender_data_1 <- data %>%  
+  group_by(year, month, vic_sex) %>% 
+  summarise(number = n()) %>% 
+  mutate(vic_sex = as.factor(vic_sex)) %>%
+  filter(vic_sex %in% c("F", "M", "U"))
+gender_data_2 <- data %>%  
+  group_by(year, month, vic_sex) %>% 
+  summarise(number = n()) %>% 
+  mutate(vic_sex = as.factor(vic_sex)) %>%
+  filter(vic_sex %in% c("F", "M", "D", "E"))
+aov_model_1 <- aov(number ~ vic_sex, data = gender_data_1)
+
+summary(aov_model_1)
+
+
+gender_data_1 %>% 
+  ggplot(aes(x = vic_sex, y = number, fill = vic_sex)) +
+  geom_boxplot() +
+  guides(fill = "none")
+gender_data_2 %>% 
+  ggplot(aes(x = vic_sex, y = number, fill = vic_sex)) +
+  geom_boxplot() +
+  guides(fill = "none") 
+```
+* This is a significant difference in the number of male and female suspects. Through the boxplot, we could see that male is more likely to be victims than females.
+
+
+
+
