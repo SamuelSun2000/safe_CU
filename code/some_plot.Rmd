@@ -48,8 +48,17 @@ susp_age_data %>%
   geom_point()
 ```
 
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+susp_sex_data <- data %>%  
+  group_by(susp_sex) %>% 
+  summarise(number = n()) %>%
+  drop_na() 
 
-
+susp_sex_data %>%
+  ggplot(aes(x = susp_sex, y = number)) + 
+  geom_point()
+```
 
 
 
