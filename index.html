@@ -16,7 +16,7 @@
 <script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -33,7 +33,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -229,9 +228,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -335,16 +331,16 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="report.html">Project Report</a>
+  <a href="code/report.html">Project Report</a>
 </li>
 <li>
-  <a href="EDA.html">Exploratory Analyses</a>
+  <a href="code/EDA.html">Exploratory Analyses</a>
 </li>
 <li>
-  <a href="hypo.html">Statistical Analysis</a>
+  <a href="code/hypo.html">Statistical Analysis</a>
 </li>
 <li>
-  <a href="shiny_map_for_CU_safety.html">Shiny Map for CU Safety</a>
+  <a href="code/shiny_map_for_CU_safety.html">Shiny Map for CU Safety</a>
 </li>
 <li>
   <a>
@@ -371,14 +367,6 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-</ul>
-</div>
-
 
 
 <h1 class="title toc-ignore">Stay safe at Columbia University</h1>
@@ -400,14 +388,14 @@ h1.title {
 Xie</strong></p>
 <p><img src="images/columbia.jpg" style="width:100%"></p>
 <p><br/></p>
-<div id="demonstration-video" class="section level2">
-<h2><em>Demonstration Video</em></h2>
+<div id="demonstration-video" class="section level1">
+<h1><em>Demonstration Video</em></h1>
 <iframe width="800" height="500" src="https://www.youtube.com/" frameborder="0" allowfullscreen>
 </iframe>
 <p><br/></p>
 </div>
-<div id="motivation-and-intention" class="section level2">
-<h2><em>Motivation and intention</em></h2>
+<div id="motivation-and-intention" class="section level1">
+<h1><em>Motivation and intention</em></h1>
 <div align="left">
 <p>Studying at Columbia University, except enjoying fascinating school
 life, we should always be concerned about the safety problem. Frequent
@@ -432,8 +420,9 @@ risk, avoid the danger, and allow them to access crime rates in the
 areas they care about to keep themselves safe.</p>
 <p><br/></p>
 </div>
-<div id="anticipated-data-sources" class="section level2">
-<h2><em>Anticipated data sources</em></h2>
+</div>
+<div id="anticipated-data-sources" class="section level1">
+<h1><em>Anticipated data sources</em></h1>
 <div align="left">
 <p>The data is from NYC Opendata, <a
 href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This"
@@ -443,20 +432,22 @@ dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is
 expected to be accurate, authoritative, prompt and worth analyzing.</p>
 <p><br/></p>
 </div>
-<div id="nevigation" class="section level2">
-<h2><em>Nevigation</em></h2>
+</div>
+<div id="nevigation" class="section level1">
+<h1><em>Nevigation</em></h1>
 <div align="left">
-
 <ul>
 <li><p><a href="code/report.html">Project Report</a></p></li>
-<li><p><a href=".html">Exploratory Analyses</a></p></li>
-<li><p><a href=".html">Statistical Analysis</a></p></li>
-<li><p><a href="">Shiny Map for CU Safety</a></p></li>
+<li><p><a href="code/EDA.html">Exploratory Analyses</a></p></li>
+<li><p><a href="code/hypo.html">Statistical Analysis</a></p></li>
+<li><p><a href="code/shiny_map_for_CU_safety.html">Shiny Map for CU
+Safety</a></p></li>
 </ul>
 <p><br/></p>
 </div>
-<div id="group-members" class="section level2">
-<h2><em>Group Members</em></h2>
+</div>
+<div id="group-members" class="section level1">
+<h1><em>Group Members</em></h1>
 <div align="left">
 <ul>
 <li><p>Haochen Sun ( hs3393 )</p></li>
@@ -465,6 +456,7 @@ expected to be accurate, authoritative, prompt and worth analyzing.</p>
 <li><p>Yuze Yuan ( yy3296 )</p></li>
 <li><p>Anzhuo Xie ( ax2173 )</p></li>
 </ul>
+</div>
 </div>
 
 
@@ -502,11 +494,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
-});
-</script>
 
 <script>
 $(document).ready(function ()  {

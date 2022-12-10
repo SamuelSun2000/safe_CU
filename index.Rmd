@@ -2,6 +2,7 @@
 title: "Stay safe at Columbia University"
 output: html_document
 ---
+
 <style type="text/css">
 
 h1.title {
@@ -20,40 +21,43 @@ h1.title {
 
 <br/>
 
-## *Demonstration Video*
+# *Demonstration Video*
 <iframe width="800" height="500" src="https://www.youtube.com/" frameborder="0" allowfullscreen></iframe>
 
 <br/>
 
-## *Motivation and intention*
+# *Motivation and intention*
 
 <div align="left"> 
 Studying at Columbia University, except enjoying fascinating school life, we should always be concerned about the safety problem. Frequent email alerts, Citizen apps popping up, and terrifying news, they are all reminding us that there are many underlying unsafe factors around us. The New York government has made a public crime map at https://maps.nyc.gov/crime/.
 The information in it, however, is way too redundant for a student as we are more concerned about the safety conditions around our campus and our places of residence. Luckily, NYPD has posted the up-to-date dataset that includes all valid felony, misdemeanor, and violation crimes reported to the New York City Police Department, and it includes more information that we are interested in, for example, the time of occurrence of the complaint, the victim’s statistics. After analyzing the dataset, we can have a more comprehensive understanding about the crimes around us. Finally, we want to draw a fine map locating the crime incidents around our campus, informing us what time may be more dangerous and we can avoid activities at that time. We also want this result to help all the staff and students in Columbia University have an opportunity to evaluate the risk, avoid the danger, and allow them to access crime rates in the areas they care about to keep themselves safe.
 
 <br/>
+</div>
 
-## *Anticipated data sources*
+# *Anticipated data sources*
 
 <div align="left"> 
 The data is from NYC Opendata, https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This dataset is provided by NYPD, and is recently updated on Oct.19th. This dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is expected to be accurate, authoritative, prompt and worth analyzing. 
 
 <br/>
+</div>
 
-## *Nevigation*
+# *Nevigation*
 <div align="left"> 
 
 * [Project Report](code/report.html)
 
-* [Exploratory Analyses](.html)
+* [Exploratory Analyses](code/EDA.html)
 
-* [Statistical Analysis](.html)
+* [Statistical Analysis](code/hypo.html)
 
-* [Shiny Map for CU Safety]()
+* [Shiny Map for CU Safety](code/shiny_map_for_CU_safety.html)
 
 <br/>
+</div>
 
-## *Group Members*
+# *Group Members*
 <div align="left"> 
 * Haochen Sun ( hs3393 )
 
@@ -64,3 +68,4 @@ The data is from NYC Opendata, https://data.cityofnewyork.us/Public-Safety/NYPD-
 * Yuze Yuan ( yy3296 )
 
 * Anzhuo Xie ( ax2173 )
+</div>

@@ -5,13 +5,13 @@ navbar:
   title: "Home"
   right:
     - text: "Project Report"
-      href: report.html
+      href: code/report.html
     - text: "Exploratory Analyses"
-      href: EDA.html
+      href: code/EDA.html
     - text: "Statistical Analysis"
-      href: hypo.html 
+      href: code/hypo.html 
     - text: "Shiny Map for CU Safety"
-      href: shiny_map_for_CU_safety.html   
+      href: code/shiny_map_for_CU_safety.html   
     - icon: fa-youtube fa-lg    
       href: 
     - icon: fa-github fa-lg
@@ -21,7 +21,7 @@ navbar:
       
 output:
   html_document:
-    theme: flatly
+    theme: paper
     toc : true
     toc_float: true
-    code_folding: hide
+    
