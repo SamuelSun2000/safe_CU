@@ -181,7 +181,7 @@ The conclusion still holds true. Be cautious! What time you think is safe may be
 
 ## Build a linear model for prediction
 
-All variables are categorical, except the response variable crime number. After plotting the histogram, we find the crime number is strongly right-skewed. Using boxcox transformation, we take logrithm of number and the data looks much more normally distributed.
+All variables are categorical, except the response variable crime number. After plotting the histogram, we find the crime number is strongly right-skewed. Using boxcox transformation, we take logrithm of number and the data looks much more normally distributed. We decide to select meaningful age and male and female of gender to do the following prediction. Then we make a lm model to use month, hour, vic_age, vic_race, and vic_sex as predictors. Then we summary the model to get results to test significance of each predictor. Finally, we make a boxplot of the distribution of RMSE/IQR
 
 ```{r}
 

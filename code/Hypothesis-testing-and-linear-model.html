@@ -331,13 +331,13 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="code/report.html">Project Report</a>
+  <a href="report.html">Project Report</a>
 </li>
 <li>
-  <a href="code/EDA.html">Exploratory Analyses</a>
+  <a href="EDA.html">Exploratory Analyses</a>
 </li>
 <li>
-  <a href="code/hypo.html">Statistical Analysis</a>
+  <a href="hypo.html">Statistical Analysis</a>
 </li>
 <li>
   <a href="code/shiny_map_for_CU_safety.html">Shiny Map for CU Safety</a>
@@ -376,7 +376,6 @@ div.tocify {
 <div id="time-pattern" class="section level1">
 <h1>Time pattern</h1>
 <p>In the EDA part, we see that there exist some pattern in month and
-<<<<<<< HEAD
 time in one day, but is it only random error and fluctuation, or there
 exist a significant difference?</p>
 <div id="month" class="section level2">
@@ -385,12 +384,6 @@ exist a significant difference?</p>
 each month and year, and then use the number of cases and month_data to
 make an ANOVA model to test whether there is a significant difference of
 number of crime cases among each month.</p>
-=======
-time in one day, but is it only random error and fluctation, or there
-exist a significant difference?</p>
-<div id="month" class="section level2">
-<h2>Month</h2>
->>>>>>> b338e147852fe4ca8421e80ec8253700a6b6b771
 <pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)</code></pre>
 <pre><code>## Rows: 291052 Columns: 20
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -442,7 +435,6 @@ aov_model %&gt;%
 </tr>
 </tbody>
 </table>
-<<<<<<< HEAD
 <p>By the result above, we find that there are very significant
 difference in the crime numbers between months. Therefore, we utilized
 Tukey’s method for post hoc tests, to see which months are
@@ -454,11 +446,6 @@ p_value. Then, we separate the contrast to A and B and add two variables
 decide how A and B to fit high and low. Finally, we make a two panel
 plot to show the order of the months become “high” and “low” in the
 process of comparing.</p>
-=======
-<p>There are very significant difference in the crime numbers between
-months. Therefore, we utilized Tukey’s method for post hoc tests, to see
-which months are different.</p>
->>>>>>> b338e147852fe4ca8421e80ec8253700a6b6b771
 <pre class="r"><code>aov_posthoc &lt;- TukeyHSD(aov_model, conf.level = .95) %&gt;% 
   broom::tidy() %&gt;% 
   filter(adj.p.value &lt; 0.05) %&gt;% 
@@ -568,15 +555,11 @@ significantly more than months that have fewest crimes.</p>
 <div id="time" class="section level2">
 <h2>Time</h2>
 <p>Next, we repeat the steps, to see whether crime number at different
-<<<<<<< HEAD
 time in a day have significant difference.We use group_by and summarize
 function to get the number of cases in each hour, arrange hour from 0 to
 23, and then use the number of cases and hour_data to make an ANOVA
 model to test whether there is a significant difference of number of
 crime cases among each hour.</p>
-=======
-time in a day have significant difference.</p>
->>>>>>> b338e147852fe4ca8421e80ec8253700a6b6b771
 <pre class="r"><code># Is there differnece between case numbers in every hour? 
 hour_data = data %&gt;% 
   group_by(year, month, hour) %&gt;% 
@@ -620,7 +603,6 @@ aov_hour %&gt;%
 </tr>
 </tbody>
 </table>
-<<<<<<< HEAD
 <p>Firstly, we use Turkey methods to analyze the ANOVA model, select the
 variables which p-value are smaller than 0.05, and arrange them by adj
 p_value. Then, we separate the contrast to A and B and add two variables
@@ -630,10 +612,6 @@ plot to show the order of the hours become “high” and “low” in the
 process of comparing.</p>
 <p>By the result above, there are also significant difference in the
 mean number of crimes between different hours in one day.</p>
-=======
-<p>There are also significant difference in the mean number of crimes
-between different hours in one day.</p>
->>>>>>> b338e147852fe4ca8421e80ec8253700a6b6b771
 <pre class="r"><code>hour_posthoc &lt;- TukeyHSD(aov_hour, conf.level = .95) %&gt;% 
   broom::tidy() %&gt;% 
   filter(adj.p.value &lt; 0.05) %&gt;% 
@@ -655,13 +633,8 @@ aov_fig3 &lt;- hour_group %&gt;%
 aov_fig4 &lt;- hour_group %&gt;% 
   ggplot(aes(x = low, fill = low)) +
   geom_bar(stat = &quot;count&quot;) +
-<<<<<<< HEAD
   labs(x = &quot;Hour&quot;, y = &quot;Count&quot;,title = 
          &quot;Hours Having Fewer Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
-=======
-  labs(x = &quot;Month&quot;, y = &quot;Count&quot;,title = 
-         &quot;Months Having Fewer Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
->>>>>>> b338e147852fe4ca8421e80ec8253700a6b6b771
 
 aov_fig3 + aov_fig4</code></pre>
 <p><img src="Hypothesis-testing-and-linear-model_files/figure-html/unnamed-chunk-4-1.png" width="60%" /></p>
@@ -670,7 +643,6 @@ dangerous hour is 12:00 - 21:00, all of them are at high ranks in the
 left figure. Comparatively, 1:00 - 9:00 is the most peaceful time. But
 it’s our consensus that midnights are more hazardous. So we questioned
 on if more server levels of crime take place more in the midnights.</p>
-<<<<<<< HEAD
 <p>We use group_by and summarize function to get the number of cases in
 each level, hour, month and year, and select the data which level equals
 FELONY, then use the number of cases and hour_level to make an ANOVA
@@ -682,8 +654,6 @@ B and add two variables “high” and “low” depending on whether estimate
 is larger than 0 to decide how A and B to fit high and low. Finally, we
 make a two panel plot to show the order of the hours become “high” and
 “low” in the process of comparing.</p>
-=======
->>>>>>> b338e147852fe4ca8421e80ec8253700a6b6b771
 <pre class="r"><code>hour_level = data %&gt;% 
   group_by(year, month, hour, level) %&gt;% 
   filter(level == &quot;FELONY&quot;) %&gt;% 
@@ -748,13 +718,8 @@ aov_fig5 &lt;- level_group %&gt;%
 aov_fig6 &lt;- level_group %&gt;% 
   ggplot(aes(x = low, fill = low)) +
   geom_bar(stat = &quot;count&quot;) +
-<<<<<<< HEAD
   labs(x = &quot;Hour&quot;, y = &quot;Count&quot;,title = 
          &quot;Hours Having Fewer Felony Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
-=======
-  labs(x = &quot;Month&quot;, y = &quot;Count&quot;,title = 
-         &quot;Months Having Fewer Felony Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
->>>>>>> b338e147852fe4ca8421e80ec8253700a6b6b771
 
 aov_fig5 + aov_fig6</code></pre>
 <p><img src="Hypothesis-testing-and-linear-model_files/figure-html/unnamed-chunk-5-1.png" width="60%" /></p>
@@ -766,7 +731,12 @@ safe may be dangerous than your thought.</p>
 <p>All variables are categorical, except the response variable crime
 number. After plotting the histogram, we find the crime number is
 strongly right-skewed. Using boxcox transformation, we take logrithm of
-number and the data looks much more normally distributed.</p>
+number and the data looks much more normally distributed. We decide to
+select meaningful age and male and female of gender to do the following
+prediction. Then we make a lm model to use month, hour, vic_age,
+vic_race, and vic_sex as predictors. Then we summary the model to get
+results to test significance of each predictor. Finally, we make a
+boxplot of the distribution of RMSE/IQR</p>
 <pre class="r"><code># find that group by day, every day there are too few cases, not appropriate for prediction, so we choose to ignore the day variable
 
 lm_data &lt;- data %&gt;% 
