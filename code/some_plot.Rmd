@@ -1,0 +1,93 @@
+---
+title: "plot"
+author: "Yuze Yuan"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(patchwork)
+library(plotly)
+knitr::opts_chunk$set(
+  fig.width = 5,
+  out.width = "60%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+level_data <- data %>%  
+  group_by(level) %>% 
+  summarise(number = n())
+
+level_data %>%
+  ggplot(aes(x = level, y = number)) + 
+  geom_point()
+```
+
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+susp_age_data <- data %>%  
+  group_by(susp_age) %>% 
+  summarise(number = n()) %>%
+  drop_na() %>%
+  filter(susp_age != "UNKNOWN")
+
+susp_age_data %>%
+  ggplot(aes(x = susp_age, y = number)) + 
+  geom_point()
+```
+
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+susp_sex_data <- data %>%  
+  group_by(susp_sex) %>% 
+  summarise(number = n()) %>%
+  drop_na() 
+
+susp_sex_data %>%
+  ggplot(aes(x = susp_sex, y = number)) + 
+  geom_point()
+```
+
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+vic_age_data <- data %>%  
+  group_by(vic_age) %>% 
+  summarise(number = n()) %>%
+  drop_na() %>%
+  filter(vic_age != "UNKNOWN")
+
+vic_age_data %>%
+  ggplot(aes(x = vic_age, y = number)) + 
+  geom_point()
+```
+
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+vic_sex_data <- data %>%  
+  group_by(vic_sex) %>% 
+  summarise(number = n()) %>%
+  drop_na() %>%
+  filter(vic_sex != "UNKNOWN")
+
+vic_sex_data %>%
+  ggplot(aes(x = vic_sex, y = number)) + 
+  geom_point()
+```
+
+
+
+
+
+

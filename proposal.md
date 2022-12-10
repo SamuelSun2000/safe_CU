@@ -7,15 +7,15 @@ Stay safe at Columbia University
 
 ## Group Members
 
--   Haochen Sun ( hs3393 )
+- Haochen Sun ( hs3393 )
 
--   Yuanhao Zhang ( yz4436 )
+- Yuanhao Zhang ( yz4436 )
 
--   Zhenyu Zhou ( zz2900 )
+- Zhenyu Zhou ( zz2900 )
 
--   Yuze Yuan ( yy3296 )
+- Yuze Yuan ( yy3296 )
 
--   Anzhuo Xie ( ax2173 )
+- Anzhuo Xie ( ax2173 )
 
 ## Motivation and intention
 

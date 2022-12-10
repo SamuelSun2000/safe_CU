@@ -1,3 +1,4 @@
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -20,9 +21,11 @@ scale_fill_discrete = scale_fill_viridis_d
 
 # Time pattern
 
-In the EDA part, we see that there exist some pattern in month and time in one day, but is it only random error and fluctation, or there exist a significant difference?
+In the EDA part, we see that there exist some pattern in month and time in one day, but is it only random error and fluctuation, or there exist a significant difference?
 
 ## Month
+
+We use group_by and summarize function to get the number of cases in each month and year, and then use the number of cases and month_data to make an ANOVA model to test whether there is a significant difference of number of crime cases among each month. 
 
 ```{r}
 data <- read_csv("../data/full_filter_data.csv")
@@ -40,7 +43,9 @@ aov_model %>%
   knitr::kable(digits = 4 )
 ```
 
-There are very significant difference in the crime numbers between months. Therefore, we utilized Tukey's method for post hoc tests, to see which months are different.
+By the result above, we find that there are very significant difference in the crime numbers between months. Therefore, we utilized Tukey's method for post hoc tests, to see which months are different. 
+
+Firstly, we use Turkey methods to analyze the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the months become "high" and "low" in the process of comparing. 
 
 ```{r}
 aov_posthoc <- TukeyHSD(aov_model, conf.level = .95) %>% 
@@ -78,7 +83,7 @@ After pairwise independent multiple tests, we can draw the conclusion. We can ro
 
 ## Time
 
-Next, we repeat the steps, to see whether crime number at different time in a day have significant difference.
+Next, we repeat the steps, to see whether crime number at different time in a day have significant difference.We use group_by and summarize function to get the number of cases in each hour, arrange hour from 0 to 23, and then use the number of cases and hour_data to make an ANOVA model to test whether there is a significant difference of number of crime cases among each hour. 
 
 ```{r}
 # Is there differnece between case numbers in every hour? 
@@ -94,7 +99,10 @@ aov_hour %>%
   broom::tidy() %>% 
   knitr::kable(digits = 4 )
 ```
-There are also significant difference in the mean number of crimes between different hours in one day.
+
+Firstly, we use Turkey methods to analyze the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the hours become "high" and "low" in the process of comparing. 
+
+By the result above, there are also significant difference in the mean number of crimes between different hours in one day.
 
 ```{r}
 hour_posthoc <- TukeyHSD(aov_hour, conf.level = .95) %>% 
@@ -118,13 +126,15 @@ aov_fig3 <- hour_group %>%
 aov_fig4 <- hour_group %>% 
   ggplot(aes(x = low, fill = low)) +
   geom_bar(stat = "count") +
-  labs(x = "Month", y = "Count",title = 
-         "Months Having Fewer Crimes \n in Multiple Comparisons") + guides(fill = "none")
+  labs(x = "Hour", y = "Count",title = 
+         "Hours Having Fewer Crimes \n in Multiple Comparisons") + guides(fill = "none")
 
 aov_fig3 + aov_fig4
 ```
 
 The result corresponded with the findings in EDA part. The most dangerous hour is 12:00 - 21:00, all of them are at high ranks in the left figure. Comparatively, 1:00 - 9:00 is the most peaceful time. But it's our consensus that midnights are more hazardous. So we questioned on if more server levels of crime take place more in the midnights. 
+
+We use group_by and summarize function to get the number of cases in each level, hour, month and year, and select the data which level equals FELONY, then use the number of cases and hour_level to make an ANOVA model to test whether there is a significant difference of level of crime cases among each hour.  Then, we use Turkey methods to analyze the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the hours become "high" and "low" in the process of comparing. 
 
 ```{r}
 hour_level = data %>% 
@@ -161,8 +171,8 @@ aov_fig5 <- level_group %>%
 aov_fig6 <- level_group %>% 
   ggplot(aes(x = low, fill = low)) +
   geom_bar(stat = "count") +
-  labs(x = "Month", y = "Count",title = 
-         "Months Having Fewer Felony Crimes \n in Multiple Comparisons") + guides(fill = "none")
+  labs(x = "Hour", y = "Count",title = 
+         "Hours Having Fewer Felony Crimes \n in Multiple Comparisons") + guides(fill = "none")
 
 aov_fig5 + aov_fig6
 ```
@@ -171,7 +181,7 @@ The conclusion still holds true. Be cautious! What time you think is safe may be
 
 ## Build a linear model for prediction
 
-All variables are categorical, except the response variable crime number. After plotting the histogram, we find the crime number is strongly right-skewed. Using boxcox transformation, we take logrithm of number and the data looks much more normally distributed.
+All variables are categorical, except the response variable crime number. After plotting the histogram, we find the crime number is strongly right-skewed. Using boxcox transformation, we take logrithm of number and the data looks much more normally distributed. We decide to select meaningful age and male and female of gender to do the following prediction. Then we make a lm model to use month, hour, vic_age, vic_race, and vic_sex as predictors. Then we summary the model to get results to test significance of each predictor. Finally, we make a boxplot of the distribution of RMSE/IQR
 
 ```{r}
 
