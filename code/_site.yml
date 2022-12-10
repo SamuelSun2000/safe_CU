@@ -10,7 +10,7 @@ navbar:
     - text: "Exploratory Analyses"
       href: EDA.html
     - text: "Statistical Analysis"
-      href: hypo.html 
+      href: Hypothesis-testing-and-linear-model.html 
     - text: "Shiny Map for CU Safety"
       href: code/shiny_map_for_CU_safety.html   
     - icon: fa-youtube fa-lg    
