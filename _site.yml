@@ -13,7 +13,7 @@ navbar:
     - text: "Map for CU Safety"
       href: code/map.html
     - icon: fa-youtube fa-lg    
-      href: 
+      href: https://
     - icon: fa-github fa-lg
       href: https://github.com/SamuelSun2000/safe_CU.github.io.git
     - icon: fa-database fa-lg
