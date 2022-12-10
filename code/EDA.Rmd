@@ -183,4 +183,4 @@ data %>%
   knitr::kable()
 ```
 
-The crime numbers in each day across years also varies a lot. It's a interesting finding that New Years' day enjoys the most crime cases, and the second is International Children's Day (sadly).  The days with fewest crimes is around Chirstmas Holiday, when most people will stay safely with family at home. 
+The crime numbers in each day across years also varies a lot. It's a interesting finding that New Years' day enjoys the most crime cases, and the second is International Children's Day (sadly).  The days with fewest crimes is around Chirstmas Holiday, when most people will stay safely with their family at home. 
