@@ -10,8 +10,8 @@ navbar:
       href: code/EDA.html
     - text: "Statistical Analysis"
       href: code/hypo.html 
-    - text: "Shiny Map for CU Safety"
-      href: code/shiny_map_for_CU_safety.html   
+    - text: "Map for CU Safety"
+      href: code/map.html
     - icon: fa-youtube fa-lg    
       href: 
     - icon: fa-github fa-lg
