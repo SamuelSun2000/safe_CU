@@ -9,7 +9,11 @@ navbar:
     - text: "Exploratory Analyses"
       href: code/EDA.html
     - text: "Statistical Analysis"
-      href: code/hypo.html 
+      menu:
+      - text: "Hypothesis"
+        href: code/hypo.html
+      - text: "Hypothesis Testing and Linear Model"
+        href: code/Hypothesis-testing.html
     - text: "Map for CU Safety"
       href: code/map.html
     - icon: fa-youtube fa-lg    
