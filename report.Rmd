@@ -18,11 +18,18 @@ The information in it, however, is way too redundant for a student as we are mor
 
 Related work: Anything that inspired you, such as a paper, a web site, or something we discussed in class.
 
+* When we were looking for information about the crime rate near Columbia University, we saw the paper "Columbia stabbing puts spotlight on school's poor crime, safety record" which talked about some crimes in New York City. It inspired us to research more about the crime near Columbia University such as where and when the crime rate is higher and then we can try to avoid dangerous places to avoid being hurt. Besides some introduction to crime, there is also a pie chart in the paper, which makes us know the proportion of some types of criminal events directly. But this pie chart only provides a general summary of criminal events, and we think there are many details that can be added. Therefore, we want to analyze the crime rate near Columbia University according to our data set, and give the distribution more intuitively through some plots. This is the link of the paper https://nypost.com/2021/12/04/columbia-grad-student-murder-puts-spotlight-on-crime-safety-record/.
+
+
+
 
 
 Initial questions: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
+
 Data: Source, scraping method, cleaning, etc.
+
 Exploratory analysis: Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
+
 Additional analysis: If you undertake formal statistical analyses, describe these in detail
 Discussion: What were your findings? Are they what you expect? What insights into the data can you make?
 As this will be your only chance to describe your project in detail, make sure that your report is a standalone document that fully describes your process and results. We also expect you to write high-quality code that is understandable to an outside reader. Coding collaboratively and actively reviewing code within the team will help with this!
