@@ -12,16 +12,12 @@ runtime: shiny
 Motivation {.sidebar}
 -----------------------------------------------------------------------
 
-Motivation: 
-
 * Studying at Columbia University, except enjoying fascinating school life, we should always be concerned about the safety problem. Frequent email alerts, Citizen apps popping up, and terrifying news, they are all reminding us that there are many underlying unsafe factors around us. The New York government has made a public crime map at https://maps.nyc.gov/crime/.
 The information in it, however, is way too redundant for a student as we are more concerned about the safety conditions around our campus and our places of residence. Luckily, NYPD has posted the up-to-date dataset that includes all valid felony, misdemeanor, and violation crimes reported to the New York City Police Department, and it includes more information that we are interested in, for example, the time of occurrence of the complaint, the victim’s statistics. After analyzing the dataset, we can have a more comprehensive understanding about the crimes around us. Finally, we want to draw a fine map locating the crime incidents around our campus, informing us what time may be more dangerous and we can avoid activities at that time. The map will give students the option of looking up when they go outside most often to help them more accurately determine the likelihood of danger. We also want this result to help all the staff and students in Columbia University have an opportunity to evaluate the risk, avoid the danger, and allow them to access crime rates in the areas they care about to keep themselves safe.
 
 
 Related work and thoughts about our project {.sidebar}
 -----------------------------------------------------------------------
-
-Related work: 
 
 * When we were looking for information about the crime rate near Columbia University, we saw the paper "Columbia stabbing puts spotlight on school's poor crime, safety record" which talked about some crimes in New York City. It inspired us to research more about the crime near Columbia University such as where and when the crime rate is higher and then we can try to avoid dangerous places to avoid being hurt. Besides some introduction to crime, there is also a pie chart in the paper, which makes us know the proportion of some types of criminal events directly. But this pie chart only provides a general summary of criminal events, and we think there are many details that can be added. Therefore, we want to analyze the crime rate near Columbia University according to our data set, and give the distribution more intuitively through some plots. This is the link of the paper: https://nypost.com/2021/12/04/columbia-grad-student-murder-puts-spotlight-on-crime-safety-record/.
 
@@ -216,7 +212,6 @@ gender_data_rate_1 %>%
 * Through the summary, we could see that male is not significant to the whether victims is succedd or fail. According to the boxplot, we could see that distribution of the successful rate of male victims is also lower than distribution of the successful rate of male victims.
 
 
-
 Exploratory analysis {.sidebar}
 -----------------------------------------------------------------------
 
@@ -331,7 +326,72 @@ hour_data %>%
 ```
 Obvious pattern. It's counter-intuitive that the time with most cases is not in the midnight, but in the afternoon. 
 
+By this plot, we could test which level of crime is the most.
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+level_data <- data %>%  
+  group_by(level) %>% 
+  summarise(number = n())
 
+level_data %>%
+  ggplot(aes(x = level, y = number)) + 
+  geom_point()
+```
+
+By this plot, we could test which group of age is the most for suspect.
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+susp_age_data <- data %>%  
+  group_by(susp_age) %>% 
+  summarise(number = n()) %>%
+  drop_na() %>%
+  filter(susp_age != "UNKNOWN")
+
+susp_age_data %>%
+  ggplot(aes(x = susp_age, y = number)) + 
+  geom_point()
+```
+
+By this plot, we could test which group of sex is the most for suspect.
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+susp_sex_data <- data %>%  
+  group_by(susp_sex) %>% 
+  summarise(number = n()) %>%
+  drop_na() 
+
+susp_sex_data %>%
+  ggplot(aes(x = susp_sex, y = number)) + 
+  geom_point()
+```
+
+By this plot, we could test which group of age is the most for victim.
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+vic_age_data <- data %>%  
+  group_by(vic_age) %>% 
+  summarise(number = n()) %>%
+  drop_na() %>%
+  filter(vic_age != "UNKNOWN")
+
+vic_age_data %>%
+  ggplot(aes(x = vic_age, y = number)) + 
+  geom_point()
+```
+
+By this plot, we could test which group of sex is the most for victim.
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+vic_sex_data <- data %>%  
+  group_by(vic_sex) %>% 
+  summarise(number = n()) %>%
+  drop_na() %>%
+  filter(vic_sex != "UNKNOWN")
+
+vic_sex_data %>%
+  ggplot(aes(x = vic_sex, y = number)) + 
+  geom_point()
+```
 
 Map {.sidebar}
 -----------------------------------------------------------------------
@@ -417,6 +477,12 @@ renderLeaflet({
 
 Summary {.sidebar}
 -----------------------------------------------------------------------
+
+* For the suspect, the age group of 25-44 is the most; for the victim, the age group of 25-44 is also the most.
+
+* Most of the suspects and victims are male.
+
+* Most of the level of crime is MISDEMEANOR
 
 
 
