@@ -776,6 +776,12 @@ Summary {.sidebar}
 
 * Most of the level of crime is MISDEMEANOR
 
+* July, August, October, May, June, September generally have more crimes；February, January, November, December have fewer crimes；While March and April is at medium level, the crime number in this two months are significantly less than those months with excessive crimes, but also significantly more than months that have fewest crimes.
+
+* The most dangerous hour is 12:00 - 21:00; comparatively, 1:00 - 9:00 is the most peaceful time. 
+
+* Hour 16 and 17 has the high-level of the crime; hour 5 and 6 has the lower level of crime. 
+
 
 
 
