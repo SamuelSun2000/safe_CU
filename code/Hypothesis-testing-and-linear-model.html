@@ -439,13 +439,13 @@ aov_model %&gt;%
 difference in the crime numbers between months. Therefore, we utilized
 Tukey’s method for post hoc tests, to see which months are
 different.</p>
-<p>Firstly, we use Turkey methods to analogize the ANOVA model, select
-the variables which p-value are smaller than 0.05, and arrange them by
-adj p_value. Then, we separate the contrast to A and B and add two
-variables “high” and “low” depending on whether estimate is larger than
-0 to decide how A and B to fit high and low. Finally, we make a two
-panel plot to show the order of the months become “high” and “low” in
-the process of comparing.</p>
+<p>Firstly, we use Turkey methods to analyze the ANOVA model, select the
+variables which p-value are smaller than 0.05, and arrange them by adj
+p_value. Then, we separate the contrast to A and B and add two variables
+“high” and “low” depending on whether estimate is larger than 0 to
+decide how A and B to fit high and low. Finally, we make a two panel
+plot to show the order of the months become “high” and “low” in the
+process of comparing.</p>
 <pre class="r"><code>aov_posthoc &lt;- TukeyHSD(aov_model, conf.level = .95) %&gt;% 
   broom::tidy() %&gt;% 
   filter(adj.p.value &lt; 0.05) %&gt;% 
@@ -555,7 +555,11 @@ significantly more than months that have fewest crimes.</p>
 <div id="time" class="section level2">
 <h2>Time</h2>
 <p>Next, we repeat the steps, to see whether crime number at different
-time in a day have significant difference.</p>
+time in a day have significant difference.We use group_by and summarize
+function to get the number of cases in each hour, arrange hour from 0 to
+23, and then use the number of cases and hour_data to make an ANOVA
+model to test whether there is a significant difference of number of
+crime cases among each hour.</p>
 <pre class="r"><code># Is there differnece between case numbers in every hour? 
 hour_data = data %&gt;% 
   group_by(year, month, hour) %&gt;% 

@@ -45,7 +45,7 @@ aov_model %>%
 
 By the result above, we find that there are very significant difference in the crime numbers between months. Therefore, we utilized Tukey's method for post hoc tests, to see which months are different. 
 
-Firstly, we use Turkey methods to analogize the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the months become "high" and "low" in the process of comparing. 
+Firstly, we use Turkey methods to analyze the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the months become "high" and "low" in the process of comparing. 
 
 ```{r}
 aov_posthoc <- TukeyHSD(aov_model, conf.level = .95) %>% 
@@ -83,7 +83,7 @@ After pairwise independent multiple tests, we can draw the conclusion. We can ro
 
 ## Time
 
-Next, we repeat the steps, to see whether crime number at different time in a day have significant difference.
+Next, we repeat the steps, to see whether crime number at different time in a day have significant difference.We use group_by and summarize function to get the number of cases in each hour, arrange hour from 0 to 23, and then use the number of cases and hour_data to make an ANOVA model to test whether there is a significant difference of number of crime cases among each hour. 
 
 ```{r}
 # Is there differnece between case numbers in every hour? 
@@ -99,6 +99,7 @@ aov_hour %>%
   broom::tidy() %>% 
   knitr::kable(digits = 4 )
 ```
+
 There are also significant difference in the mean number of crimes between different hours in one day.
 
 ```{r}
