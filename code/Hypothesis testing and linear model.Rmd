@@ -1,3 +1,4 @@
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -20,10 +21,11 @@ scale_fill_discrete = scale_fill_viridis_d
 
 # Time pattern
 
-In the EDA part, we see that there exist some pattern in month and time in one day, but is it only random error and fluctation, or there exist a significant difference?
+In the EDA part, we see that there exist some pattern in month and time in one day, but is it only random error and fluctuation, or there exist a significant difference?
 
 ## Month
 
+We use group_by and summarize function to get the number of cases in each month and year, and then use the number of cases and month_data to make an ANOVA model to test whether there is a significant difference of number of crime cases among each month. 
 ```{r}
 data <- read_csv("../data/full_filter_data.csv")
 
