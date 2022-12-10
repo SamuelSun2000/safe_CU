@@ -100,7 +100,7 @@ aov_hour %>%
   knitr::kable(digits = 4 )
 ```
 
-There are also significant difference in the mean number of crimes between different hours in one day.
+Firstly, we use Turkey methods to analyze the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the hours become "high" and "low" in the process of comparing. 
 
 ```{r}
 hour_posthoc <- TukeyHSD(aov_hour, conf.level = .95) %>% 
@@ -124,11 +124,13 @@ aov_fig3 <- hour_group %>%
 aov_fig4 <- hour_group %>% 
   ggplot(aes(x = low, fill = low)) +
   geom_bar(stat = "count") +
-  labs(x = "Month", y = "Count",title = 
-         "Months Having Fewer Crimes \n in Multiple Comparisons") + guides(fill = "none")
+  labs(x = "Hour", y = "Count",title = 
+         "Hours Having Fewer Crimes \n in Multiple Comparisons") + guides(fill = "none")
 
 aov_fig3 + aov_fig4
 ```
+
+By the result above, there are also significant difference in the mean number of crimes between different hours in one day.
 
 The result corresponded with the findings in EDA part. The most dangerous hour is 12:00 - 21:00, all of them are at high ranks in the left figure. Comparatively, 1:00 - 9:00 is the most peaceful time. But it's our consensus that midnights are more hazardous. So we questioned on if more server levels of crime take place more in the midnights. 
 
