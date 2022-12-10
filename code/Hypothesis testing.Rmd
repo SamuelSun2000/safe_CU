@@ -21,13 +21,14 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ```{r}
 data <- read_csv("data/full_filter_data.csv")
-
 # is there any difference between case number in every months across years?
+
 month_data <- data %>%  
   group_by(year, month) %>% 
   summarise(number = n()) %>% 
   mutate(month = as.factor(month),
          year = as.factor(year))
+
 
 aov_model <- aov(number ~ month, data = month_data)
 
@@ -40,10 +41,7 @@ aov_posthoc <- TukeyHSD(aov_model, conf.level = .95) %>%
   separate(contrast, sep = "-", into = c("A", "B"))
 
 # plot of case numbers of every month
-month_data %>% 
-  ggplot(aes(x = month, y = number, fill = month)) +
-  geom_boxplot() +
-  guides(fill = "none") 
+
 ```
 
 ```{r}

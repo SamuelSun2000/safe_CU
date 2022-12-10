@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
-library(ggplot)
+library(ggplot2)
 library(patchwork)
 library(plotly)
 
@@ -25,6 +25,7 @@ options(
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
+
 # Exploratory Analysis
 
 After reading this page, you will have an overall sense about the crimes around Columbia University campus (including CUIMC). 
@@ -33,7 +34,7 @@ We pictured the proportion of each level of crimes, and the charactristic of sus
 
 ## Overview about offenses around CU campus
 ```{r EDA}
-filter_data = read_csv("./data/full_filter_data.csv")
+filter_data = read_csv("../data/full_filter_data.csv")
 
 p <- c() # a list to save plots
 
@@ -54,7 +55,7 @@ The number of misdemeanor crime is the most (62.1%), which includes simple assau
 Next, we focus on the portrait of suspects and victims.
 
 ```{r}
-p[[3]] <- filter_data %>% 
+filter_data %>% 
   filter(susp_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
                          "UNKNOWN")) %>%
   mutate(susp_age = as.factor(susp_age)) %>% 
@@ -62,24 +63,26 @@ p[[3]] <- filter_data %>%
   plot_ly(x = ~ susp_age, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Suspects' Age Group", xaxis = list(title = ""), yaxis = list(title = "Number"))
 
-p[[4]] <- filter_data %>% 
+filter_data %>% 
   filter (susp_race != "(null)") %>% 
   mutate(susp_age = as.factor(susp_race)) %>% 
   count(susp_race, level) %>% 
   plot_ly(x = ~ susp_race, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Suspects' Race", xaxis = list(title = ""), yaxis = list(title = "Number"))
 
-p[[5]] <- filter_data %>% 
+filter_data %>% 
   filter (susp_sex != "(null)")  %>% 
   mutate(susp_sex = as.factor(susp_sex)) %>% 
   count(susp_sex, level) %>% 
   mutate(susp_sex = recode(susp_sex, U = "Unknown", F = "Female", "M" = "Male")) %>% 
   plot_ly(x = ~ susp_sex, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Suspects' Sex", xaxis = list(title = ""), yaxis = list(title = "Number"))
+
+
 ```
 
 ```{r}
-p[[6]] <- filter_data %>% 
+filter_data %>% 
   filter(vic_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
                          "UNKNOWN")) %>%
   mutate(vic_age = as.factor(vic_age)) %>% 
@@ -87,33 +90,53 @@ p[[6]] <- filter_data %>%
   plot_ly(x = ~ vic_age, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Victims' Age Group", xaxis = list(title = ""), yaxis = list(title = "Number"))
 
-p[[7]] <- filter_data %>% 
+filter_data %>% 
   filter (vic_race != "(null)") %>% 
   mutate(vic_age = as.factor(vic_race)) %>% 
   count(vic_race, level) %>% 
   plot_ly(x = ~ vic_race, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Victims' Race", xaxis = list(title = ""), yaxis = list(title = "Number"))
 
-p[[8]] <- filter_data %>% 
+filter_data %>% 
   filter (vic_sex %in% c("D", "E", "F", "M"))  %>% 
   mutate(vic_sex = as.factor(vic_sex)) %>% 
   count(vic_sex, level) %>% 
   mutate(vic_sex = recode(vic_sex, F = "Female", "M" = "Male")) %>% 
   plot_ly(x = ~ vic_sex, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Victims' Sex", xaxis = list(title = ""), yaxis = list(title = "Number"))
-
-# detailed description of suspect group
-filter_data %>% 
-  group_by(susp_age, susp_race, susp_sex) %>% 
-  summarise(number = n()) %>% 
-  arrange(desc(number))
-
-# detailed description of victim group
-
-filter_data %>% 
-  group_by(vic_age, vic_race, vic_sex) %>% 
-  summarise(number = n()) %>% 
-  arrange(desc(number)))
 ```
 
+Through the data, we can see that except unknown, suspects' age is centered at 25-44 years old, black man. As for the victim, the age group is still centered at 25-44 years old. But the race is more evenly spread, and female number is much more than the suspect group.
+
+Next, we want to look into the fluctuation of crime cases among months and hours, to see if the case number have a correlation with time.
+
+```{r}
+data <- filter_data
+
+month_data <- data %>%  
+  group_by(year, month) %>% 
+  summarise(number = n()) %>% 
+  mutate(month = as.factor(month),
+         year = as.factor(year))
+
+month_data %>% 
+  plot_ly(y = ~number, color = ~month, type = "box", colors = "viridis") %>% 
+  layout(title = "Crime Number Across Months", xaxis = list(title = "Month"), yaxis = list(title = "Number"))
+```
+
+We can roughly see that, in summer there are more crimes, especially from May to August. December and February have fewer cases. We will verify if there is a significant difference between months in Statistical testing part.
+
+```{r}
+hour_data = data %>% 
+  group_by(year, month, hour) %>% 
+  summarise(number = n()) %>%
+  mutate(hour = as.factor(hour),
+    hour = fct_inseq(hour)) 
+
+hour_data %>% 
+  plot_ly(y = ~number, color = ~hour, type = "box", colors = "viridis") %>% 
+  layout(title = "Crime Number Across Hours", xaxis = list(title = "Hour"), yaxis = list(title = "Number"))
+```
+
+Obvious pattern. It's counter-intuitive that the time with most cases is not in the midnight, but in the afternoon. 
 
