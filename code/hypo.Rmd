@@ -1,7 +1,6 @@
 ---
 title: "hypo"
 author: "Yuze Yuan"
-date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -72,6 +71,31 @@ gender_data_2 %>%
   guides(fill = "none") 
 ```
 * This is a significant difference in the number of male and female suspects. Through the boxplot, we could see that male is more likely to be victims than females.
+
+Whether there is a significant relationship between gender of suspects and sucessful rate.
+```{r}
+data <- read_csv("../data/full_filter_data.csv")
+gender_data_rate <- data %>%  
+  filter(susp_sex %in% c("F", "M", "U")) %>%
+  mutate(success_fail = ifelse(success_fail == "COMPLETED", 1, 0))
+
+reg_successrate = glm(success_fail ~ susp_sex, family=binomial(link="logit"), data = gender_data_rate)
+summary(reg_successrate)
+
+
+gender_data_rate %>% 
+  group_by(year, success_fail, susp_sex) %>% 
+  summarise(number = n()) %>%
+  mutate(success_fail = ifelse(success_fail == 1, "COMPLETED", "ATTEMPTED")) %>%
+  pivot_wider(
+  names_from = "success_fail", 
+  values_from = "number") %>%
+  mutate(total = ATTEMPTED+COMPLETED, 
+         rate = COMPLETED/total) %>%
+  ggplot(aes(x = susp_sex, y = rate, fill = susp_sex)) +
+  geom_boxplot()
+```
+* This is a significant relationship between gender of suspects and sucessful rate. Through the boxplot, we could see that distribution of the successful rate of male suspects is lower than distribution of the successful rate of male suspects.
 
 
 
