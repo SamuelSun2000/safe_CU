@@ -8,7 +8,6 @@ output:
 runtime: shiny
 ---
 
-The written report produced by your team is central to this project. This will detail how you completed your project, and should cover data collection and cleaning, exploratory analyses, alternative strategies, descriptions of approaches, and a discussion of results. We anticipate that your project will change somewhat over time; these changes and the reasons for them should be documented! You will write one report document per group, and be sure to include all group member names in the document.
 
 Motivation {.sidebar}
 -----------------------------------------------------------------------
@@ -413,4 +412,15 @@ renderLeaflet({
     addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
 })
 ```
+
+
+
+Summary {.sidebar}
+-----------------------------------------------------------------------
+
+
+
+
+
+
 
