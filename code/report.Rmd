@@ -32,8 +32,7 @@ Related work:
 Initial questions about this project {.sidebar}
 -----------------------------------------------------------------------
 
-What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
-
+* We hope to use the map on the website to answer which time period and which place near Columbia University are experiencing security incidents, and which regions have higher security incidents. We originally wanted to express which area has a higher crime rate by the color depth on the map, but in the process of analysis, we thought that we could label the data on the area and make the map more accurate as far as possible, so that students in Columbia University could find it more easily.
 
 
 Data {.sidebar}
