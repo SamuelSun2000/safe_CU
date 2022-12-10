@@ -27,7 +27,7 @@ Related work:
 
 
 
-Questions about this project {.sidebar}
+Initial questions about this project {.sidebar}
 -----------------------------------------------------------------------
 
 What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
