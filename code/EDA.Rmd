@@ -1,12 +1,13 @@
 ---
-title: "report"
+title: "Exploratory Analysis"
 output:
   html_document:
-    theme: paper
+    theme: readable
     toc : true
     toc_float: true
+    code_folding: hide
+    
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
@@ -15,7 +16,9 @@ library(patchwork)
 library(plotly)
 knitr::opts_chunk$set(
   fig.width = 5,
-  out.width = "60%"
+  out.width = "85%",
+  fig.align = "center",
+  fig.height = 2.5
 )
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
 options(
@@ -25,51 +28,77 @@ options(
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
-
-# Exploratory Analysis
 After reading this page, you will have an overall sense about the crimes around Columbia University campus (including CUIMC). 
 We pictured the proportion of each level of crimes, and the charactristic of suspects and victims. We also focused on the total crime numbers across the years, showing a pattern of the fluctation of offense number with the months and times, so that we can have an idea about when it will be more dangerous and need more caution. At the same time, we also captured some interesting point of offense number.
 
-## Overview about offenses around CU campus
-```{r EDA}
+## Overview about crimes around CU campus
+
+### Numerical characteristics
+```{r EDA, message=F}
 filter_data = read_csv("../data/full_filter_data.csv")
 p <- c() # a list to save plots
 p[[1]] <- ggplot(aes(x = level, fill = level), data = filter_data) + 
   geom_bar() +
-  labs(x = "Crime Level", y = "Number") + guides(fill = "none")
+  labs(x = "Crime Level", y = "Number") + guides(fill = "none")+
+theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+
 p[[2]] <- ggplot(aes(x = success_fail, fill = success_fail), data = 
-                  filter_data)+
+  filter_data)+
     geom_bar()+
-  labs(x = "Crime Completed or Not", y = "Number")+ guides(fill = "none")
+  labs(x = "Crime Completed or Not", y = "Number")+ guides(fill = "none") +
+theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+
 p[[1]] + p[[2]]
 ```
 
 The number of misdemeanor crime is the most (62.1%), while the number of felony is approximately half of misdemeanor (28.7%). The least type is violation (10%). Here exists a selection bias, most of people would not report a violation to the police. This figure does not indicate violation crimes is the least type in reality. At the meanwhile, nearly all (98%) of the crimes are completed -- do not put your faith in luck that someone can help you, try to avoid them as much as you can! 
 Next, we focus on the portrait of suspects and victims.
 
+### Crime level examples
 To have a closer look to the different levels, we listed top 5 descriptions from different level. 
-
 ```{r}
+felony <- filter_data %>% 
+  group_by(level, description) %>% 
+  filter(level == "FELONY") %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number)) %>% 
+  head(5)
 
+mis <- filter_data %>% 
+  group_by(level, description) %>% 
+  filter(level == "MISDEMEANOR") %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number)) %>% 
+  head(5)
+
+vio <- filter_data %>% 
+  group_by(level, description) %>% 
+  filter(level == "VIOLATION") %>% 
+  summarise(number = n()) %>% 
+  arrange(desc(number)) %>% 
+  head(5)
+  
+rbind(felony, mis, vio) %>% 
+  knitr::kable()
 ```
-
-
-
+### 
 ```{r}
-p[[3]] <- filter_data %>% 
+filter_data %>% 
   filter(susp_age %in% c("<18", "18-24", "25-44", "45-64", "65+",
                          "UNKNOWN")) %>%
   mutate(susp_age = as.factor(susp_age)) %>% 
   count(susp_age, level) %>% 
   plot_ly(x = ~ susp_age, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Suspects' Age Group", xaxis = list(title = ""), yaxis = list(title = "Number"))
-p[[4]] <- filter_data %>% 
+
+filter_data %>% 
   filter (susp_race != "(null)") %>% 
   mutate(susp_age = as.factor(susp_race)) %>% 
   count(susp_race, level) %>% 
   plot_ly(x = ~ susp_race, y = ~n, type = "bar", color = ~ level, colors = "viridis") %>% 
   layout(title = "Suspects' Race", xaxis = list(title = ""), yaxis = list(title = "Number"))
-p[[5]] <- filter_data %>% 
+
+filter_data %>% 
   filter (susp_sex != "(null)")  %>% 
   mutate(susp_sex = as.factor(susp_sex)) %>% 
   count(susp_sex, level) %>% 
@@ -155,6 +184,3 @@ data %>%
 ```
 
 The crime numbers in each day across years also varies a lot. It's a interesting finding that New Years' day enjoys the most crime cases, and the second is International Children's Day (sadly).  The days with fewest crimes is around Chirstmas Holiday, when most people will stay safely with family at home. 
-
-
-
