@@ -107,7 +107,7 @@ library(tidyverse)
 library(plotly)
 library(leaflet)
 
-cu_df = read_csv("/Users/yuanhaozhang/Desktop/P8105 Data Science/safe_CU/data/full_filter_data.csv")
+cu_df = read_csv("../data/full_filter_data.csv")
 ```
 
 
