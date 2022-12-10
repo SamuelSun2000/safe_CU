@@ -406,9 +406,6 @@ that your project will change somewhat over time; these changes and the
 reasons for them should be documented! You will write one report
 document per group, and be sure to include all group member names in the
 document.</p>
-<p>Your report should include the following topics. Depending on your
-project type the amount of discussion you devote to each of them will
-vary:</p>
 <p>Motivation: Provide an overview of the project goals and
 motivation.</p>
 <ul>
@@ -430,28 +427,74 @@ comprehensive understanding about the crimes around us. Finally, we want
 to draw a fine map locating the crime incidents around our campus,
 informing us what time may be more dangerous and we can avoid activities
 at that time. The map will give students the option of looking up when
-they travel most often to help them more accurately determine the
+they go outside most often to help them more accurately determine the
 likelihood of danger. We also want this result to help all the staff and
 students in Columbia University have an opportunity to evaluate the
 risk, avoid the danger, and allow them to access crime rates in the
 areas they care about to keep themselves safe.</li>
 </ul>
-<p>Related work: Anything that inspired you, such as a paper, a web
-site, or something we discussed in class.</p>
-<p>Initial questions: What questions are you trying to answer? How did
-these questions evolve over the course of the project? What new
-questions did you consider in the course of your analysis? Data: Source,
-scraping method, cleaning, etc. Exploratory analysis: Visualizations,
-summaries, and exploratory statistical analyses. Justify the steps you
-took, and show any major changes to your ideas. Additional analysis: If
-you undertake formal statistical analyses, describe these in detail
-Discussion: What were your findings? Are they what you expect? What
-insights into the data can you make? As this will be your only chance to
-describe your project in detail, make sure that your report is a
-standalone document that fully describes your process and results. We
-also expect you to write high-quality code that is understandable to an
-outside reader. Coding collaboratively and actively reviewing code
-within the team will help with this!</p>
+<p>Related work:</p>
+<p>What questions are you trying to answer? How did these questions
+evolve over the course of the project? What new questions did you
+consider in the course of your analysis?</p>
+<p>Data:</p>
+<ul>
+<li><p>The data is from NYC Opendata, <a
+href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This"
+class="uri">https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This</a>
+dataset is provided by NYPD, and is recently updated on Oct.19th. This
+dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is
+expected to be accurate, authoritative, prompt and worth
+analyzing.</p></li>
+<li><p>Since the main purpose of this product is to help all the staff
+and students in Columbia University, so we decide to let our map cover
+the Manhattan area, and in order to give them most meaningful results,
+we focus the year after 2010. Then, we do the fowllowing: 1. select the
+rows recording date later than 2010-01-01. 2. Select the borogh as
+Manhattan. 3. select the variables we are interseted in. 4. filter the
+latitude and longitude to limit it around columbia campus (roughly). The
+latitude range is approximately from 86 street subway station to George
+Washing Bridge (West 178th street). The longitude range is from Hudson
+river to Harlem river and Central park. This region covers Columbia
+University campus (and CUIMC) and the neighborhood area. You could find
+details here: <a href="code/data%20import%20and%20cleaning.Rmd">Data
+cleaning</a></p></li>
+<li><p>We use the following items to do our project:</p>
+<p>*<code>id</code>: case id numbers.</p>
+<p>*<code>bor0</code>: Manhattan area.</p>
+<p>*<code>year</code>: The year this specific case happened.</p>
+<p>*<code>month</code>: The month this specific case happened.</p>
+<p>*<code>day</code>: The day this specific case happened.</p>
+<p>*<code>hour</code>: The exact hour this specific case happened.</p>
+<p>*<code>minute</code>: The exact minute this specific case
+happened.</p>
+<p>*<code>second</code>: The exact second this specific case
+happened.</p>
+<p>*<code>success_fail</code>: Indicator of whether crime was
+successfully completed or attempted, but failed or was interrupted
+prematurely.</p>
+<p>*<code>level</code>: Level of offense: felony, misdemeanor,
+violation.</p>
+<p>*<code>description</code>: Description of offense corresponding with
+key code.</p>
+<p>*<code>location</code>: Specific location of occurrence in or around
+the premises; inside, opposite of, front of, rear of.</p>
+<p>*<code>susp_age</code>: the age of suspect.</p>
+<p>*<code>susp_race</code>: the race of suspect.</p>
+<p>*<code>susp_sex</code>: the sex of suspect.</p>
+<p>*<code>vic_age</code>: the age of victim.</p>
+<p>*<code>vic_race</code>: the race of victim.</p>
+<p>*<code>vic_sex</code>: the sex of victim.</p>
+<p>*<code>logitude</code>: Logitude at Global Coordinate System.</p>
+<p>*<code>latitude</code>: Latitude at Global Coordinate
+System.</p></li>
+</ul>
+<p>Exploratory analysis: Visualizations, summaries, and exploratory
+statistical analyses. Justify the steps you took, and show any major
+changes to your ideas.</p>
+<p>Additional analysis: If you undertake formal statistical analyses,
+describe these in detail Discussion: What were your findings? Are they
+what you expect? What insights into the data can you make?</p>
 
 
 
