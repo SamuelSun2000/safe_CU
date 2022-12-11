@@ -5,15 +5,11 @@ navbar:
   title: "Home"
   right:
     - text: "Project Report"
-      href: code/report.html
+      href: ./code/report.html
     - text: "Exploratory Analyses"
-      href: code/EDA.html
-    - text: "Statistical Analysis"
-      menu:
-      - text: "Hypothesis"
-        href: code/hypo.html
-      - text: "Hypothesis Testing and Linear Model"
-        href: code/Hypothesis-testing.html
+      href: ./code/EDA.html
+    - text: "Statistical Analysis and Linear Model"
+      href: ./code/Hypothesis-testing-and-linear-model.html
     - text: "Map for CU Safety"
       href: https://samuelsun.shinyapps.io/cu_shinymap/
     - icon: fa-youtube fa-lg    
