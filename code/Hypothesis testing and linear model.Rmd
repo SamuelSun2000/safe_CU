@@ -50,10 +50,10 @@ aov_model_1 %>%
   knitr::kable(digits = 4, align = 'c')
   
 ```
-There is a significant difference in the number of male and female suspects. Through the boxplot in EDA part, we could easily see that male is more likely to be suspencts than females if we consider the unknown.
+There is a significant difference in the number of male and female suspects. Through the boxplot in EDA part, we could easily see that male is more likely to be suspects than females if we consider the unknown.
 
-## Anova test - victims' gender
-We wonder whether there is a significant difference in the number of male and female victims. So we calculate how many male and female victims in month, year, then plot the disturbution of number of male and female victims. And I also do the same steps for vic_sex include D=Business/Organization, 
+## T test - victims' gender
+We wonder whether there is a significant difference in the number of male and female victims. So we calculate how many male and female victims in month, year, then plot the disturbution of number of male and female victims. And I also do the same steps for vic_sex include D=Business/Organization,
 E=PSNY/People of the State of New York.
 
 ```{r, message=F, fig.height=3.2,  out.width = "85%"}
@@ -134,11 +134,11 @@ gender_data_rate_1 %>%
 ```
 Through the summary, we could see that crimes on male is significantly less to success (though still at a high ratio). According to the boxplot, we could see that distribution of the successful rate of male victims is also lower than distribution of the successful rate of male victims.
 
-# Correlation between crime number and time
+## Correlation between crime number and time
 
 In the EDA part, we see that there exist some pattern in month and time in one day, but is it only random error and fluctuation, or there exist a significant difference?
 
-## Anova test - crime number and month
+### Anova test - crime number and month
 
 We use group_by and summarize function to get the number of cases in each month and year, and then use the number of cases and month_data to make an ANOVA model to test whether there is a significant difference of number of crime cases among each month. 
 
@@ -196,7 +196,7 @@ aov_fig1 / aov_fig2
 
 After pairwise independent multiple tests, we can draw the conclusion. We can roughly divide the months in one year into 3 groups. July, August, October, May, June, September generally have more crimes. February, January, November, December have fewer crimes. While March and April is at medium level, the crime number in this two months are significantly less than those months with excessive crimes, but also significantly more than months that have fewest crimes.
 
-## Anova test - crime number and hour
+### Anova test - crime number and hour
 
 Next, we repeat the steps, to see whether crime number at different time in a day have significant difference.We use group_by and summarize function to get the number of cases in each hour, arrange hour from 0 to 23, and then use the number of cases and hour_data to make an ANOVA model to test whether there is a significant difference of number of crime cases among each hour. 
 
@@ -251,7 +251,7 @@ aov_fig3 / aov_fig4
 
 The result corresponded with the findings in EDA part. The most dangerous hour is 12:00 - 21:00, all of them are at high ranks in the left figure. Comparatively, 1:00 - 9:00 is the most peaceful time. But it's our consensus that midnights are more hazardous. So we questioned on if more severe levels of crimes take place more in the midnights. 
 
-## Anova test - FELONY crime number and hour
+### Anova test - FELONY crime number and hour
 
 We use group_by and summarize function to get the number of cases in each level, hour, month and year, and select the data which level equals FELONY, then use the number of cases and hour_level to make an ANOVA model to test whether there is a significant difference of level of crime cases among each hour.  Then, we use Turkey methods to analyze the ANOVA model. The other steps is consistent with text above.
 

@@ -11,12 +11,12 @@
 
 
 
-<title>report</title>
+<title>Report</title>
 
 <script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -36,6 +36,13 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -327,37 +334,28 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Home</a>
+      <a class="navbar-brand" href="index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown-header">Project Report</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Exploratory Analyses
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Need to Edit </li>
-    <li class="dropdown-header">Need to Edit  </li>
-  </ul>
+        <li>
+  <a href="../index.html">Home</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Statistical Analysis
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Need to Edit </li>
-    <li class="dropdown-header">Need to Edit  </li>
-  </ul>
+<li>
+  <a href="../report.html">Project Report</a>
 </li>
-<li class="dropdown-header">Shiny Map for CU Safety</li>
+<li>
+  <a href="EDA.html">Exploratory Analyses</a>
+</li>
+<li>
+  <a href="Hypothesis-testing-and-linear-model.html">Statistical Analysis</a>
+</li>
+<li>
+  <a href="https://samuelsun.shinyapps.io/cu_shinymap/">Shiny Map for CU Safety</a>
+</li>
 <li>
   <a>
     <span class="fa fa-youtube fa-lg"></span>
@@ -393,23 +391,14 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">report</h1>
+<h1 class="title toc-ignore">Report</h1>
 
 </div>
 
 
-<p>The written report produced by your team is central to this project.
-This will detail how you completed your project, and should cover data
-collection and cleaning, exploratory analyses, alternative strategies,
-descriptions of approaches, and a discussion of results. We anticipate
-that your project will change somewhat over time; these changes and the
-reasons for them should be documented! You will write one report
-document per group, and be sure to include all group member names in the
-document.</p>
-<p>Motivation: Provide an overview of the project goals and
-motivation.</p>
-<ul>
-<li>Studying at Columbia University, except enjoying fascinating school
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
+<p>Studying at Columbia University, except enjoying fascinating school
 life, we should always be concerned about the safety problem. Frequent
 email alerts, Citizen apps popping up, and terrifying news, they are all
 reminding us that there are many underlying unsafe factors around us.
@@ -431,70 +420,1539 @@ they go outside most often to help them more accurately determine the
 likelihood of danger. We also want this result to help all the staff and
 students in Columbia University have an opportunity to evaluate the
 risk, avoid the danger, and allow them to access crime rates in the
-areas they care about to keep themselves safe.</li>
-</ul>
-<p>Related work:</p>
-<p>What questions are you trying to answer? How did these questions
-evolve over the course of the project? What new questions did you
-consider in the course of your analysis?</p>
-<p>Data:</p>
+areas they care about to keep themselves safe.</p>
+</div>
+<div id="related-work-and-thoughts-about-our-project"
+class="section level2">
+<h2>Related work and thoughts about our project</h2>
+<p>When we were looking for information about the crime rate near
+Columbia University, we saw the paper “Columbia stabbing puts spotlight
+on school’s poor crime, safety record” which talked about some crimes in
+New York City. It inspired us to research more about the crime near
+Columbia University such as where and when the crime rate is higher and
+then we can try to avoid dangerous places to avoid being hurt. Besides
+some introduction to crime, there is also a pie chart in the paper,
+which makes us know the proportion of some types of criminal events
+directly. But this pie chart only provides a general summary of criminal
+events, and we think there are many details that can be added.
+Therefore, we want to analyze the crime rate near Columbia University
+according to our data set, and give the distribution more intuitively
+through some plots. This is the link of the paper: <a
+href="https://nypost.com/2021/12/04/columbia-grad-student-murder-puts-spotlight-on-crime-safety-record/"
+class="uri">https://nypost.com/2021/12/04/columbia-grad-student-murder-puts-spotlight-on-crime-safety-record/</a>.</p>
+<p>Besides, a website which includes some crime data in US also inspired
+us. There are some very valuable plots on this website, such as
+comparing the crime rate of New York and the United States through a
+line plot, comparing the crime rate of New York and cities of the same
+size, and ranking the cities that are most suitable for living. But what
+is not enough is that this website is too wide for staffs and students
+of Columbia University. After all, staffs and students of Columbia
+University in some regions hardly go there; and some of the statistics
+here are too broad, which encourages us to make some pictures and
+websites which focus on the crime rate near Columbia University and
+include more specific data, which can provide more help for students of
+Columbia University.This is the link of the website: <a
+href="https://realestate.usnews.com/places/new-york/new-york-city/crime"
+class="uri">https://realestate.usnews.com/places/new-york/new-york-city/crime</a></p>
+</div>
+<div id="aim-of-this-project" class="section level2">
+<h2>Aim of this project</h2>
 <ul>
-<li><p>The data is from NYC Opendata, <a
-href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This"
-class="uri">https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243.This</a>
-dataset is provided by NYPD, and is recently updated on Oct.19th. This
-dataset have 81.4K views and 16.7 downloads. Therefore, this dataset is
-expected to be accurate, authoritative, prompt and worth
-analyzing.</p></li>
+<li>We hope to use the map on the website to answer which time period
+and which place near Columbia University are experiencing security
+incidents, and which regions have higher security incidents. We
+originally wanted to express which area has a higher crime rate by the
+color depth on the map, but in the process of analysis, we thought that
+we could label the data on the area and make the map more accurate as
+much as possible, so that students in Columbia University could find it
+more easily.</li>
+</ul>
+</div>
+<div id="data-downloading-and-cleaning" class="section level2">
+<h2>Data downloading and cleaning:</h2>
+<ul>
+<li><p>The more current data is from NYC Opendata, <a
+href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243"
+class="uri">https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243</a>.
+The historical data set is from <a
+href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i"
+class="uri">https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i</a>,
+which includes more data but is not sufficient in data of 2022. We
+combined these two datasets and the final output dataset have around 7
+million records. Therefore, this dataset is expected to be accurate,
+authoritative, prompt and worth analyzing.</p></li>
 <li><p>Since the main purpose of this product is to help all the staff
 and students in Columbia University, so we decide to let our map cover
 the Manhattan area, and in order to give them most meaningful results,
-we focus the year after 2010. Then, we do the fowllowing: 1. select the
-rows recording date later than 2010-01-01. 2. Select the borogh as
-Manhattan. 3. select the variables we are interseted in. 4. filter the
-latitude and longitude to limit it around columbia campus (roughly). The
+we focus the year after 2010. Then, we do the following: 1. select the
+rows recording date later than 2010-01-01. 2. Select the borough as
+Manhattan. 3. select the variables we are interested in. 4. filter the
+latitude and longitude to limit it around Columbia campus (roughly). The
 latitude range is approximately from 86 street subway station to George
 Washing Bridge (West 178th street). The longitude range is from Hudson
 river to Harlem river and Central park. This region covers Columbia
-University campus (and CUIMC) and the neighborhood area. You could find
-details here: <a href="code/data%20import%20and%20cleaning.Rmd">Data
-cleaning</a></p></li>
-<li><p>We use the following items to do our project:</p>
-<p>*<code>id</code>: case id numbers.</p>
-<p>*<code>bor0</code>: Manhattan area.</p>
-<p>*<code>year</code>: The year this specific case happened.</p>
-<p>*<code>month</code>: The month this specific case happened.</p>
-<p>*<code>day</code>: The day this specific case happened.</p>
-<p>*<code>hour</code>: The exact hour this specific case happened.</p>
-<p>*<code>minute</code>: The exact minute this specific case
-happened.</p>
-<p>*<code>second</code>: The exact second this specific case
-happened.</p>
-<p>*<code>success_fail</code>: Indicator of whether crime was
+University campus (and CUIMC) and the neighborhood area. At the
+meanwhile, we filtered out those crimes happening in the residences
+(apartment, house…), so that this data can reflect the crimes we can
+encounter in our daily lives.</p></li>
+<li><p>We use the following items and rename them to do our project:</p>
+<ul>
+<li><p><code>id</code>: case id numbers.</p></li>
+<li><p><code>boro</code>: Manhattan area.</p></li>
+<li><p><code>year</code>: The year this specific case happened.</p></li>
+<li><p><code>month</code>: The month this specific case
+happened.</p></li>
+<li><p><code>day</code>: The day this specific case happened.</p></li>
+<li><p><code>hour</code>: The exact hour this specific case
+happened.</p></li>
+<li><p><code>minute</code>: The exact minute this specific case
+happened.</p></li>
+<li><p><code>second</code>: The exact second this specific case
+happened.</p></li>
+<li><p><code>success_fail</code>: Indicator of whether crime was
 successfully completed or attempted, but failed or was interrupted
-prematurely.</p>
-<p>*<code>level</code>: Level of offense: felony, misdemeanor,
-violation.</p>
-<p>*<code>description</code>: Description of offense corresponding with
-key code.</p>
-<p>*<code>location</code>: Specific location of occurrence in or around
-the premises; inside, opposite of, front of, rear of.</p>
-<p>*<code>susp_age</code>: the age of suspect.</p>
-<p>*<code>susp_race</code>: the race of suspect.</p>
-<p>*<code>susp_sex</code>: the sex of suspect.</p>
-<p>*<code>vic_age</code>: the age of victim.</p>
-<p>*<code>vic_race</code>: the race of victim.</p>
-<p>*<code>vic_sex</code>: the sex of victim.</p>
-<p>*<code>logitude</code>: Logitude at Global Coordinate System.</p>
-<p>*<code>latitude</code>: Latitude at Global Coordinate
+prematurely.</p></li>
+<li><p><code>level</code>: Level of offense: felony, misdemeanor,
+violation.</p></li>
+<li><p><code>description</code>: Description of offense corresponding
+with key code.</p></li>
+<li><p><code>location</code>: Specific location of occurrence in or
+around the premises; inside, opposite of, front of, rear of.</p></li>
+<li><p><code>susp_age</code>: the age of suspect.</p></li>
+<li><p><code>susp_race</code>: the race of suspect.</p></li>
+<li><p><code>susp_sex</code>: the sex of suspect.</p></li>
+<li><p><code>vic_age</code>: the age of victim.</p></li>
+<li><p><code>vic_race</code>: the race of victim.</p></li>
+<li><p><code>vic_sex</code>: the sex of victim.</p></li>
+<li><p><code>logitude</code>: Logitude at Global Coordinate
 System.</p></li>
+<li><p><code>latitude</code>: Latitude at Global Coordinate
+System.</p></li>
+</ul></li>
 </ul>
-<p>Exploratory analysis: Visualizations, summaries, and exploratory
-statistical analyses. Justify the steps you took, and show any major
-changes to your ideas.</p>
-<p>Additional analysis: If you undertake formal statistical analyses,
-describe these in detail Discussion: What were your findings? Are they
-what you expect? What insights into the data can you make?</p>
+</div>
+<div id="exploratory-analysis" class="section level2">
+<h2>Exploratory analysis</h2>
+<p>In this part, we want to have an overall sense about the crimes
+around Columbia University campus (including CUIMC). We pictured the
+proportion of each level of crimes, and the characteristics of suspects
+and victims. We also focused on the total crime numbers across the
+years, showing a pattern of the fluctuation of offense number with the
+months and times, so that we can have an idea about when it will be more
+dangerous and need more caution. At the same time, we also captured some
+interesting point of offense number.</p>
+<div id="numerical-characteristics" class="section level3">
+<h3>Numerical characteristics</h3>
+<pre class="r"><code>filter_data = read_csv(&quot;../data/full_filter_data.csv&quot;)
+p &lt;- c() # a list to save plots
+p[[1]] &lt;- ggplot(aes(x = level, fill = level), data = filter_data) + 
+  geom_bar() +
+  labs(x = &quot;Crime Level&quot;, y = &quot;Number&quot;) + guides(fill = &quot;none&quot;)+
+theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+
+p[[2]] &lt;- ggplot(aes(x = success_fail, fill = success_fail), data = 
+  filter_data)+
+    geom_bar()+
+  labs(x = &quot;Crime Completed or Not&quot;, y = &quot;Number&quot;)+ guides(fill = &quot;none&quot;) +
+theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1))
+
+p[[1]] + p[[2]]</code></pre>
+<p><img src="report_files/figure-html/EDA-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p>The number of misdemeanor crime is the most (62.1%), while the number
+of felony is approximately half of misdemeanor (28.7%). The least type
+is violation (10%). Here exists a selection bias, most of people would
+not report a violation to the police. This figure does not indicate
+violation crimes is the least type in reality. At the meanwhile, nearly
+all (98%) of the crimes are completed – do not put your faith in luck
+that someone can help you, try to avoid them as much as you can!</p>
+</div>
+<div id="crime-level-examples" class="section level3">
+<h3>Crime level examples</h3>
+<p>To have a closer look to the different levels, we listed top 5
+descriptions from different level.</p>
+<pre class="r"><code>felony &lt;- filter_data %&gt;% 
+  group_by(level, description) %&gt;% 
+  filter(level == &quot;FELONY&quot;) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  arrange(desc(number)) %&gt;% 
+  head(5)
+
+mis &lt;- filter_data %&gt;% 
+  group_by(level, description) %&gt;% 
+  filter(level == &quot;MISDEMEANOR&quot;) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  arrange(desc(number)) %&gt;% 
+  head(5)
+
+vio &lt;- filter_data %&gt;% 
+  group_by(level, description) %&gt;% 
+  filter(level == &quot;VIOLATION&quot;) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  arrange(desc(number)) %&gt;% 
+  head(5)
+  
+rbind(felony, mis, vio) %&gt;% 
+  knitr::kable(align = &#39;c&#39;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">level</th>
+<th align="center">description</th>
+<th align="center">number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">FELONY</td>
+<td align="center">GRAND LARCENY</td>
+<td align="center">22359</td>
+</tr>
+<tr class="even">
+<td align="center">FELONY</td>
+<td align="center">ROBBERY</td>
+<td align="center">13449</td>
+</tr>
+<tr class="odd">
+<td align="center">FELONY</td>
+<td align="center">FELONY ASSAULT</td>
+<td align="center">11553</td>
+</tr>
+<tr class="even">
+<td align="center">FELONY</td>
+<td align="center">CRIMINAL MISCHIEF &amp; RELATED OF</td>
+<td align="center">5677</td>
+</tr>
+<tr class="odd">
+<td align="center">FELONY</td>
+<td align="center">FORGERY</td>
+<td align="center">5466</td>
+</tr>
+<tr class="even">
+<td align="center">MISDEMEANOR</td>
+<td align="center">PETIT LARCENY</td>
+<td align="center">65112</td>
+</tr>
+<tr class="odd">
+<td align="center">MISDEMEANOR</td>
+<td align="center">CRIMINAL MISCHIEF &amp; RELATED OF</td>
+<td align="center">29257</td>
+</tr>
+<tr class="even">
+<td align="center">MISDEMEANOR</td>
+<td align="center">ASSAULT 3 &amp; RELATED OFFENSES</td>
+<td align="center">25814</td>
+</tr>
+<tr class="odd">
+<td align="center">MISDEMEANOR</td>
+<td align="center">DANGEROUS DRUGS</td>
+<td align="center">21804</td>
+</tr>
+<tr class="even">
+<td align="center">MISDEMEANOR</td>
+<td align="center">VEHICLE AND TRAFFIC LAWS</td>
+<td align="center">5294</td>
+</tr>
+<tr class="odd">
+<td align="center">VIOLATION</td>
+<td align="center">HARRASSMENT 2</td>
+<td align="center">26042</td>
+</tr>
+<tr class="even">
+<td align="center">VIOLATION</td>
+<td align="center">MISCELLANEOUS PENAL LAW</td>
+<td align="center">658</td>
+</tr>
+<tr class="odd">
+<td align="center">VIOLATION</td>
+<td align="center">ADMINISTRATIVE CODE</td>
+<td align="center">117</td>
+</tr>
+<tr class="even">
+<td align="center">VIOLATION</td>
+<td align="center">DISORDERLY CONDUCT</td>
+<td align="center">88</td>
+</tr>
+<tr class="odd">
+<td align="center">VIOLATION</td>
+<td align="center">OTHER STATE LAWS</td>
+<td align="center">33</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="portrait-of-suspects-and-victims"
+class="section level3 tabset">
+<h3 class="tabset">Portrait of suspects and victims</h3>
+<p>Next, we focus on the portrait of suspects and victims. We used age
+group, race and gender to characterize them.</p>
+<div id="suspects-data" class="section level4">
+<h4>Suspects’ data</h4>
+<pre class="r"><code>filter_data %&gt;% 
+  filter(susp_age %in% c(&quot;&lt;18&quot;, &quot;18-24&quot;, &quot;25-44&quot;, &quot;45-64&quot;, &quot;65+&quot;,
+                         &quot;UNKNOWN&quot;)) %&gt;%
+  mutate(susp_age = as.factor(susp_age)) %&gt;% 
+  count(susp_age, level) %&gt;% 
+  plot_ly(x = ~ susp_age, y = ~n, type = &quot;bar&quot;, color = ~ level, colors = &quot;viridis&quot;) %&gt;% 
+  layout(title = &quot;Suspects&#39; Age Group&quot;, xaxis = list(title = &quot;&quot;), yaxis = list(title = &quot;Number&quot;))</code></pre>
+<div id="htmlwidget-d0ed23b81ff043bf64a2" style="width:85%;height:240px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d0ed23b81ff043bf64a2">{"x":{"visdat":{"660532e20a0":["function () ","plotlyVisDat"]},"cur_data":"660532e20a0","attrs":{"660532e20a0":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Suspects' Age Group","xaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["<18","18-24","25-44","45-64","65+","UNKNOWN"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["<18","18-24","25-44","45-64","65+","UNKNOWN"],"y":[1668,5332,12456,4441,206,17345],"type":"bar","name":"FELONY","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["<18","18-24","25-44","45-64","65+","UNKNOWN"],"y":[2441,8032,27356,12364,599,32039],"type":"bar","name":"MISDEMEANOR","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["<18","18-24","25-44","45-64","65+","UNKNOWN"],"y":[954,1534,6125,2886,261,6354],"type":"bar","name":"VIOLATION","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>filter_data %&gt;% 
+  filter (susp_race != &quot;(null)&quot;) %&gt;% 
+  mutate(susp_age = as.factor(susp_race)) %&gt;% 
+  count(susp_race, level) %&gt;% 
+  plot_ly(x = ~ susp_race, y = ~n, type = &quot;bar&quot;, color = ~ level, colors = &quot;viridis&quot;) %&gt;% 
+  layout(title = &quot;Suspects&#39; Race&quot;, xaxis = list(title = &quot;&quot;), yaxis = list(title = &quot;Number&quot;))</code></pre>
+<div id="htmlwidget-2576a1e52e5ec65df880" style="width:85%;height:240px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2576a1e52e5ec65df880">{"x":{"visdat":{"6605495fea01":["function () ","plotlyVisDat"]},"cur_data":"6605495fea01","attrs":{"6605495fea01":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Suspects' Race","xaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["AMERICAN INDIAN","ASIAN/PACIFIC","BLACK","BLACK HISPANIC","UNKNOWN","WHITE","WHITE HISPANIC"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["AMERICAN INDIAN","ASIAN/PACIFIC","BLACK","BLACK HISPANIC","UNKNOWN","WHITE","WHITE HISPANIC"],"y":[50,308,24257,3759,19396,1367,7395],"type":"bar","name":"FELONY","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["AMERICAN INDIAN","ASIAN/PACIFIC","BLACK","BLACK HISPANIC","UNKNOWN","WHITE","WHITE HISPANIC"],"y":[113,925,41389,6640,36695,4778,15798],"type":"bar","name":"MISDEMEANOR","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["AMERICAN INDIAN","ASIAN/PACIFIC","BLACK","BLACK HISPANIC","UNKNOWN","WHITE","WHITE HISPANIC"],"y":[54,371,12524,1991,4631,1504,4296],"type":"bar","name":"VIOLATION","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>filter_data %&gt;% 
+  filter (susp_sex != &quot;(null)&quot;)  %&gt;% 
+  mutate(susp_sex = as.factor(susp_sex)) %&gt;% 
+  count(susp_sex, level) %&gt;% 
+  mutate(susp_sex = recode(susp_sex, U = &quot;Unknown&quot;, F = &quot;Female&quot;, &quot;M&quot; = &quot;Male&quot;)) %&gt;% 
+  plot_ly(x = ~ susp_sex, y = ~n, type = &quot;bar&quot;, color = ~ level, colors = &quot;viridis&quot;) %&gt;% 
+  layout(title = &quot;Suspects&#39; Sex&quot;, xaxis = list(title = &quot;&quot;), yaxis = list(title = &quot;Number&quot;))</code></pre>
+<div id="htmlwidget-b542a5556e5a47f3c6dc" style="width:85%;height:240px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b542a5556e5a47f3c6dc">{"x":{"visdat":{"660537fc0d49":["function () ","plotlyVisDat"]},"cur_data":"660537fc0d49","attrs":{"660537fc0d49":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Suspects' Sex","xaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["Female","Male","Unknown"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["Female","Male","Unknown"],"y":[4385,34485,17662],"type":"bar","name":"FELONY","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Female","Male","Unknown"],"y":[14179,58243,33916],"type":"bar","name":"MISDEMEANOR","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Female","Male","Unknown"],"y":[7244,14880,3247],"type":"bar","name":"VIOLATION","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="victims-data" class="section level4">
+<h4>Victims’ data</h4>
+<pre class="r"><code>filter_data %&gt;% 
+  filter(vic_age %in% c(&quot;&lt;18&quot;, &quot;18-24&quot;, &quot;25-44&quot;, &quot;45-64&quot;, &quot;65+&quot;,
+                         &quot;UNKNOWN&quot;)) %&gt;%
+  mutate(vic_age = as.factor(vic_age)) %&gt;% 
+  count(vic_age, level) %&gt;% 
+  plot_ly(x = ~ vic_age, y = ~n, type = &quot;bar&quot;, color = ~ level, colors = &quot;viridis&quot;) %&gt;% 
+  layout(title = &quot;Victims&#39; Age Group&quot;, xaxis = list(title = &quot;&quot;), yaxis = list(title = &quot;Number&quot;))</code></pre>
+<div id="htmlwidget-a87a6be6aa74071f8759" style="width:85%;height:240px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a87a6be6aa74071f8759">{"x":{"visdat":{"66051ae4090":["function () ","plotlyVisDat"]},"cur_data":"66051ae4090","attrs":{"66051ae4090":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Victims' Age Group","xaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["<18","18-24","25-44","45-64","65+","UNKNOWN"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["<18","18-24","25-44","45-64","65+","UNKNOWN"],"y":[3268,8324,23789,12097,2948,19125],"type":"bar","name":"FELONY","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["<18","18-24","25-44","45-64","65+","UNKNOWN"],"y":[5504,10579,37888,22152,3369,51070],"type":"bar","name":"MISDEMEANOR","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["<18","18-24","25-44","45-64","65+","UNKNOWN"],"y":[2551,2908,11282,6676,954,1165],"type":"bar","name":"VIOLATION","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>filter_data %&gt;% 
+  filter (vic_race != &quot;(null)&quot;) %&gt;% 
+  mutate(vic_age = as.factor(vic_race)) %&gt;% 
+  count(vic_race, level) %&gt;% 
+  plot_ly(x = ~ vic_race, y = ~n, type = &quot;bar&quot;, color = ~ level, colors = &quot;viridis&quot;) %&gt;% 
+  layout(title = &quot;Victims&#39; Race&quot;, xaxis = list(title = &quot;&quot;), yaxis = list(title = &quot;Number&quot;))</code></pre>
+<div id="htmlwidget-5f559cb06746912ceed0" style="width:85%;height:240px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5f559cb06746912ceed0">{"x":{"visdat":{"66055710aecc":["function () ","plotlyVisDat"]},"cur_data":"66055710aecc","attrs":{"66055710aecc":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Victims' Race","xaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["AMERICAN INDIAN","ASIAN/PACIFIC","BLACK","BLACK HISPANIC","UNKNOWN","WHITE","WHITE HISPANIC"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["AMERICAN INDIAN","ASIAN/PACIFIC","BLACK","BLACK HISPANIC","UNKNOWN","WHITE","WHITE HISPANIC"],"y":[323,3473,18130,4086,34227,10199,12981],"type":"bar","name":"FELONY","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["AMERICAN INDIAN","ASIAN/PACIFIC","BLACK","BLACK HISPANIC","UNKNOWN","WHITE","WHITE HISPANIC"],"y":[551,4604,31677,6493,103008,14125,20184],"type":"bar","name":"MISDEMEANOR","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["AMERICAN INDIAN","ASIAN/PACIFIC","BLACK","BLACK HISPANIC","UNKNOWN","WHITE","WHITE HISPANIC"],"y":[176,1334,10950,2013,3023,3331,6149],"type":"bar","name":"VIOLATION","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>filter_data %&gt;% 
+  filter (vic_sex %in% c(&quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;M&quot;))  %&gt;% 
+  mutate(vic_sex = as.factor(vic_sex)) %&gt;% 
+  count(vic_sex, level) %&gt;% 
+  mutate(vic_sex = recode(vic_sex, F = &quot;Female&quot;, &quot;M&quot; = &quot;Male&quot;)) %&gt;% 
+  plot_ly(x = ~ vic_sex, y = ~n, type = &quot;bar&quot;, color = ~ level, colors = &quot;viridis&quot;) %&gt;% 
+  layout(title = &quot;Victims&#39; Sex&quot;, xaxis = list(title = &quot;&quot;), yaxis = list(title = &quot;Number&quot;))</code></pre>
+<div id="htmlwidget-ae00ea882c2655bc7e61" style="width:85%;height:240px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ae00ea882c2655bc7e61">{"x":{"visdat":{"6605843ffbc":["function () ","plotlyVisDat"]},"cur_data":"6605843ffbc","attrs":{"6605843ffbc":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Victims' Sex","xaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["D","E","Female","Male"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["D","E","Female","Male"],"y":[11277,19507,20468,32136],"type":"bar","name":"FELONY","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["D","E","Female","Male"],"y":[45079,52096,36274,47171],"type":"bar","name":"MISDEMEANOR","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["D","E","Female","Male"],"y":[544,869,15051,10512],"type":"bar","name":"VIOLATION","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="section" class="section level3 unnumbered">
+<h3 class="unnumbered"></h3>
+<p>Through the data, we can see that except unknown, suspects’ age is
+centered at 25-44 years old, black man. As for the victim, the age group
+is still centered at 25-44 years old. But the race is more evenly
+spread, and female number is much more than the suspect group, we will
+have statistical test to reveal whether there is a difference in the
+gender of suspects and victims.</p>
+<p>Next, we want to look into the fluctuation of crime cases among
+months and hours, to see if the case number have a correlation with
+time.</p>
+</div>
+<div id="correlation-of-crime-number-with-time" class="section level3">
+<h3>Correlation of crime number with time</h3>
+<div id="month-data" class="section level4">
+<h4>Month data</h4>
+<pre class="r"><code>data &lt;- filter_data
+month_data &lt;- data %&gt;%  
+  group_by(year, month) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  mutate(month = as.factor(month),
+         year = as.factor(year))
+month_data %&gt;% 
+  plot_ly(y = ~number, color = ~month, type = &quot;box&quot;, colors = &quot;viridis&quot;) %&gt;% 
+  layout(title = &quot;Crime Number Across Months&quot;, xaxis = list(title = &quot;Month&quot;), yaxis = list(title = &quot;Number&quot;))</code></pre>
+<div id="htmlwidget-48ca15fb9e4a2492bbf3" style="width:85%;height:336px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-48ca15fb9e4a2492bbf3">{"x":{"visdat":{"66053832ad71":["function () ","plotlyVisDat"]},"cur_data":"66053832ad71","attrs":{"66053832ad71":{"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Crime Number Across Months","xaxis":{"domain":[0,1],"automargin":true,"title":"Month"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,1,84,0.5)","y":[1986,1724,1887,1847,1671,1561,1782,1661,1893,1680,1966,1487,1674],"type":"box","name":"1","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"line":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(72,33,115,0.5)","y":[1562,1627,1800,1661,1496,1402,1584,1498,1633,1483,1707,1166,1786],"type":"box","name":"2","marker":{"color":"rgba(72,33,115,1)","line":{"color":"rgba(72,33,115,1)"}},"line":{"color":"rgba(72,33,115,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(67,62,133,0.5)","y":[2146,1869,2190,1764,1842,1776,1991,1633,1801,1836,1602,1567,2227],"type":"box","name":"3","marker":{"color":"rgba(67,62,133,1)","line":{"color":"rgba(67,62,133,1)"}},"line":{"color":"rgba(67,62,133,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(56,89,140,0.5)","y":[2120,1843,1912,1955,1728,2069,1969,1895,1821,1918,1000,1539,2154],"type":"box","name":"4","marker":{"color":"rgba(56,89,140,1)","line":{"color":"rgba(56,89,140,1)"}},"line":{"color":"rgba(56,89,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(45,112,142,0.5)","y":[2187,1963,2141,2061,2316,2237,2031,2016,2032,2059,1468,1988,2215],"type":"box","name":"5","marker":{"color":"rgba(45,112,142,1)","line":{"color":"rgba(45,112,142,1)"}},"line":{"color":"rgba(45,112,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(37,133,142,0.5)","y":[2279,2090,2060,2040,2176,2021,2217,1900,2026,2016,1391,1910,2358],"type":"box","name":"6","marker":{"color":"rgba(37,133,142,1)","line":{"color":"rgba(37,133,142,1)"}},"line":{"color":"rgba(37,133,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(30,155,138,0.5)","y":[2387,2107,2145,2251,2186,2204,2039,2060,2023,2182,1574,2033,2207],"type":"box","name":"7","marker":{"color":"rgba(30,155,138,1)","line":{"color":"rgba(30,155,138,1)"}},"line":{"color":"rgba(30,155,138,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(43,176,127,0.5)","y":[2256,1984,2237,2189,2165,2152,2291,2133,2170,2081,1802,2156,2154],"type":"box","name":"8","marker":{"color":"rgba(43,176,127,1)","line":{"color":"rgba(43,176,127,1)"}},"line":{"color":"rgba(43,176,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(81,196,106,0.5)","y":[2364,1884,2055,2062,2061,2109,1973,2042,2048,2063,1774,2068,2072],"type":"box","name":"9","marker":{"color":"rgba(81,196,106,1)","line":{"color":"rgba(81,196,106,1)"}},"line":{"color":"rgba(81,196,106,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(133,213,74,0.5)","y":[2323,1831,1942,2080,2085,2043,1955,2162,2021,2042,1825,2167],"type":"box","name":"10","marker":{"color":"rgba(133,213,74,1)","line":{"color":"rgba(133,213,74,1)"}},"line":{"color":"rgba(133,213,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(194,223,35,0.5)","y":[1890,1807,1543,1673,1787,1604,1711,1731,1607,1716,1610,2010],"type":"box","name":"11","marker":{"color":"rgba(194,223,35,1)","line":{"color":"rgba(194,223,35,1)"}},"line":{"color":"rgba(194,223,35,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(253,231,37,0.5)","y":[1592,1801,1705,1623,1451,1677,1726,1598,1558,1625,1458,1741],"type":"box","name":"12","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"line":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>We can roughly see that, in summer there are more crimes, especially
+from May to August. December and February have fewer cases. We will
+verify if there is a significant difference between months in
+statistical testing part.</p>
+</div>
+<div id="hour-data" class="section level4">
+<h4>Hour data</h4>
+<pre class="r"><code>hour_data = data %&gt;% 
+  group_by(year, month, hour) %&gt;% 
+  summarise(number = n()) %&gt;%
+  mutate(hour = as.factor(hour),
+    hour = fct_inseq(hour)) 
+hour_data %&gt;% 
+  plot_ly(y = ~number, color = ~hour, type = &quot;box&quot;, colors = &quot;viridis&quot;) %&gt;% 
+  layout(title = &quot;Crime Number Across Hours&quot;, xaxis = list(title = &quot;Hour&quot;), yaxis = list(title = &quot;Number&quot;))</code></pre>
+<div id="htmlwidget-66a1c9ee703bb1515d08" style="width:85%;height:336px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-66a1c9ee703bb1515d08">{"x":{"visdat":{"660576db45a9":["function () ","plotlyVisDat"]},"cur_data":"660576db45a9","attrs":{"660576db45a9":{"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Crime Number Across Hours","xaxis":{"domain":[0,1],"automargin":true,"title":"Hour"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,1,84,0.5)","y":[84,68,93,83,96,89,124,95,110,91,62,59,73,54,75,71,76,87,79,84,75,54,66,65,66,76,78,77,90,98,91,84,84,74,67,67,78,58,57,69,76,80,93,86,63,73,58,71,59,64,59,58,76,84,81,99,71,55,53,43,64,39,83,73,106,77,97,118,86,63,64,52,105,56,73,87,96,97,102,107,84,68,74,72,73,64,63,91,75,115,84,95,85,87,73,56,160,77,107,78,105,93,94,97,89,92,62,78,153,53,72,73,76,87,85,79,62,72,57,47,121,55,71,32,61,56,70,100,63,63,51,42,93,38,51,47,80,70,58,65,69,81,58,51,66,57,79,88,94,101,98,84,71],"type":"box","name":"0","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"line":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(71,17,100,0.5)","y":[85,57,62,80,85,79,98,118,88,105,82,64,76,54,56,58,56,76,91,65,67,63,59,66,65,45,70,52,67,75,97,89,75,68,55,64,59,51,59,76,56,69,87,76,77,74,56,53,51,48,60,68,74,76,68,74,62,71,58,27,43,40,55,60,67,71,70,84,59,56,46,53,65,47,50,84,65,64,66,52,62,69,64,48,49,56,59,64,77,70,78,67,53,51,49,49,63,44,54,42,58,57,77,78,62,46,55,43,19,35,31,44,45,60,74,63,62,59,43,31,63,52,49,26,41,64,51,50,63,47,49,44,42,44,39,53,57,59,60,62,57,61,47,47,41,35,45,58,65,80,78,58,60],"type":"box","name":"1","marker":{"color":"rgba(71,17,100,1)","line":{"color":"rgba(71,17,100,1)"}},"line":{"color":"rgba(71,17,100,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(72,32,113,0.5)","y":[52,49,47,74,72,64,86,69,61,74,64,39,49,43,49,43,46,46,57,61,45,58,69,44,55,50,47,39,51,59,58,67,72,59,47,70,52,50,43,61,44,53,76,70,55,56,43,42,46,53,47,57,57,57,66,63,64,64,49,32,38,42,37,50,62,47,45,68,45,67,33,48,33,33,68,54,35,46,57,70,50,54,56,39,37,36,36,54,51,54,61,67,49,58,49,42,45,33,38,46,43,56,52,54,36,43,35,61,43,31,36,53,50,45,68,52,76,47,42,38,40,32,31,27,28,37,43,43,32,44,40,26,31,28,42,39,51,56,52,54,40,50,61,37,27,45,45,56,60,54,54,38,42],"type":"box","name":"2","marker":{"color":"rgba(72,32,113,1)","line":{"color":"rgba(72,32,113,1)"}},"line":{"color":"rgba(72,32,113,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(71,46,124,0.5)","y":[48,41,41,43,45,53,64,51,53,62,62,35,49,38,43,46,40,60,63,51,35,32,47,35,51,50,61,47,65,54,63,52,58,47,36,32,46,48,47,54,54,57,65,62,59,52,44,45,40,29,41,46,49,53,48,51,52,40,47,40,33,23,30,42,40,38,59,53,42,48,30,30,40,23,44,48,39,44,47,49,44,44,47,37,25,29,38,36,45,41,57,48,38,40,39,19,36,38,36,41,32,53,38,46,34,38,32,19,26,32,38,25,31,43,35,51,34,39,42,23,44,38,29,18,30,44,30,39,43,34,26,25,22,15,37,41,40,44,36,46,37,47,38,33,26,31,44,32,40,24,54,52,40],"type":"box","name":"3","marker":{"color":"rgba(71,46,124,1)","line":{"color":"rgba(71,46,124,1)"}},"line":{"color":"rgba(71,46,124,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(68,60,132,0.5)","y":[58,20,37,43,54,47,60,70,45,64,38,39,56,35,30,43,45,34,51,42,47,44,43,57,41,41,49,36,45,49,51,66,49,51,36,42,26,30,38,49,43,38,53,59,50,48,41,37,36,36,46,39,45,66,48,34,36,30,30,28,23,28,41,33,50,34,47,44,38,34,27,43,39,30,34,36,42,36,37,37,34,54,26,24,21,35,27,37,48,41,39,41,30,50,34,20,26,36,39,37,34,33,40,55,41,54,30,23,39,20,32,35,39,37,43,36,57,33,30,26,34,38,28,10,22,21,43,44,36,25,25,28,14,17,25,31,27,29,25,34,30,28,39,34,18,37,36,35,42,36,54,31,42],"type":"box","name":"4","marker":{"color":"rgba(68,60,132,1)","line":{"color":"rgba(68,60,132,1)"}},"line":{"color":"rgba(68,60,132,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(63,72,137,0.5)","y":[23,15,23,15,33,28,36,31,32,37,33,20,21,29,27,26,30,19,28,31,31,13,30,21,28,28,38,22,36,28,38,29,32,29,25,25,25,18,18,21,28,20,32,31,27,27,22,26,30,23,32,21,35,22,39,34,20,33,23,10,16,18,17,29,27,17,40,40,35,28,26,22,21,24,22,22,25,38,30,37,32,21,25,18,22,24,26,10,24,24,32,23,35,31,18,20,20,26,34,23,38,24,31,24,28,35,16,19,24,18,22,17,25,30,34,25,27,23,22,26,35,24,30,8,16,25,22,41,29,32,22,24,24,12,22,23,26,23,22,28,29,36,20,21,17,24,31,29,31,40,44,39,27],"type":"box","name":"5","marker":{"color":"rgba(63,72,137,1)","line":{"color":"rgba(63,72,137,1)"}},"line":{"color":"rgba(63,72,137,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(57,85,140,0.5)","y":[28,15,18,18,17,26,40,42,36,24,25,11,15,11,17,20,18,14,25,24,28,20,25,16,20,22,17,13,17,30,22,20,20,30,13,23,31,11,29,9,19,18,35,41,41,23,24,15,20,20,21,21,30,31,28,30,22,21,28,13,15,16,16,19,34,25,55,36,26,18,15,22,25,26,19,21,18,26,25,22,49,29,30,15,13,21,9,17,20,29,21,26,31,21,21,18,28,15,19,18,23,29,27,36,29,24,20,17,21,16,12,26,22,28,20,39,25,24,27,20,30,24,17,18,22,17,28,22,31,33,28,10,20,20,17,24,31,21,36,34,27,34,30,26,22,28,34,17,33,32,33,30,23],"type":"box","name":"6","marker":{"color":"rgba(57,85,140,1)","line":{"color":"rgba(57,85,140,1)"}},"line":{"color":"rgba(57,85,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(52,97,141,0.5)","y":[35,15,19,32,25,36,29,36,44,40,26,16,24,23,14,26,25,17,31,29,30,20,27,34,33,26,25,31,27,40,32,35,20,32,26,35,30,27,32,32,38,35,40,43,44,36,34,36,44,30,36,31,37,36,45,41,40,48,43,28,27,35,45,49,43,30,34,40,46,47,38,39,43,30,29,57,40,29,41,40,50,43,36,28,38,40,33,35,38,46,53,43,34,58,43,26,40,38,34,37,37,50,41,58,52,56,45,38,32,26,46,39,43,52,42,51,57,49,41,33,44,45,30,12,25,20,36,37,46,45,34,27,20,21,30,37,54,53,46,57,50,43,70,40,45,45,66,61,65,51,60,57,57],"type":"box","name":"7","marker":{"color":"rgba(52,97,141,1)","line":{"color":"rgba(52,97,141,1)"}},"line":{"color":"rgba(52,97,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(47,108,142,0.5)","y":[36,37,51,39,56,76,51,42,55,56,49,34,45,30,37,42,65,47,38,45,52,49,38,40,50,42,52,53,58,47,34,46,36,49,44,53,42,54,54,53,69,59,69,53,65,52,58,38,38,41,55,59,88,56,60,53,59,51,41,31,38,53,62,57,61,61,35,76,58,59,46,57,50,38,57,71,44,60,68,80,57,58,51,54,61,54,54,61,72,52,72,65,65,63,50,59,68,52,50,68,83,63,56,60,63,67,58,54,45,51,52,61,73,47,60,67,80,72,64,45,64,58,48,27,44,37,64,47,55,58,50,32,43,41,46,60,95,94,99,95,109,78,112,86,62,82,99,75,80,78,67,61,50],"type":"box","name":"8","marker":{"color":"rgba(47,108,142,1)","line":{"color":"rgba(47,108,142,1)"}},"line":{"color":"rgba(47,108,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(42,118,142,0.5)","y":[64,46,64,71,55,77,71,54,78,68,64,49,58,56,55,47,63,62,44,57,92,52,45,70,62,42,66,52,60,80,50,59,58,65,46,47,50,42,53,58,58,56,65,65,82,83,52,51,44,56,63,43,86,87,59,49,74,66,58,55,45,45,53,67,114,72,59,68,56,65,65,60,57,58,62,52,79,81,62,78,67,57,42,70,59,45,53,70,71,65,95,83,77,66,65,51,68,67,51,50,59,71,96,86,73,91,60,57,68,52,66,62,78,76,64,80,90,78,71,65,91,61,64,24,52,52,57,57,55,68,52,61,39,35,41,46,81,75,81,86,82,101,110,68,70,69,104,94,81,95,93,85,75],"type":"box","name":"9","marker":{"color":"rgba(42,118,142,1)","line":{"color":"rgba(42,118,142,1)"}},"line":{"color":"rgba(42,118,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(38,129,142,0.5)","y":[49,41,53,69,66,85,74,69,87,84,51,45,42,62,71,60,64,64,78,77,57,65,58,44,64,63,79,69,80,81,77,91,100,56,62,63,55,58,69,66,85,70,70,83,76,59,61,49,65,53,65,72,80,82,66,66,92,74,66,52,69,58,82,102,102,96,78,79,90,91,63,73,60,66,60,70,92,82,63,83,79,77,68,57,59,47,65,73,90,58,70,79,64,83,69,77,91,78,74,79,82,89,85,81,79,97,57,61,77,69,75,86,86,67,71,83,85,82,68,61,74,67,72,27,50,56,48,59,78,70,86,53,48,40,49,53,79,72,88,70,111,79,88,86,72,59,122,86,87,88,77,89,90],"type":"box","name":"10","marker":{"color":"rgba(38,129,142,1)","line":{"color":"rgba(38,129,142,1)"}},"line":{"color":"rgba(38,129,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(34,139,141,0.5)","y":[77,58,102,80,75,75,88,89,100,90,81,72,59,55,64,61,83,63,67,74,81,77,99,62,73,73,103,77,81,76,86,86,71,67,65,72,70,85,81,66,89,74,89,72,71,101,71,65,83,66,77,88,86,69,96,76,86,88,113,74,52,67,82,64,91,85,84,85,85,73,63,79,74,63,81,61,81,118,79,100,112,111,62,76,90,67,88,78,72,83,78,94,84,85,90,88,66,63,69,63,94,92,77,94,93,98,79,78,65,68,64,78,79,81,98,97,100,90,98,64,81,77,59,35,47,55,56,78,66,71,58,60,63,40,55,64,100,86,82,117,102,104,106,72,87,72,110,78,92,114,96,98,79],"type":"box","name":"11","marker":{"color":"rgba(34,139,141,1)","line":{"color":"rgba(34,139,141,1)"}},"line":{"color":"rgba(34,139,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(31,149,139,0.5)","y":[97,66,92,84,99,107,108,108,104,106,71,73,78,61,99,88,92,90,100,93,90,83,103,90,111,101,117,121,107,86,106,97,102,92,90,87,105,91,97,93,91,102,124,96,100,112,80,77,86,73,93,96,124,92,117,109,102,113,75,88,100,66,117,110,108,93,101,97,107,101,89,74,89,84,85,82,86,90,96,109,79,68,86,102,98,67,71,75,94,99,106,130,110,100,118,102,119,94,101,98,95,104,116,106,120,113,82,83,95,96,111,111,113,96,114,105,103,104,83,89,72,99,66,33,57,71,71,94,80,90,86,81,65,65,78,91,91,95,105,117,95,106,97,77,93,108,127,110,105,135,109,103,93],"type":"box","name":"12","marker":{"color":"rgba(31,149,139,1)","line":{"color":"rgba(31,149,139,1)"}},"line":{"color":"rgba(31,149,139,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(31,160,136,0.5)","y":[114,77,111,131,92,131,108,92,109,98,105,80,80,82,107,81,103,129,106,94,103,105,111,99,95,108,133,108,120,103,134,133,116,102,91,78,107,95,120,113,115,124,116,110,99,112,89,71,95,83,111,73,108,111,127,86,100,116,91,86,93,58,76,93,115,103,107,98,125,115,86,96,74,82,129,110,88,110,103,100,99,85,103,71,89,77,87,102,108,86,89,110,100,126,86,89,73,92,104,91,102,112,99,82,100,108,92,91,78,79,109,129,120,113,87,104,111,126,77,109,106,91,72,49,63,58,76,88,91,90,91,59,92,56,89,87,105,105,124,116,105,108,110,111,89,80,133,104,105,126,106,114,102],"type":"box","name":"13","marker":{"color":"rgba(31,160,136,1)","line":{"color":"rgba(31,160,136,1)"}},"line":{"color":"rgba(31,160,136,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(36,170,131,0.5)","y":[113,97,130,137,125,145,139,117,145,118,116,106,88,117,140,115,114,114,142,126,115,118,91,116,123,130,140,120,142,108,133,136,126,143,87,99,127,125,111,140,123,122,113,121,123,127,90,112,99,81,115,98,124,100,112,143,115,125,102,90,112,89,114,123,136,114,132,96,137,147,87,103,107,96,118,114,119,145,124,115,95,100,118,111,100,98,85,117,127,92,133,101,105,133,99,96,130,92,114,115,117,117,113,114,112,103,121,82,109,100,141,112,131,134,117,100,126,119,94,112,118,93,89,57,77,65,96,94,100,94,96,73,100,66,88,81,97,97,103,115,111,137,127,95,91,107,113,130,107,122,122,104,104],"type":"box","name":"14","marker":{"color":"rgba(36,170,131,1)","line":{"color":"rgba(36,170,131,1)"}},"line":{"color":"rgba(36,170,131,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(48,180,124,0.5)","y":[156,120,183,159,172,147,126,119,140,156,149,132,148,134,137,140,133,134,134,154,122,153,133,138,162,157,161,149,141,141,121,144,145,143,106,122,149,136,116,121,131,110,134,129,126,149,102,130,122,109,138,109,143,127,130,152,118,147,107,108,105,117,102,128,144,118,142,127,148,155,114,99,125,96,144,107,140,117,127,132,111,143,106,129,123,105,99,114,137,124,117,124,153,136,121,110,106,104,122,140,120,119,125,125,128,128,108,103,125,121,140,123,142,140,136,121,127,151,125,115,152,125,101,68,106,70,72,121,125,127,88,128,113,70,118,94,108,104,110,121,138,159,138,98,109,110,139,124,156,162,140,120,156],"type":"box","name":"15","marker":{"color":"rgba(48,180,124,1)","line":{"color":"rgba(48,180,124,1)"}},"line":{"color":"rgba(48,180,124,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(65,189,114,0.5)","y":[148,95,152,147,177,162,133,116,143,167,122,103,128,144,137,130,142,146,153,148,121,110,123,130,137,138,162,139,157,148,138,128,156,163,97,87,108,120,123,126,148,150,132,154,138,153,137,105,118,92,136,115,149,116,132,151,138,154,119,105,101,103,151,185,158,147,161,141,114,148,123,120,110,123,170,156,127,145,146,162,120,160,120,127,120,102,104,124,153,127,143,159,136,178,150,100,160,110,150,157,136,129,149,149,126,143,110,95,136,109,160,163,142,146,169,137,146,141,129,127,168,131,146,88,130,69,87,134,133,140,107,117,138,94,133,136,132,125,131,150,163,153,121,128,165,151,153,158,155,138,144,140,132],"type":"box","name":"16","marker":{"color":"rgba(65,189,114,1)","line":{"color":"rgba(65,189,114,1)"}},"line":{"color":"rgba(65,189,114,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(87,198,102,0.5)","y":[128,91,169,139,140,133,122,134,121,140,108,122,105,109,124,138,134,151,135,133,124,133,93,134,117,132,151,147,149,153,137,131,130,127,97,106,110,90,112,121,160,127,161,138,135,135,105,93,119,110,129,125,136,114,137,164,151,148,125,97,124,98,116,133,156,156,143,143,137,134,119,126,128,120,151,111,158,170,125,134,153,145,121,123,140,122,127,138,134,118,119,120,152,161,111,107,110,110,125,132,152,129,110,143,153,127,108,113,106,95,139,139,144,131,183,140,141,174,129,121,122,139,112,97,117,68,102,108,118,127,115,116,84,94,135,98,137,122,130,146,103,128,117,108,104,116,144,138,161,178,122,157,141],"type":"box","name":"17","marker":{"color":"rgba(87,198,102,1)","line":{"color":"rgba(87,198,102,1)"}},"line":{"color":"rgba(87,198,102,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(111,207,87,0.5)","y":[104,102,160,134,145,133,148,127,140,131,107,90,108,93,118,134,124,156,135,108,99,113,120,114,105,93,147,121,129,128,128,134,131,122,78,95,115,86,94,157,143,146,136,147,118,142,104,115,101,107,134,134,140,131,126,130,135,114,125,97,96,82,113,170,131,121,137,119,126,104,108,99,107,94,125,126,134,160,127,173,113,127,97,107,91,92,101,99,125,111,143,128,128,153,102,99,139,114,102,102,126,130,129,135,127,131,107,110,92,78,129,116,142,130,180,135,145,143,103,106,122,104,107,80,114,101,102,110,102,115,103,101,101,84,123,115,118,120,119,134,116,130,114,118,108,105,139,144,134,170,125,133,132],"type":"box","name":"18","marker":{"color":"rgba(111,207,87,1)","line":{"color":"rgba(111,207,87,1)"}},"line":{"color":"rgba(111,207,87,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(138,214,71,0.5)","y":[121,107,127,110,129,152,149,156,138,143,95,89,88,87,122,116,113,142,127,111,119,119,95,107,112,91,101,114,154,102,100,104,115,104,75,79,101,83,90,97,112,127,126,116,132,117,99,75,83,82,86,89,143,134,137,124,105,112,109,81,92,85,80,118,103,139,137,117,153,104,90,84,110,92,113,98,142,133,106,176,99,132,107,94,94,83,115,113,108,99,113,131,118,124,88,86,83,85,84,117,99,122,107,135,114,98,84,87,95,85,86,122,142,121,141,118,91,116,99,99,107,87,95,76,103,59,87,122,92,109,115,89,92,68,91,75,106,112,131,109,106,135,103,102,101,105,108,118,126,139,115,115,116],"type":"box","name":"19","marker":{"color":"rgba(138,214,71,1)","line":{"color":"rgba(138,214,71,1)"}},"line":{"color":"rgba(138,214,71,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(167,219,53,0.5)","y":[103,104,125,135,122,109,133,132,130,118,115,88,103,92,107,92,109,131,114,113,99,98,120,96,88,72,112,102,116,102,121,147,103,82,88,83,136,84,83,101,113,116,126,131,109,113,95,95,95,65,94,76,247,215,165,103,97,114,99,77,81,74,98,107,117,82,131,106,116,105,59,78,86,79,92,118,112,107,113,117,111,84,84,96,64,84,86,131,92,111,108,117,123,96,87,87,81,69,80,85,116,97,91,116,120,98,81,85,70,81,84,100,97,137,103,101,104,99,75,83,84,75,94,60,75,102,95,95,85,101,87,88,99,68,91,74,99,110,117,120,121,113,98,102,71,103,106,102,128,102,115,130,149],"type":"box","name":"20","marker":{"color":"rgba(167,219,53,1)","line":{"color":"rgba(167,219,53,1)"}},"line":{"color":"rgba(167,219,53,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(196,224,33,0.5)","y":[82,86,95,110,99,102,129,115,127,123,93,80,85,79,80,92,87,101,109,96,93,94,83,74,81,79,102,63,91,93,120,129,93,76,74,101,80,78,81,109,79,100,91,100,107,92,77,87,71,65,85,84,96,105,111,124,121,109,86,67,79,61,85,91,97,117,128,98,112,98,76,79,89,77,89,107,83,109,103,91,88,69,82,82,90,59,74,101,94,78,79,102,115,98,56,70,58,72,79,86,98,97,87,114,102,91,62,53,50,60,78,78,91,88,88,111,68,79,67,72,72,70,79,51,79,86,82,75,87,92,70,71,59,71,66,73,102,81,121,114,106,90,67,75,64,78,90,128,108,117,117,107,119],"type":"box","name":"21","marker":{"color":"rgba(196,224,33,1)","line":{"color":"rgba(196,224,33,1)"}},"line":{"color":"rgba(196,224,33,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(226,228,24,0.5)","y":[91,83,102,96,97,110,140,121,145,110,93,76,70,71,81,89,107,108,108,86,90,77,64,82,81,77,93,91,75,104,104,131,71,89,60,88,78,82,92,84,109,99,111,103,99,58,68,66,59,67,64,69,79,117,100,104,120,110,78,62,64,50,59,102,80,100,102,129,88,89,61,73,65,57,66,86,97,120,105,105,105,80,51,75,48,48,65,79,72,92,94,88,88,84,56,60,63,57,74,71,99,90,94,100,100,82,45,65,69,56,75,60,83,68,71,104,82,63,65,65,69,63,56,37,59,92,69,75,87,74,78,53,49,48,50,49,97,81,95,91,84,91,81,72,72,75,88,102,90,93,98,110,90],"type":"box","name":"22","marker":{"color":"rgba(226,228,24,1)","line":{"color":"rgba(226,228,24,1)"}},"line":{"color":"rgba(226,228,24,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(253,231,37,0.5)","y":[90,72,90,91,111,113,131,153,133,118,79,70,76,68,79,85,94,99,92,82,69,81,65,67,67,64,86,69,83,75,104,99,92,72,78,87,67,59,65,79,78,88,107,103,66,86,63,69,67,43,55,57,84,95,88,105,81,82,62,60,51,55,62,64,95,78,80,90,80,94,76,68,80,90,110,91,89,90,87,122,80,77,55,71,57,43,68,76,89,85,76,92,69,80,57,67,60,67,61,45,84,70,89,82,67,58,58,43,43,52,38,66,65,59,99,82,64,59,65,48,53,59,57,40,50,66,87,69,77,76,53,50,36,31,51,48,75,76,62,75,77,75,58,54,54,64,72,87,70,83,86,99,82],"type":"box","name":"23","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"line":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Obvious pattern. It’s counter-intuitive that the time with most cases
+is not in the midnight, but in the afternoon. Similarly, We will verify
+if there is a significant difference between months in statistical
+testing part.</p>
+</div>
+<div id="correlation-with-specific-days" class="section level4">
+<h4>Correlation with specific days</h4>
+<p>Normally the crime numbers between days are quite alike, but
+admittedly there can be some days that are more dangerous. For example,
+Halloween’s Day is generally considered as unsafe. Here we show the days
+that have the most cases, also we want to see which days are more
+“peaceful”.</p>
+<pre class="r"><code>data %&gt;% 
+  group_by(month, day) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  arrange(desc(number)) %&gt;% 
+  head( 5) %&gt;% 
+  knitr::kable(align = &#39;c&#39;, caption = &quot;Days with most crimes&quot;)</code></pre>
+<table>
+<caption>Days with most crimes</caption>
+<thead>
+<tr class="header">
+<th align="center">month</th>
+<th align="center">day</th>
+<th align="center">number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1196</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">1084</td>
+</tr>
+<tr class="odd">
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">1054</td>
+</tr>
+<tr class="even">
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">1051</td>
+</tr>
+<tr class="odd">
+<td align="center">9</td>
+<td align="center">1</td>
+<td align="center">1041</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>data %&gt;% 
+  group_by(month, day) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  arrange((number)) %&gt;%
+  filter(month != 2 &amp; day != 29) %&gt;% 
+  head(5) %&gt;% 
+  knitr::kable(align = &#39;c&#39;, caption = &quot;Days with least crimes&quot;)</code></pre>
+<table>
+<caption>Days with least crimes</caption>
+<thead>
+<tr class="header">
+<th align="center">month</th>
+<th align="center">day</th>
+<th align="center">number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">12</td>
+<td align="center">25</td>
+<td align="center">370</td>
+</tr>
+<tr class="even">
+<td align="center">12</td>
+<td align="center">24</td>
+<td align="center">493</td>
+</tr>
+<tr class="odd">
+<td align="center">12</td>
+<td align="center">26</td>
+<td align="center">499</td>
+</tr>
+<tr class="even">
+<td align="center">12</td>
+<td align="center">31</td>
+<td align="center">513</td>
+</tr>
+<tr class="odd">
+<td align="center">12</td>
+<td align="center">30</td>
+<td align="center">562</td>
+</tr>
+</tbody>
+</table>
+<p>The crime numbers in each day across years also varies a lot. It’s a
+interesting finding that New Years’ day enjoys the most crime cases, and
+the second is International Children’s Day (sadly). The days with fewest
+crimes is around Chirstmas Holiday, when most people will stay safely
+with their family at home.</p>
+</div>
+</div>
+</div>
+<div id="statistical-analysis" class="section level2">
+<h2>Statistical analysis</h2>
+<div id="anova-test---suspects-gender" class="section level3">
+<h3>Anova test - suspects’ gender</h3>
+<p>Whether there is a significant difference in the number of male and
+female suspects. We calculate how many male and female suspects in
+month, year, then plot the disturbution of number of male and female
+suspects.</p>
+<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)
+
+gender_data &lt;- data %&gt;%  
+  group_by(year, month, susp_sex) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  mutate(susp_sex = as.factor(susp_sex)) %&gt;%
+  filter(susp_sex %in% c(&quot;F&quot;, &quot;M&quot;, &quot;U&quot;))
+aov_model_1 &lt;- aov(number ~ susp_sex, data = gender_data)
+
+aov_model_1 %&gt;% 
+  broom::tidy() %&gt;% 
+  knitr::kable(digits = 4, align = &#39;c&#39;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">term</th>
+<th align="center">df</th>
+<th align="center">sumsq</th>
+<th align="center">meansq</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">susp_sex</td>
+<td align="center">2</td>
+<td align="center">22482073</td>
+<td align="center">11241036.36</td>
+<td align="center">397.0255</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">Residuals</td>
+<td align="center">456</td>
+<td align="center">12910789</td>
+<td align="center">28313.13</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<p>There is a significant difference in the number of male and female
+suspects. Through the boxplot in EDA part, we could easily see that male
+is more likely to be suspects than females if we consider the
+unknown.</p>
+</div>
+<div id="t-test---victims-gender" class="section level3">
+<h3>T test - victims’ gender</h3>
+<p>We wonder whether there is a significant difference in the number of
+male and female victims. So we calculate how many male and female
+victims in month, year, then plot the disturbution of number of male and
+female victims. And I also do the same steps for vic_sex include
+D=Business/Organization, E=PSNY/People of the State of New York.</p>
+<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)
+female &lt;- data %&gt;%  
+  group_by(year, month, vic_sex) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  mutate(vic_sex = as.factor(vic_sex)) %&gt;%
+  filter(vic_sex %in% c(&quot;F&quot;))
+
+male &lt;- data %&gt;%  
+  group_by(year, month, vic_sex) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  mutate(vic_sex = as.factor(vic_sex)) %&gt;%
+  filter(vic_sex %in% c(&quot;M&quot;))
+
+t.test(pull(female, number), pull(male, number)) %&gt;% broom::glance() %&gt;% 
+  knitr::kable(digits = 4, align = &#39;c&#39;)</code></pre>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="20%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">estimate</th>
+<th align="center">estimate1</th>
+<th align="center">estimate2</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+<th align="center">parameter</th>
+<th align="center">conf.low</th>
+<th align="center">conf.high</th>
+<th align="center">method</th>
+<th align="center">alternative</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">-117.817</td>
+<td align="center">469.2353</td>
+<td align="center">587.0523</td>
+<td align="center">-11.0482</td>
+<td align="center">0</td>
+<td align="center">286.4321</td>
+<td align="center">-138.8066</td>
+<td align="center">-96.8274</td>
+<td align="center">Welch Two Sample t-test</td>
+<td align="center">two.sided</td>
+</tr>
+</tbody>
+</table>
+<p>There is a significant difference in the number of male and female
+suspects. Through the boxplot, though compared to the suspect, the
+female victim number rises a lot, male is still more likely to be
+victims than females.</p>
+</div>
+<div
+id="logistic-regression---suspects-gender-and-crime-successful-rate"
+class="section level3">
+<h3>Logistic regression - suspects’ gender and crime successful
+rate</h3>
+<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)
+gender_data_rate &lt;- data %&gt;%  
+  filter(susp_sex %in% c(&quot;F&quot;, &quot;M&quot;, &quot;U&quot;)) %&gt;%
+  mutate(success_fail = ifelse(success_fail == &quot;COMPLETED&quot;, 1, 0))
+
+reg_successrate = glm(success_fail ~ susp_sex, family=binomial(link=&quot;logit&quot;), data = gender_data_rate)
+
+reg_successrate %&gt;% 
+  broom::tidy() %&gt;%
+  knitr::kable(digits = 4, align = &#39;c&#39;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">term</th>
+<th align="center">estimate</th>
+<th align="center">std.error</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">(Intercept)</td>
+<td align="center">4.0271</td>
+<td align="center">0.0475</td>
+<td align="center">84.8640</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">susp_sexM</td>
+<td align="center">-0.4020</td>
+<td align="center">0.0512</td>
+<td align="center">-7.8548</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">susp_sexU</td>
+<td align="center">0.3592</td>
+<td align="center">0.0613</td>
+<td align="center">5.8628</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>gender_data_rate %&gt;% 
+  group_by(year, success_fail, susp_sex) %&gt;% 
+  summarise(number = n()) %&gt;%
+  mutate(success_fail = ifelse(success_fail == 1, &quot;COMPLETED&quot;, &quot;ATTEMPTED&quot;)) %&gt;%
+  pivot_wider(
+  names_from = &quot;success_fail&quot;, 
+  values_from = &quot;number&quot;) %&gt;%
+  mutate(total = ATTEMPTED+COMPLETED, 
+         rate = COMPLETED/total) %&gt;%
+  plot_ly(x = ~ susp_sex, y = ~ rate, type = &quot;box&quot;, color = ~ susp_sex, colors = &quot;viridis&quot;) %&gt;% 
+  layout(xaxis = list(title = &quot;Suspects&#39; Gender&quot;), yaxis = list(title = &quot;Rate&quot;))</code></pre>
+<div id="htmlwidget-d78996dc5193069bf61a" style="width:85%;height:307.2px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d78996dc5193069bf61a">{"x":{"visdat":{"660512d0d62b":["function () ","plotlyVisDat"]},"cur_data":"660512d0d62b","attrs":{"660512d0d62b":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Suspects' Gender","type":"category","categoryorder":"array","categoryarray":["F","M","U"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Rate"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,1,84,0.5)","x":["F","F","F","F","F","F","F","F","F","F","F","F","F"],"y":[0.98740377886634,0.982089552238806,0.976951672862454,0.985998526160649,0.981098641464855,0.980605120248254,0.980213692125049,0.98111753371869,0.979537703675635,0.985616956850871,0.982175783650891,0.985825331504344,0.98539751216874],"type":"box","name":"F","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"line":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(33,144,141,0.5)","x":["M","M","M","M","M","M","M","M","M","M","M","M","M"],"y":[0.967706259677063,0.964928057553957,0.962820512820513,0.968861771512729,0.974316759960487,0.973011909335382,0.971693602371617,0.973509933774834,0.975790921595598,0.977116505699121,0.97785051827605,0.979504851727578,0.977955478711908],"type":"box","name":"M","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"line":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(253,231,37,0.5)","x":["U","U","U","U","U","U","U","U","U","U","U","U","U"],"y":[0.987708066581306,0.985647530040053,0.984214898919967,0.984870958172649,0.989798657718121,0.987642807181161,0.987602390967456,0.988103408830931,0.985812356979405,0.988991237924062,0.990720193665524,0.987683823529412,0.989216092907507],"type":"box","name":"U","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"line":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>There is a significant relationship between gender of suspects and
+successful rate. Through the boxplot, we could see that distribution of
+the successful rate of male suspects is lower than distribution of the
+successful rate of female suspects.</p>
+</div>
+<div id="logistic-regression---victims-gender-and-crime-successful-rate"
+class="section level3">
+<h3>Logistic regression - victims’ gender and crime successful rate</h3>
+<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)
+gender_data_rate_1 &lt;- data %&gt;%  
+  filter(vic_sex %in% c(&quot;F&quot;, &quot;M&quot;)) %&gt;%
+  mutate(success_fail = ifelse(success_fail == &quot;COMPLETED&quot;, 1, 0))
+
+reg_successrate_1 = glm(success_fail ~ vic_sex, family=binomial(link=&quot;logit&quot;), data = gender_data_rate_1)
+
+reg_successrate_1 %&gt;% 
+  broom::tidy() %&gt;%
+  knitr::kable(digits = 4, align = &#39;c&#39;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">term</th>
+<th align="center">estimate</th>
+<th align="center">std.error</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">(Intercept)</td>
+<td align="center">4.1047</td>
+<td align="center">0.0295</td>
+<td align="center">138.9947</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">vic_sexM</td>
+<td align="center">-0.4281</td>
+<td align="center">0.0365</td>
+<td align="center">-11.7174</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>gender_data_rate_1 %&gt;% 
+  group_by(year, success_fail, vic_sex) %&gt;% 
+  summarise(number = n()) %&gt;%
+  mutate(success_fail = ifelse(success_fail == 1, &quot;COMPLETED&quot;, &quot;ATTEMPTED&quot;)) %&gt;%
+  pivot_wider(
+  names_from = &quot;success_fail&quot;, 
+  values_from = &quot;number&quot;) %&gt;%
+  mutate(total = ATTEMPTED+COMPLETED, 
+         rate = COMPLETED/total) %&gt;%
+  plot_ly(x = ~ vic_sex, y = ~rate, type = &quot;box&quot;, color = ~ vic_sex, colors = &quot;viridis&quot;) %&gt;% 
+  layout(xaxis = list(title = &quot;Victims&#39; Gender&quot;), yaxis = list(title = &quot;Rate&quot;))</code></pre>
+<div id="htmlwidget-be51a0155c5183ad5953" style="width:85%;height:307.2px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-be51a0155c5183ad5953">{"x":{"visdat":{"6605418af510":["function () ","plotlyVisDat"]},"cur_data":"6605418af510","attrs":{"6605418af510":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Victims' Gender","type":"category","categoryorder":"array","categoryarray":["F","M"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Rate"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,1,84,0.5)","x":["F","F","F","F","F","F","F","F","F","F","F","F","F"],"y":[0.983039896624132,0.982822737736851,0.97986798679868,0.982315648982316,0.986401673640167,0.986036519871106,0.983784716232534,0.985963041933191,0.983447790103891,0.984496124031008,0.984165923282783,0.98097936058276,0.986450466459351],"type":"box","name":"F","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"line":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(253,231,37,0.5)","x":["M","M","M","M","M","M","M","M","M","M","M","M","M"],"y":[0.974923801607093,0.969040744305422,0.971039929793769,0.971753016323634,0.977906445223221,0.975440090857467,0.976180164573408,0.976368706883898,0.976406779661017,0.975854584915898,0.979375537095388,0.977492877492877,0.976835185475035],"type":"box","name":"M","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"line":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Through the summary, we could see that crimes on male is
+significantly less to success (though still at a high ratio). According
+to the boxplot, we could see that distribution of the successful rate of
+male victims is also lower than distribution of the successful rate of
+male victims.</p>
+</div>
+</div>
+<div id="correlation-between-crime-number-and-time"
+class="section level2">
+<h2>Correlation between crime number and time</h2>
+<p>In the EDA part, we see that there exist some pattern in month and
+time in one day, but is it only random error and fluctuation, or there
+exist a significant difference?</p>
+<div id="anova-test---crime-number-and-month" class="section level3">
+<h3>Anova test - crime number and month</h3>
+<p>We use group_by and summarize function to get the number of cases in
+each month and year, and then use the number of cases and month_data to
+make an ANOVA model to test whether there is a significant difference of
+number of crime cases among each month.</p>
+<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)
+
+month_data &lt;- data %&gt;%  
+  group_by(year, month) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  mutate(month = as.factor(month),
+         year = as.factor(year))
+
+aov_model &lt;- aov(number ~ month, data = month_data) 
+
+aov_model %&gt;% 
+  broom::tidy() %&gt;% 
+  knitr::kable(digits = 4, align = &#39;c&#39;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">term</th>
+<th align="center">df</th>
+<th align="center">sumsq</th>
+<th align="center">meansq</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">month</td>
+<td align="center">11</td>
+<td align="center">5347936</td>
+<td align="center">486176.01</td>
+<td align="center">14.1524</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">Residuals</td>
+<td align="center">141</td>
+<td align="center">4843764</td>
+<td align="center">34352.94</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<p>By the result above, we find that there are very significant
+difference in the crime numbers between months. Therefore, we utilized
+Tukey’s method for post hoc tests, to see which months are
+different.</p>
+<p>Firstly, we use Turkey methods to analyze the ANOVA model, select the
+variables which p-value are smaller than 0.05, and arrange them by adj
+p_value. Then, we separate the contrast to A and B and add two variables
+“high” and “low” depending on whether estimate is larger than 0 to
+decide how A and B to fit high and low. Finally, we make a two panel
+plot to show the order of the months become “high” and “low” in the
+process of comparing.</p>
+<pre class="r"><code>aov_posthoc &lt;- TukeyHSD(aov_model, conf.level = .95) %&gt;% 
+  broom::tidy() %&gt;% 
+  filter(adj.p.value &lt; 0.05) %&gt;% 
+  arrange(adj.p.value)
+
+aov_posthoc %&gt;% 
+  head(5) %&gt;% 
+  knitr::kable(digits = 4 )</code></pre>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="13%" />
+<col width="16%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="left">contrast</th>
+<th align="right">null.value</th>
+<th align="right">estimate</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+<th align="right">adj.p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">month</td>
+<td align="left">8-2</td>
+<td align="right">0</td>
+<td align="right">566.5385</td>
+<td align="right">324.9066</td>
+<td align="right">808.1704</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">month</td>
+<td align="left">7-2</td>
+<td align="right">0</td>
+<td align="right">537.9231</td>
+<td align="right">296.2912</td>
+<td align="right">779.5550</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">month</td>
+<td align="left">12-8</td>
+<td align="right">0</td>
+<td align="right">-506.5705</td>
+<td align="right">-753.1850</td>
+<td align="right">-259.9560</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">month</td>
+<td align="left">5-2</td>
+<td align="right">0</td>
+<td align="right">485.3077</td>
+<td align="right">243.6758</td>
+<td align="right">726.9396</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">month</td>
+<td align="left">9-2</td>
+<td align="right">0</td>
+<td align="right">474.6154</td>
+<td align="right">232.9835</td>
+<td align="right">716.2473</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>aov_group &lt;- aov_posthoc %&gt;% 
+  separate(contrast, sep = &quot;-&quot;, into = c(&quot;A&quot;, &quot;B&quot;)) %&gt;% 
+  mutate(high = if_else(estimate &gt; 0, true = A, false = B),
+         low = if_else(estimate &gt; 0, true = B, false = A)) %&gt;% 
+  mutate(high = fct_infreq(high),
+         low = fct_infreq(low))
+
+aov_fig1 &lt;- aov_group %&gt;% 
+  ggplot(aes(x = high, fill = high)) +
+  geom_bar(stat = &quot;count&quot;) +
+  labs(x = &quot;Month&quot;, y = &quot;Count&quot;, title = 
+         &quot;Months Having More Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
+
+aov_fig2 &lt;- aov_group %&gt;% 
+  ggplot(aes(x = low, fill = low)) +
+  geom_bar(stat = &quot;count&quot;) +
+  labs(x = &quot;Month&quot;, y = &quot;Count&quot;,title = 
+         &quot;Months Having Fewer Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
+
+aov_fig1 / aov_fig2</code></pre>
+<p><img src="report_files/figure-html/unnamed-chunk-12-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p>After pairwise independent multiple tests, we can draw the
+conclusion. We can roughly divide the months in one year into 3 groups.
+July, August, October, May, June, September generally have more crimes.
+February, January, November, December have fewer crimes. While March and
+April is at medium level, the crime number in this two months are
+significantly less than those months with excessive crimes, but also
+significantly more than months that have fewest crimes.</p>
+</div>
+<div id="anova-test---crime-number-and-hour" class="section level3">
+<h3>Anova test - crime number and hour</h3>
+<p>Next, we repeat the steps, to see whether crime number at different
+time in a day have significant difference.We use group_by and summarize
+function to get the number of cases in each hour, arrange hour from 0 to
+23, and then use the number of cases and hour_data to make an ANOVA
+model to test whether there is a significant difference of number of
+crime cases among each hour.</p>
+<pre class="r"><code># Is there differnece between case numbers in every hour? 
+hour_data = data %&gt;% 
+  group_by(year, month, hour) %&gt;% 
+  summarise(number = n()) %&gt;%
+  mutate(hour = as.factor(hour),
+    hour = fct_inseq(hour)) 
+
+aov_hour &lt;- aov(number ~ hour, data = hour_data)
+
+aov_hour %&gt;% 
+  broom::tidy() %&gt;% 
+  knitr::kable(digits = 4 )</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">df</th>
+<th align="right">sumsq</th>
+<th align="right">meansq</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">hour</td>
+<td align="right">23</td>
+<td align="right">3889921</td>
+<td align="right">169126.9830</td>
+<td align="right">594.794</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Residuals</td>
+<td align="right">3648</td>
+<td align="right">1037292</td>
+<td align="right">284.3455</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<p>By the result above, there are also significant difference in the
+mean number of crimes between different hours in one day.</p>
+<p>Afterwards, we use Turkey methods to analyze the ANOVA model, steps
+is consistent with text above.</p>
+<pre class="r"><code>hour_posthoc &lt;- TukeyHSD(aov_hour, conf.level = .95) %&gt;% 
+  broom::tidy() %&gt;% 
+  filter(adj.p.value &lt; 0.05) %&gt;% 
+  arrange(adj.p.value)
+
+hour_group &lt;- hour_posthoc %&gt;% 
+  separate(contrast, sep = &quot;-&quot;, into = c(&quot;A&quot;, &quot;B&quot;)) %&gt;% 
+  mutate(high = if_else(estimate &gt; 0, true = A, false = B),
+         low = if_else(estimate &gt; 0, true = B, false = A)) %&gt;% 
+  mutate(high = fct_infreq(high),
+         low = fct_infreq(low))
+
+aov_fig3 &lt;- hour_group %&gt;% 
+  ggplot(aes(x = high, fill = high)) +
+  geom_bar(stat = &quot;count&quot;) +
+  labs(x = &quot;Hour&quot;, y = &quot;Count&quot;, title = 
+         &quot;Hours Having More Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)+
+  theme(plot.title = element_text(hjust = 0.5))
+
+aov_fig4 &lt;- hour_group %&gt;% 
+  ggplot(aes(x = low, fill = low)) +
+  geom_bar(stat = &quot;count&quot;) +
+  labs(x = &quot;Hour&quot;, y = &quot;Count&quot;,title = 
+         &quot;Hours Having Fewer Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)+
+  theme(plot.title = element_text(hjust = 0.5))
+
+aov_fig3 / aov_fig4</code></pre>
+<p><img src="report_files/figure-html/unnamed-chunk-14-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p>The result corresponded with the findings in EDA part. The most
+dangerous hour is 12:00 - 21:00, all of them are at high ranks in the
+left figure. Comparatively, 1:00 - 9:00 is the most peaceful time. But
+it’s our consensus that midnights are more hazardous. So we questioned
+on if more severe levels of crimes take place more in the midnights.</p>
+</div>
+<div id="anova-test---felony-crime-number-and-hour"
+class="section level3">
+<h3>Anova test - FELONY crime number and hour</h3>
+<p>We use group_by and summarize function to get the number of cases in
+each level, hour, month and year, and select the data which level equals
+FELONY, then use the number of cases and hour_level to make an ANOVA
+model to test whether there is a significant difference of level of
+crime cases among each hour. Then, we use Turkey methods to analyze the
+ANOVA model. The other steps is consistent with text above.</p>
+<pre class="r"><code>hour_level = data %&gt;% 
+  group_by(year, month, hour, level) %&gt;% 
+  filter(level == &quot;FELONY&quot;) %&gt;% 
+  summarise(number = n()) %&gt;%
+  mutate(hour = as.factor(hour),
+    hour = fct_inseq(hour)) 
+
+aov_level &lt;- aov(number ~ hour, data = hour_level)
+
+aov_level %&gt;% 
+  broom::tidy() %&gt;% 
+  knitr::kable(digits = 4 )</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">df</th>
+<th align="right">sumsq</th>
+<th align="right">meansq</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">hour</td>
+<td align="right">23</td>
+<td align="right">252643.9</td>
+<td align="right">10984.5174</td>
+<td align="right">281.7942</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Residuals</td>
+<td align="right">3648</td>
+<td align="right">142201.4</td>
+<td align="right">38.9806</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>level_posthoc &lt;- TukeyHSD(aov_level, conf.level = .95) %&gt;% 
+  broom::tidy() %&gt;% 
+  filter(adj.p.value &lt; 0.05) %&gt;% 
+  arrange(adj.p.value)
+
+level_group &lt;- level_posthoc %&gt;% 
+  separate(contrast, sep = &quot;-&quot;, into = c(&quot;A&quot;, &quot;B&quot;)) %&gt;% 
+  mutate(high = if_else(estimate &gt; 0, true = A, false = B),
+         low = if_else(estimate &gt; 0, true = B, false = A)) %&gt;% 
+  mutate(high = fct_infreq(high),
+         low = fct_infreq(low))
+
+aov_fig5 &lt;- level_group %&gt;% 
+  ggplot(aes(x = high, fill = high)) +
+  geom_bar(stat = &quot;count&quot;) +
+  labs(x = &quot;Hour&quot;, y = &quot;Count&quot;, title = 
+         &quot;Hours Having More Felony Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)+
+  theme(plot.title = element_text(hjust = 0.5))
+
+aov_fig6 &lt;- level_group %&gt;% 
+  ggplot(aes(x = low, fill = low)) +
+  geom_bar(stat = &quot;count&quot;) +
+  labs(x = &quot;Hour&quot;, y = &quot;Count&quot;,title = 
+         &quot;Hours Having Fewer Felony Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)+
+  theme(plot.title = element_text(hjust = 0.5))
+
+aov_fig5 / aov_fig6</code></pre>
+<p><img src="report_files/figure-html/unnamed-chunk-15-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p>The conclusion still holds true: afternoon is more dangerous. Be
+cautious! What time you think is safe may be dangerous than your
+thought.</p>
+</div>
+</div>
+<div id="build-linear-model-for-crime-number-prediction"
+class="section level2">
+<h2>Build linear model for crime number prediction</h2>
+<p>All variables are categorical, except the response variable crime
+number. After plotting the histogram, we find the crime number is
+strongly right-skewed. Using boxcox transformation, we take logarithm of
+number and the data looks much more normally distributed. We decide to
+select meaningful age and male and female of gender to do the following
+prediction. Then we make a lm model to use month, hour, vic_age,
+vic_race, and vic_sex as predictors. Then we summary the model to get
+results to test significance of each predictor. Finally, we make a
+boxplot of the distribution of RMSE/IQR (normalized RMSE).</p>
+<pre class="r"><code># find that group by day, every day there are too few cases, not appropriate for prediction, so we choose to ignore the day variable
+set.seed(1244)
+lm_data &lt;- data %&gt;% 
+  filter(vic_age %in% c(&quot;&lt;18&quot;, &quot;18-24&quot;, &quot;25-44&quot;, &quot;45-64&quot;, &quot;65+&quot;)) %&gt;% 
+  filter(vic_sex %in% c(&quot;M&quot;, &quot;F&quot;)) %&gt;%
+  filter(vic_race != &quot;(null)&quot;) %&gt;% 
+  mutate_at(c(&quot;month&quot;, &quot;hour&quot;, &quot;vic_age&quot;, &quot;vic_race&quot;, &quot;vic_sex&quot;), as.factor) %&gt;% 
+  group_by(month, hour, vic_age, vic_race, vic_sex) %&gt;% 
+  summarise(log_number = log(n())) 
+
+lm_model &lt;- lm(log_number ~ . , data = lm_data)
+
+options(digits = 4)
+
+summary(lm_model, correlation = FALSE) %&gt;% 
+  broom::tidy() %&gt;% 
+  knitr::kable(align = &#39;c&#39;, caption = &quot;Linear model parameters&quot;)</code></pre>
+<table>
+<caption>Linear model parameters</caption>
+<thead>
+<tr class="header">
+<th align="center">term</th>
+<th align="center">estimate</th>
+<th align="center">std.error</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">(Intercept)</td>
+<td align="center">-1.5058</td>
+<td align="center">0.0393</td>
+<td align="center">-38.3320</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">month2</td>
+<td align="center">-0.0464</td>
+<td align="center">0.0238</td>
+<td align="center">-1.9533</td>
+<td align="center">0.0508</td>
+</tr>
+<tr class="odd">
+<td align="center">month3</td>
+<td align="center">0.0774</td>
+<td align="center">0.0236</td>
+<td align="center">3.2781</td>
+<td align="center">0.0010</td>
+</tr>
+<tr class="even">
+<td align="center">month4</td>
+<td align="center">0.0735</td>
+<td align="center">0.0236</td>
+<td align="center">3.1104</td>
+<td align="center">0.0019</td>
+</tr>
+<tr class="odd">
+<td align="center">month5</td>
+<td align="center">0.2214</td>
+<td align="center">0.0235</td>
+<td align="center">9.4388</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">month6</td>
+<td align="center">0.2671</td>
+<td align="center">0.0234</td>
+<td align="center">11.3998</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">month7</td>
+<td align="center">0.2909</td>
+<td align="center">0.0233</td>
+<td align="center">12.4718</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">month8</td>
+<td align="center">0.2773</td>
+<td align="center">0.0234</td>
+<td align="center">11.8505</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">month9</td>
+<td align="center">0.2856</td>
+<td align="center">0.0235</td>
+<td align="center">12.1713</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">month10</td>
+<td align="center">0.1403</td>
+<td align="center">0.0235</td>
+<td align="center">5.9638</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">month11</td>
+<td align="center">0.0413</td>
+<td align="center">0.0235</td>
+<td align="center">1.7554</td>
+<td align="center">0.0792</td>
+</tr>
+<tr class="even">
+<td align="center">month12</td>
+<td align="center">-0.0171</td>
+<td align="center">0.0236</td>
+<td align="center">-0.7247</td>
+<td align="center">0.4686</td>
+</tr>
+<tr class="odd">
+<td align="center">hour1</td>
+<td align="center">-0.1825</td>
+<td align="center">0.0344</td>
+<td align="center">-5.3102</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour2</td>
+<td align="center">-0.3163</td>
+<td align="center">0.0349</td>
+<td align="center">-9.0652</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour3</td>
+<td align="center">-0.3901</td>
+<td align="center">0.0352</td>
+<td align="center">-11.0760</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour4</td>
+<td align="center">-0.4544</td>
+<td align="center">0.0360</td>
+<td align="center">-12.6362</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour5</td>
+<td align="center">-0.6499</td>
+<td align="center">0.0363</td>
+<td align="center">-17.8809</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour6</td>
+<td align="center">-0.7334</td>
+<td align="center">0.0358</td>
+<td align="center">-20.4907</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour7</td>
+<td align="center">-0.3137</td>
+<td align="center">0.0341</td>
+<td align="center">-9.2079</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour8</td>
+<td align="center">-0.0269</td>
+<td align="center">0.0332</td>
+<td align="center">-0.8111</td>
+<td align="center">0.4173</td>
+</tr>
+<tr class="odd">
+<td align="center">hour9</td>
+<td align="center">0.0293</td>
+<td align="center">0.0330</td>
+<td align="center">0.8868</td>
+<td align="center">0.3752</td>
+</tr>
+<tr class="even">
+<td align="center">hour10</td>
+<td align="center">0.1247</td>
+<td align="center">0.0330</td>
+<td align="center">3.7783</td>
+<td align="center">0.0002</td>
+</tr>
+<tr class="odd">
+<td align="center">hour11</td>
+<td align="center">0.1929</td>
+<td align="center">0.0327</td>
+<td align="center">5.8923</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour12</td>
+<td align="center">0.3899</td>
+<td align="center">0.0324</td>
+<td align="center">12.0161</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour13</td>
+<td align="center">0.3674</td>
+<td align="center">0.0326</td>
+<td align="center">11.2777</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour14</td>
+<td align="center">0.4884</td>
+<td align="center">0.0322</td>
+<td align="center">15.1804</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour15</td>
+<td align="center">0.6093</td>
+<td align="center">0.0323</td>
+<td align="center">18.8838</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour16</td>
+<td align="center">0.6033</td>
+<td align="center">0.0322</td>
+<td align="center">18.7278</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour17</td>
+<td align="center">0.5842</td>
+<td align="center">0.0323</td>
+<td align="center">18.0674</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour18</td>
+<td align="center">0.5743</td>
+<td align="center">0.0323</td>
+<td align="center">17.7643</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour19</td>
+<td align="center">0.4524</td>
+<td align="center">0.0325</td>
+<td align="center">13.9123</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour20</td>
+<td align="center">0.4142</td>
+<td align="center">0.0326</td>
+<td align="center">12.6987</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour21</td>
+<td align="center">0.2844</td>
+<td align="center">0.0331</td>
+<td align="center">8.6005</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour22</td>
+<td align="center">0.1839</td>
+<td align="center">0.0335</td>
+<td align="center">5.4892</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour23</td>
+<td align="center">0.0922</td>
+<td align="center">0.0337</td>
+<td align="center">2.7384</td>
+<td align="center">0.0062</td>
+</tr>
+<tr class="even">
+<td align="center">vic_age18-24</td>
+<td align="center">0.6691</td>
+<td align="center">0.0165</td>
+<td align="center">40.4323</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">vic_age25-44</td>
+<td align="center">1.7845</td>
+<td align="center">0.0163</td>
+<td align="center">109.7964</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">vic_age45-64</td>
+<td align="center">1.1759</td>
+<td align="center">0.0164</td>
+<td align="center">71.8018</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">vic_age65+</td>
+<td align="center">-0.2352</td>
+<td align="center">0.0178</td>
+<td align="center">-13.1836</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">vic_raceASIAN/PACIFIC</td>
+<td align="center">1.2560</td>
+<td align="center">0.0263</td>
+<td align="center">47.8290</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">vic_raceBLACK</td>
+<td align="center">2.9660</td>
+<td align="center">0.0255</td>
+<td align="center">116.4605</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">vic_raceBLACK HISPANIC</td>
+<td align="center">1.5530</td>
+<td align="center">0.0258</td>
+<td align="center">60.2901</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">vic_raceUNKNOWN</td>
+<td align="center">0.9728</td>
+<td align="center">0.0263</td>
+<td align="center">36.9415</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">vic_raceWHITE</td>
+<td align="center">2.1920</td>
+<td align="center">0.0256</td>
+<td align="center">85.4883</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">vic_raceWHITE HISPANIC</td>
+<td align="center">2.5362</td>
+<td align="center">0.0255</td>
+<td align="center">99.4092</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">vic_sexM</td>
+<td align="center">0.2796</td>
+<td align="center">0.0097</td>
+<td align="center">28.9211</td>
+<td align="center">0.0000</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summary(lm_model) %&gt;% 
+  broom::glance() %&gt;% 
+  knitr::kable(align = &#39;c&#39;, caption = &quot;Linear model statistics&quot;)</code></pre>
+<table>
+<caption>Linear model statistics</caption>
+<colgroup>
+<col width="14%" />
+<col width="19%" />
+<col width="10%" />
+<col width="14%" />
+<col width="11%" />
+<col width="5%" />
+<col width="16%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">r.squared</th>
+<th align="center">adj.r.squared</th>
+<th align="center">sigma</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+<th align="center">df</th>
+<th align="center">df.residual</th>
+<th align="center">nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.7564</td>
+<td align="center">0.7556</td>
+<td align="center">0.5803</td>
+<td align="center">1009</td>
+<td align="center">0</td>
+<td align="center">45</td>
+<td align="center">14622</td>
+<td align="center">14668</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>cv_result =
+  crossv_mc(lm_data, 100) %&gt;% 
+  mutate(model = map(train, ~lm(log_number ~ ., data =.x))) %&gt;% 
+  mutate(rmse = map2_dbl(model, test,
+                         ~rmse(model = .x, data = .y)))
+
+sum_number &lt;- summary(lm_data$log_number) %&gt;% 
+  broom::tidy()
+
+IQR &lt;- sum_number$q3 - sum_number$q1
+
+cv_result %&gt;% 
+  select(starts_with(&quot;rmse&quot;)) %&gt;% 
+  pivot_longer(
+    everything(),
+    names_to = &quot;model&quot;, 
+    values_to = &quot;rmse&quot;,
+    names_prefix = &quot;rmse_&quot;) %&gt;% 
+  mutate(model = fct_inorder(model)) %&gt;% 
+  ggplot(aes(x = model, y = rmse/IQR)) + geom_boxplot() +
+  labs(x = &quot;Model&quot;, y = &quot;RMSE/IQR&quot;, title = &quot;Distribution of RMSDIQR&quot;) +
+  theme(plot.title = element_text(hjust = 0.5))</code></pre>
+<p><img src="report_files/figure-html/unnamed-chunk-16-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p>The model fits so well as the adjusted R squared is 0.756 with a
+extreme small p value. Moreover, we use normalized RMSE as the reference
+to evaluate the prediction ability of this model. It turns out to be
+good compared to the IQR, which means it’s prediction error is less than
+<span class="math inline">\(\frac{1}{3}\)</span> IQR.</p>
+</div>
+<div id="crimes-map-around-columbia-university" class="section level2">
+<h2>Crimes Map around Columbia University</h2>
+<p>We used Shiny app to developed a map that can reflect the crime
+numbers at (and across) different years, months, hours, as well as the
+types of crime. From this map, we can always check it before we are
+heading to our destination, avoid the dangerous distinct, and choose a
+safe way.</p>
+<p>Please access the map by this link : <a
+href="https://samuelsun.shinyapps.io/cu_shinymap/"
+class="uri">https://samuelsun.shinyapps.io/cu_shinymap/</a></p>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<ul>
+<li><p>For the suspect, the age group of 25-44 is the most; for the
+victim, the age group of 25-44 is also the most.</p></li>
+<li><p>Most of the suspects and victims are male.</p></li>
+<li><p>Most of the level of crime is MISDEMEANOR</p></li>
+<li><p>July, August, October, May, June, September generally have more
+crimes；February, January, November, December have fewer crimes；While
+March and April is at medium level, the crime number in this two months
+are significantly less than those months with excessive crimes, but also
+significantly more than months that have fewest crimes.</p></li>
+<li><p>The most dangerous hour is 12:00 - 21:00; comparatively, 1:00 -
+9:00 is the most peaceful time.</p></li>
+<li><p>Hour 16 and 17 has the high-level of the crime; hour 5 and 6 has
+the lower level of crime.</p></li>
+</ul>
+</div>
 
 
 
