@@ -5,9 +5,9 @@ account: samuelsun
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7865471
-bundleId: 6621690
+bundleId: 6621716
 url: https://samuelsun.shinyapps.io/cu_shinymap/
-when: 1670722213.56291
-lastSyncTime: 1670722213.56292
+when: 1670723155.90701
+lastSyncTime: 1670723155.90702
 asMultiple: FALSE
 asStatic: FALSE

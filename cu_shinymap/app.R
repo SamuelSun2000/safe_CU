@@ -87,8 +87,8 @@ server = function(input, output) {
         leaflet() %>% 
         setView(lng = -73.94184,lat = 40.8394, zoom = 14) %>% 
         addTiles() %>% 
-        addPopups(-73.96249, 40.80747, content_main, options = popupOptions(closeButton = FALSE)) %>% 
-        addPopups(-73.9434, 40.84259, content_cumc, options = popupOptions(closeButton = FALSE)) %>% 
+        addPopups(-73.96249, 40.80747, content_main, options = popupOptions(closeButton = TRUE)) %>% 
+        addPopups(-73.9434, 40.84259, content_cumc, options = popupOptions(closeButton = TRUE)) %>% 
         addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
     })
 } 
