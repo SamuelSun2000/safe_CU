@@ -14,7 +14,7 @@ navbar:
     - text: "Shiny Map for CU Safety"
       href: https://samuelsun.shinyapps.io/cu_shinymap/  
     - icon: fa-youtube fa-lg    
-      href: 
+      href: https://youtu.be/wG9TcMH0ZV4
     - icon: fa-github fa-lg
       href: https://github.com/SamuelSun2000/safe_CU.github.io.git
     - icon: fa-database fa-lg

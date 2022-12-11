@@ -22,7 +22,7 @@ h1.title {
 <br/>
 
 # Demonstration Video
-<iframe width="800" height="500" src="https://www.youtube.com/" frameborder="0" allowfullscreen></iframe>
+<iframe width="800" height="500" src="https://youtu.be/wG9TcMH0ZV4" frameborder="0" allowfullscreen></iframe>
 
 <br/>
 
