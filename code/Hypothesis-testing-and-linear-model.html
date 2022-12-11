@@ -345,7 +345,7 @@ div.tocify {
   <a href="../index.html">Home</a>
 </li>
 <li>
-  <a href="../report.html">Project Report</a>
+  <a href="report.html">Project Report</a>
 </li>
 <li>
   <a href="EDA.html">Exploratory Analyses</a>
@@ -354,7 +354,7 @@ div.tocify {
   <a href="Hypothesis-testing-and-linear-model.html">Statistical Analysis</a>
 </li>
 <li>
-  <a href="code/shiny_map_for_CU_safety.html">Shiny Map for CU Safety</a>
+  <a href="https://samuelsun.shinyapps.io/cu_shinymap/">Shiny Map for CU Safety</a>
 </li>
 <li>
   <a>
@@ -449,11 +449,11 @@ aov_model_1 %&gt;%
 </table>
 <p>There is a significant difference in the number of male and female
 suspects. Through the boxplot in EDA part, we could easily see that male
-is more likely to be suspencts than females if we consider the
+is more likely to be suspects than females if we consider the
 unknown.</p>
 </div>
-<div id="anova-test---victims-gender" class="section level2">
-<h2>Anova test - victims’ gender</h2>
+<div id="t-test---victims-gender" class="section level2">
+<h2>T test - victims’ gender</h2>
 <p>We wonder whether there is a significant difference in the number of
 male and female victims. So we calculate how many male and female
 victims in month, year, then plot the disturbution of number of male and
@@ -581,8 +581,8 @@ reg_successrate %&gt;%
          rate = COMPLETED/total) %&gt;%
   plot_ly(x = ~ susp_sex, y = ~ rate, type = &quot;box&quot;, color = ~ susp_sex, colors = &quot;viridis&quot;) %&gt;% 
   layout(xaxis = list(title = &quot;Suspects&#39; Gender&quot;), yaxis = list(title = &quot;Rate&quot;))</code></pre>
-<div id="htmlwidget-52f3b762ef02c4c69cf2" style="width:75%;height:307.2px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-52f3b762ef02c4c69cf2">{"x":{"visdat":{"5c265c409828":["function () ","plotlyVisDat"]},"cur_data":"5c265c409828","attrs":{"5c265c409828":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Suspects' Gender","type":"category","categoryorder":"array","categoryarray":["F","M","U"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Rate"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,1,84,0.5)","x":["F","F","F","F","F","F","F","F","F","F","F","F","F"],"y":[0.98740377886634,0.982089552238806,0.976951672862454,0.985998526160649,0.981098641464855,0.980605120248254,0.980213692125049,0.98111753371869,0.979537703675635,0.985616956850871,0.982175783650891,0.985825331504344,0.98539751216874],"type":"box","name":"F","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"line":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(33,144,141,0.5)","x":["M","M","M","M","M","M","M","M","M","M","M","M","M"],"y":[0.967706259677063,0.964928057553957,0.962820512820513,0.968861771512729,0.974316759960487,0.973011909335382,0.971693602371617,0.973509933774834,0.975790921595598,0.977116505699121,0.97785051827605,0.979504851727578,0.977955478711908],"type":"box","name":"M","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"line":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(253,231,37,0.5)","x":["U","U","U","U","U","U","U","U","U","U","U","U","U"],"y":[0.987708066581306,0.985647530040053,0.984214898919967,0.984870958172649,0.989798657718121,0.987642807181161,0.987602390967456,0.988103408830931,0.985812356979405,0.988991237924062,0.990720193665524,0.987683823529412,0.989216092907507],"type":"box","name":"U","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"line":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-2baa4edbbbd6c3e4890e" style="width:75%;height:307.2px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2baa4edbbbd6c3e4890e">{"x":{"visdat":{"6abf6073f985":["function () ","plotlyVisDat"]},"cur_data":"6abf6073f985","attrs":{"6abf6073f985":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Suspects' Gender","type":"category","categoryorder":"array","categoryarray":["F","M","U"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Rate"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,1,84,0.5)","x":["F","F","F","F","F","F","F","F","F","F","F","F","F"],"y":[0.98740377886634,0.982089552238806,0.976951672862454,0.985998526160649,0.981098641464855,0.980605120248254,0.980213692125049,0.98111753371869,0.979537703675635,0.985616956850871,0.982175783650891,0.985825331504344,0.98539751216874],"type":"box","name":"F","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"line":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(33,144,141,0.5)","x":["M","M","M","M","M","M","M","M","M","M","M","M","M"],"y":[0.967706259677063,0.964928057553957,0.962820512820513,0.968861771512729,0.974316759960487,0.973011909335382,0.971693602371617,0.973509933774834,0.975790921595598,0.977116505699121,0.97785051827605,0.979504851727578,0.977955478711908],"type":"box","name":"M","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"line":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(253,231,37,0.5)","x":["U","U","U","U","U","U","U","U","U","U","U","U","U"],"y":[0.987708066581306,0.985647530040053,0.984214898919967,0.984870958172649,0.989798657718121,0.987642807181161,0.987602390967456,0.988103408830931,0.985812356979405,0.988991237924062,0.990720193665524,0.987683823529412,0.989216092907507],"type":"box","name":"U","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"line":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>There is a significant relationship between gender of suspects and
 successful rate. Through the boxplot, we could see that distribution of
 the successful rate of male suspects is lower than distribution of the
@@ -639,23 +639,22 @@ reg_successrate_1 %&gt;%
          rate = COMPLETED/total) %&gt;%
   plot_ly(x = ~ vic_sex, y = ~rate, type = &quot;box&quot;, color = ~ vic_sex, colors = &quot;viridis&quot;) %&gt;% 
   layout(xaxis = list(title = &quot;Victims&#39; Gender&quot;), yaxis = list(title = &quot;Rate&quot;))</code></pre>
-<div id="htmlwidget-35c4aab66fac747470e9" style="width:75%;height:307.2px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-35c4aab66fac747470e9">{"x":{"visdat":{"5c2638dac726":["function () ","plotlyVisDat"]},"cur_data":"5c2638dac726","attrs":{"5c2638dac726":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Victims' Gender","type":"category","categoryorder":"array","categoryarray":["F","M"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Rate"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,1,84,0.5)","x":["F","F","F","F","F","F","F","F","F","F","F","F","F"],"y":[0.983039896624132,0.982822737736851,0.97986798679868,0.982315648982316,0.986401673640167,0.986036519871106,0.983784716232534,0.985963041933191,0.983447790103891,0.984496124031008,0.984165923282783,0.98097936058276,0.986450466459351],"type":"box","name":"F","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"line":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(253,231,37,0.5)","x":["M","M","M","M","M","M","M","M","M","M","M","M","M"],"y":[0.974923801607093,0.969040744305422,0.971039929793769,0.971753016323634,0.977906445223221,0.975440090857467,0.976180164573408,0.976368706883898,0.976406779661017,0.975854584915898,0.979375537095388,0.977492877492877,0.976835185475035],"type":"box","name":"M","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"line":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-10c161e401fed1b368a7" style="width:75%;height:307.2px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10c161e401fed1b368a7">{"x":{"visdat":{"6abf593f5b5":["function () ","plotlyVisDat"]},"cur_data":"6abf593f5b5","attrs":{"6abf593f5b5":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Victims' Gender","type":"category","categoryorder":"array","categoryarray":["F","M"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Rate"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,1,84,0.5)","x":["F","F","F","F","F","F","F","F","F","F","F","F","F"],"y":[0.983039896624132,0.982822737736851,0.97986798679868,0.982315648982316,0.986401673640167,0.986036519871106,0.983784716232534,0.985963041933191,0.983447790103891,0.984496124031008,0.984165923282783,0.98097936058276,0.986450466459351],"type":"box","name":"F","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"line":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(253,231,37,0.5)","x":["M","M","M","M","M","M","M","M","M","M","M","M","M"],"y":[0.974923801607093,0.969040744305422,0.971039929793769,0.971753016323634,0.977906445223221,0.975440090857467,0.976180164573408,0.976368706883898,0.976406779661017,0.975854584915898,0.979375537095388,0.977492877492877,0.976835185475035],"type":"box","name":"M","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"line":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>Through the summary, we could see that crimes on male is
 significantly less to success (though still at a high ratio). According
 to the boxplot, we could see that distribution of the successful rate of
 male victims is also lower than distribution of the successful rate of
 male victims.</p>
 </div>
-</div>
 <div id="correlation-between-crime-number-and-time"
-class="section level1">
-<h1>Correlation between crime number and time</h1>
+class="section level2">
+<h2>Correlation between crime number and time</h2>
 <p>In the EDA part, we see that there exist some pattern in month and
 time in one day, but is it only random error and fluctuation, or there
 exist a significant difference?</p>
-<div id="anova-test---crime-number-and-month" class="section level2">
-<h2>Anova test - crime number and month</h2>
+<div id="anova-test---crime-number-and-month" class="section level3">
+<h3>Anova test - crime number and month</h3>
 <p>We use group_by and summarize function to get the number of cases in
 each month and year, and then use the number of cases and month_data to
 make an ANOVA model to test whether there is a significant difference of
@@ -820,8 +819,8 @@ April is at medium level, the crime number in this two months are
 significantly less than those months with excessive crimes, but also
 significantly more than months that have fewest crimes.</p>
 </div>
-<div id="anova-test---crime-number-and-hour" class="section level2">
-<h2>Anova test - crime number and hour</h2>
+<div id="anova-test---crime-number-and-hour" class="section level3">
+<h3>Anova test - crime number and hour</h3>
 <p>Next, we repeat the steps, to see whether crime number at different
 time in a day have significant difference.We use group_by and summarize
 function to get the number of cases in each hour, arrange hour from 0 to
@@ -909,8 +908,8 @@ it’s our consensus that midnights are more hazardous. So we questioned
 on if more severe levels of crimes take place more in the midnights.</p>
 </div>
 <div id="anova-test---felony-crime-number-and-hour"
-class="section level2">
-<h2>Anova test - FELONY crime number and hour</h2>
+class="section level3">
+<h3>Anova test - FELONY crime number and hour</h3>
 <p>We use group_by and summarize function to get the number of cases in
 each level, hour, month and year, and select the data which level equals
 FELONY, then use the number of cases and hour_level to make an ANOVA
@@ -990,6 +989,7 @@ aov_fig5 / aov_fig6</code></pre>
 <p>The conclusion still holds true: afternoon is more dangerous. Be
 cautious! What time you think is safe may be dangerous than your
 thought.</p>
+</div>
 </div>
 </div>
 <div id="build-linear-model-for-prediction" class="section level1">

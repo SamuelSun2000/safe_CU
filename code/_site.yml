@@ -6,7 +6,7 @@ navbar:
     - text: "Home"
       href: ../index.html
     - text: "Project Report"
-      href: ../report.html
+      href: report.html
     - text: "Exploratory Analyses"
       href: EDA.html
     - text: "Statistical Analysis"

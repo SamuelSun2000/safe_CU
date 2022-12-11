@@ -11,6 +11,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# This dataset is so large, please DO NOT execute this file, the cleaned data can be found at ../data/full_filter_data.
+
 ## Install packages
 ```{r}
 library(tidyverse)
