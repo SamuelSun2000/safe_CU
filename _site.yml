@@ -15,7 +15,7 @@ navbar:
       - text: "Hypothesis Testing and Linear Model"
         href: code/Hypothesis-testing.html
     - text: "Map for CU Safety"
-      href: code/map.html 
+      href: https://samuelsun.shinyapps.io/cu_shinymap/
     - icon: fa-youtube fa-lg    
       href: https://
     - icon: fa-github fa-lg

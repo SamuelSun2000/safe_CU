@@ -10,8 +10,9 @@
 library(tidyverse)
 library(leaflet)
 library(rsconnect)
+library(shiny)
 
-cu_df = read_csv("../data/full_filter_data.csv")
+cu_df = read_csv("full_filter_data.csv")
 
 Level = cu_df %>% distinct(level) %>% pull()
 
