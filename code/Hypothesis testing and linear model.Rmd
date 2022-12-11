@@ -1,15 +1,27 @@
-
+---
+title: "Statistical analysis and linear model building"
+output:
+  html_document:
+    theme: readable
+    toc : true
+    toc_float: true
+    code_folding: hide
+---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(modelr)
 library(patchwork)
+library(plotly)
 
 knitr::opts_chunk$set(
   fig.width = 5,
-  out.width = "60%"
+  out.width = "75%",
+  fig.align = "center",
+  fig.height = 2.5
 )
+
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
 options(
   ggplot2.continuous.colour = "viridis",
@@ -19,15 +31,118 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-# Time pattern
+# Statistical analysis 
+
+## Anova test - suspects' gender
+Whether there is a significant difference in the number of male and female suspects. We calculate how many male and female suspects in month, year, then plot the disturbution of number of male and female suspects.
+```{r, message=F, fig.height=3.2,  out.width = "85%"}
+data <- read_csv("../data/full_filter_data.csv")
+
+gender_data <- data %>%  
+  group_by(year, month, susp_sex) %>% 
+  summarise(number = n()) %>% 
+  mutate(susp_sex = as.factor(susp_sex)) %>%
+  filter(susp_sex %in% c("F", "M", "U"))
+aov_model_1 <- aov(number ~ susp_sex, data = gender_data)
+
+aov_model_1 %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 4, align = 'c')
+  
+```
+There is a significant difference in the number of male and female suspects. Through the boxplot in EDA part, we could easily see that male is more likely to be suspencts than females if we consider the unknown.
+
+## Anova test - victims' gender
+We wonder whether there is a significant difference in the number of male and female victims. So we calculate how many male and female victims in month, year, then plot the disturbution of number of male and female victims. And I also do the same steps for vic_sex include D=Business/Organization, 
+E=PSNY/People of the State of New York.
+
+```{r, message=F, fig.height=3.2,  out.width = "85%"}
+data <- read_csv("../data/full_filter_data.csv")
+female <- data %>%  
+  group_by(year, month, vic_sex) %>% 
+  summarise(number = n()) %>% 
+  mutate(vic_sex = as.factor(vic_sex)) %>%
+  filter(vic_sex %in% c("F"))
+
+male <- data %>%  
+  group_by(year, month, vic_sex) %>% 
+  summarise(number = n()) %>% 
+  mutate(vic_sex = as.factor(vic_sex)) %>%
+  filter(vic_sex %in% c("M"))
+
+t.test(pull(female, number), pull(male, number)) %>% broom::glance() %>% 
+  knitr::kable(digits = 4, align = 'c')
+```
+There is a significant difference in the number of male and female suspects. Through the boxplot, though compared to the suspect, the female victim number rises a lot, male is still more likely to be victims than females.
+
+## Logistic regression - suspects' gender and crime successful rate
+```{r, message=F, fig.height=3.2}
+data <- read_csv("../data/full_filter_data.csv")
+gender_data_rate <- data %>%  
+  filter(susp_sex %in% c("F", "M", "U")) %>%
+  mutate(success_fail = ifelse(success_fail == "COMPLETED", 1, 0))
+
+reg_successrate = glm(success_fail ~ susp_sex, family=binomial(link="logit"), data = gender_data_rate)
+
+reg_successrate %>% 
+  broom::tidy() %>%
+  knitr::kable(digits = 4, align = 'c')
+  
+gender_data_rate %>% 
+  group_by(year, success_fail, susp_sex) %>% 
+  summarise(number = n()) %>%
+  mutate(success_fail = ifelse(success_fail == 1, "COMPLETED", "ATTEMPTED")) %>%
+  pivot_wider(
+  names_from = "success_fail", 
+  values_from = "number") %>%
+  mutate(total = ATTEMPTED+COMPLETED, 
+         rate = COMPLETED/total) %>%
+  plot_ly(x = ~ susp_sex, y = ~ rate, type = "box", color = ~ susp_sex, colors = "viridis") %>% 
+  layout(xaxis = list(title = "Suspects' Gender"), yaxis = list(title = "Rate"))
+
+```
+
+There is a significant relationship between gender of suspects and successful rate. Through the boxplot, we could see that distribution of the successful rate of male suspects is lower than distribution of the successful rate of female suspects.
+
+
+## Logistic regression - victims' gender and crime successful rate
+```{r, message=F, fig.height=3.2}
+data <- read_csv("../data/full_filter_data.csv")
+gender_data_rate_1 <- data %>%  
+  filter(vic_sex %in% c("F", "M")) %>%
+  mutate(success_fail = ifelse(success_fail == "COMPLETED", 1, 0))
+
+reg_successrate_1 = glm(success_fail ~ vic_sex, family=binomial(link="logit"), data = gender_data_rate_1)
+
+reg_successrate_1 %>% 
+  broom::tidy() %>%
+  knitr::kable(digits = 4, align = 'c')
+
+
+gender_data_rate_1 %>% 
+  group_by(year, success_fail, vic_sex) %>% 
+  summarise(number = n()) %>%
+  mutate(success_fail = ifelse(success_fail == 1, "COMPLETED", "ATTEMPTED")) %>%
+  pivot_wider(
+  names_from = "success_fail", 
+  values_from = "number") %>%
+  mutate(total = ATTEMPTED+COMPLETED, 
+         rate = COMPLETED/total) %>%
+  plot_ly(x = ~ vic_sex, y = ~rate, type = "box", color = ~ vic_sex, colors = "viridis") %>% 
+  layout(xaxis = list(title = "Victims' Gender"), yaxis = list(title = "Rate"))
+
+```
+Through the summary, we could see that crimes on male is significantly less to success (though still at a high ratio). According to the boxplot, we could see that distribution of the successful rate of male victims is also lower than distribution of the successful rate of male victims.
+
+# Correlation between crime number and time
 
 In the EDA part, we see that there exist some pattern in month and time in one day, but is it only random error and fluctuation, or there exist a significant difference?
 
-## Month
+## Anova test - crime number and month
 
 We use group_by and summarize function to get the number of cases in each month and year, and then use the number of cases and month_data to make an ANOVA model to test whether there is a significant difference of number of crime cases among each month. 
 
-```{r}
+```{r, message=F, fig.height=7}
 data <- read_csv("../data/full_filter_data.csv")
 
 month_data <- data %>%  
@@ -40,14 +155,14 @@ aov_model <- aov(number ~ month, data = month_data)
 
 aov_model %>% 
   broom::tidy() %>% 
-  knitr::kable(digits = 4 )
+  knitr::kable(digits = 4, align = 'c')
 ```
 
 By the result above, we find that there are very significant difference in the crime numbers between months. Therefore, we utilized Tukey's method for post hoc tests, to see which months are different. 
 
 Firstly, we use Turkey methods to analyze the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the months become "high" and "low" in the process of comparing. 
 
-```{r}
+```{r, message=F, fig.height=3.2}
 aov_posthoc <- TukeyHSD(aov_model, conf.level = .95) %>% 
   broom::tidy() %>% 
   filter(adj.p.value < 0.05) %>% 
@@ -76,16 +191,16 @@ aov_fig2 <- aov_group %>%
   labs(x = "Month", y = "Count",title = 
          "Months Having Fewer Crimes \n in Multiple Comparisons") + guides(fill = "none")
 
-aov_fig1 + aov_fig2
+aov_fig1 / aov_fig2
 ```
 
 After pairwise independent multiple tests, we can draw the conclusion. We can roughly divide the months in one year into 3 groups. July, August, October, May, June, September generally have more crimes. February, January, November, December have fewer crimes. While March and April is at medium level, the crime number in this two months are significantly less than those months with excessive crimes, but also significantly more than months that have fewest crimes.
 
-## Time
+## Anova test - crime number and hour
 
 Next, we repeat the steps, to see whether crime number at different time in a day have significant difference.We use group_by and summarize function to get the number of cases in each hour, arrange hour from 0 to 23, and then use the number of cases and hour_data to make an ANOVA model to test whether there is a significant difference of number of crime cases among each hour. 
 
-```{r}
+```{r, message=F, fig.height=3.2}
 # Is there differnece between case numbers in every hour? 
 hour_data = data %>% 
   group_by(year, month, hour) %>% 
@@ -100,11 +215,11 @@ aov_hour %>%
   knitr::kable(digits = 4 )
 ```
 
-Firstly, we use Turkey methods to analyze the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the hours become "high" and "low" in the process of comparing. 
-
 By the result above, there are also significant difference in the mean number of crimes between different hours in one day.
 
-```{r}
+Afterwards, we use Turkey methods to analyze the ANOVA model, steps is consistent with text above.
+
+```{r, message=F, fig.height=5}
 hour_posthoc <- TukeyHSD(aov_hour, conf.level = .95) %>% 
   broom::tidy() %>% 
   filter(adj.p.value < 0.05) %>% 
@@ -121,22 +236,26 @@ aov_fig3 <- hour_group %>%
   ggplot(aes(x = high, fill = high)) +
   geom_bar(stat = "count") +
   labs(x = "Hour", y = "Count", title = 
-         "Hours Having More Crimes \n in Multiple Comparisons") + guides(fill = "none")
+         "Hours Having More Crimes \n in Multiple Comparisons") + guides(fill = "none")+
+  theme(plot.title = element_text(hjust = 0.5))
 
 aov_fig4 <- hour_group %>% 
   ggplot(aes(x = low, fill = low)) +
   geom_bar(stat = "count") +
   labs(x = "Hour", y = "Count",title = 
-         "Hours Having Fewer Crimes \n in Multiple Comparisons") + guides(fill = "none")
+         "Hours Having Fewer Crimes \n in Multiple Comparisons") + guides(fill = "none")+
+  theme(plot.title = element_text(hjust = 0.5))
 
-aov_fig3 + aov_fig4
+aov_fig3 / aov_fig4
 ```
 
-The result corresponded with the findings in EDA part. The most dangerous hour is 12:00 - 21:00, all of them are at high ranks in the left figure. Comparatively, 1:00 - 9:00 is the most peaceful time. But it's our consensus that midnights are more hazardous. So we questioned on if more server levels of crime take place more in the midnights. 
+The result corresponded with the findings in EDA part. The most dangerous hour is 12:00 - 21:00, all of them are at high ranks in the left figure. Comparatively, 1:00 - 9:00 is the most peaceful time. But it's our consensus that midnights are more hazardous. So we questioned on if more severe levels of crimes take place more in the midnights. 
 
-We use group_by and summarize function to get the number of cases in each level, hour, month and year, and select the data which level equals FELONY, then use the number of cases and hour_level to make an ANOVA model to test whether there is a significant difference of level of crime cases among each hour.  Then, we use Turkey methods to analyze the ANOVA model, select the variables which p-value are smaller than 0.05, and arrange them by adj p_value. Then, we separate the contrast to A and B and add two variables "high" and "low" depending on whether estimate is larger than 0 to decide how A and B to fit high and low. Finally, we make a two panel plot to show the order of the hours become "high" and "low" in the process of comparing. 
+## Anova test - FELONY crime number and hour
 
-```{r}
+We use group_by and summarize function to get the number of cases in each level, hour, month and year, and select the data which level equals FELONY, then use the number of cases and hour_level to make an ANOVA model to test whether there is a significant difference of level of crime cases among each hour.  Then, we use Turkey methods to analyze the ANOVA model. The other steps is consistent with text above.
+
+```{r, message=F, fig.height=5}
 hour_level = data %>% 
   group_by(year, month, hour, level) %>% 
   filter(level == "FELONY") %>% 
@@ -166,27 +285,29 @@ aov_fig5 <- level_group %>%
   ggplot(aes(x = high, fill = high)) +
   geom_bar(stat = "count") +
   labs(x = "Hour", y = "Count", title = 
-         "Hours Having More Felony Crimes \n in Multiple Comparisons") + guides(fill = "none")
+         "Hours Having More Felony Crimes \n in Multiple Comparisons") + guides(fill = "none")+
+  theme(plot.title = element_text(hjust = 0.5))
 
 aov_fig6 <- level_group %>% 
   ggplot(aes(x = low, fill = low)) +
   geom_bar(stat = "count") +
   labs(x = "Hour", y = "Count",title = 
-         "Hours Having Fewer Felony Crimes \n in Multiple Comparisons") + guides(fill = "none")
+         "Hours Having Fewer Felony Crimes \n in Multiple Comparisons") + guides(fill = "none")+
+  theme(plot.title = element_text(hjust = 0.5))
 
-aov_fig5 + aov_fig6
+aov_fig5 / aov_fig6
 ```
 
-The conclusion still holds true. Be cautious! What time you think is safe may be dangerous than your thought.
+The conclusion still holds true: afternoon is more dangerous. Be cautious! What time you think is safe may be dangerous than your thought.
 
-## Build a linear model for prediction
+# Build linear model for prediction
 
-All variables are categorical, except the response variable crime number. After plotting the histogram, we find the crime number is strongly right-skewed. Using boxcox transformation, we take logrithm of number and the data looks much more normally distributed. We decide to select meaningful age and male and female of gender to do the following prediction. Then we make a lm model to use month, hour, vic_age, vic_race, and vic_sex as predictors. Then we summary the model to get results to test significance of each predictor. Finally, we make a boxplot of the distribution of RMSE/IQR
+All variables are categorical, except the response variable crime number. After plotting the histogram, we find the crime number is strongly right-skewed. Using boxcox transformation, we take logarithm of number and the data looks much more normally distributed. We decide to select meaningful age and male and female of gender to do the following prediction. Then we make a lm model to use month, hour, vic_age, vic_race, and vic_sex as predictors. Then we summary the model to get results to test significance of each predictor. Finally, we make a boxplot of the distribution of RMSE/IQR (normalized RMSE). 
 
-```{r}
+```{r, message=F, warning=F, fig.height=3.6, out.width="65%"}
 
 # find that group by day, every day there are too few cases, not appropriate for prediction, so we choose to ignore the day variable
-
+set.seed(1244)
 lm_data <- data %>% 
   filter(vic_age %in% c("<18", "18-24", "25-44", "45-64", "65+")) %>% 
   filter(vic_sex %in% c("M", "F")) %>%
@@ -200,8 +321,13 @@ lm_model <- lm(log_number ~ . , data = lm_data)
 options(digits = 4)
 
 summary(lm_model, correlation = FALSE) %>% 
+  broom::tidy() %>% 
+  knitr::kable(align = 'c', caption = "Linear model parameters")
+
+
+summary(lm_model) %>% 
   broom::glance() %>% 
-  knitr::kable()
+  knitr::kable(align = 'c', caption = "Linear model statistics")
   
 cv_result =
   crossv_mc(lm_data, 100) %>% 
@@ -223,8 +349,8 @@ cv_result %>%
     names_prefix = "rmse_") %>% 
   mutate(model = fct_inorder(model)) %>% 
   ggplot(aes(x = model, y = rmse/IQR)) + geom_boxplot() +
-  labs(x = "", y = "RMSE/IQR", title = "Distribution of RMSDIQR")
+  labs(x = "Model", y = "RMSE/IQR", title = "Distribution of RMSDIQR") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
-We used normalized RMSE as the reference to evaluate the prediction ability of this model. It turnns of to be good.
-
+The model fits so well as the adjusted R squared is 0.756 with a extreme small p value. Moreover, we use normalized RMSE as the reference to evaluate the prediction ability of this model. It turns out to be good compared to the IQR, which means it's prediction error is less than $\frac{1}{3}$ IQR.

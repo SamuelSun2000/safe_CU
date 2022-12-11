@@ -11,7 +11,7 @@
 
 
 
-<title>Hypothesis-testing-and-linear-model.knit</title>
+<title>Statistical analysis and linear model building</title>
 
 <script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -33,8 +33,16 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -228,6 +236,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -323,7 +334,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Home</a>
+      <a class="navbar-brand" href="index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -331,13 +342,16 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="report.html">Project Report</a>
+  <a href="../index.html">Home</a>
+</li>
+<li>
+  <a href="../report.html">Project Report</a>
 </li>
 <li>
   <a href="EDA.html">Exploratory Analyses</a>
 </li>
 <li>
-  <a href="hypo.html">Statistical Analysis</a>
+  <a href="Hypothesis-testing-and-linear-model.html">Statistical Analysis</a>
 </li>
 <li>
   <a href="code/shiny_map_for_CU_safety.html">Shiny Map for CU Safety</a>
@@ -367,71 +381,325 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
+
+<h1 class="title toc-ignore">Statistical analysis and linear model
+building</h1>
 
 </div>
 
 
-<div id="time-pattern" class="section level1">
-<h1>Time pattern</h1>
-<p>In the EDA part, we see that there exist some pattern in month and
-time in one day, but is it only random error and fluctuation, or there
-exist a significant difference?</p>
-<div id="month" class="section level2">
-<h2>Month</h2>
-<p>We use group_by and summarize function to get the number of cases in
-each month and year, and then use the number of cases and month_data to
-make an ANOVA model to test whether there is a significant difference of
-number of crime cases among each month.</p>
-<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)</code></pre>
-<pre><code>## Rows: 291052 Columns: 20
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (11): boro, success_fail, level, description, location, susp_age, susp_r...
-## dbl  (9): id, year, month, day, hour, minute, second, latitude, longitude
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>month_data &lt;- data %&gt;%  
-  group_by(year, month) %&gt;% 
-  summarise(number = n()) %&gt;% 
-  mutate(month = as.factor(month),
-         year = as.factor(year))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>aov_model &lt;- aov(number ~ month, data = month_data) 
+<div id="statistical-analysis" class="section level1">
+<h1>Statistical analysis</h1>
+<div id="anova-test---suspects-gender" class="section level2">
+<h2>Anova test - suspects’ gender</h2>
+<p>Whether there is a significant difference in the number of male and
+female suspects. We calculate how many male and female suspects in
+month, year, then plot the disturbution of number of male and female
+suspects.</p>
+<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)
 
-aov_model %&gt;% 
+gender_data &lt;- data %&gt;%  
+  group_by(year, month, susp_sex) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  mutate(susp_sex = as.factor(susp_sex)) %&gt;%
+  filter(susp_sex %in% c(&quot;F&quot;, &quot;M&quot;, &quot;U&quot;))
+aov_model_1 &lt;- aov(number ~ susp_sex, data = gender_data)
+
+aov_model_1 %&gt;% 
   broom::tidy() %&gt;% 
-  knitr::kable(digits = 4 )</code></pre>
+  knitr::kable(digits = 4, align = &#39;c&#39;)</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th align="left">term</th>
-<th align="right">df</th>
-<th align="right">sumsq</th>
-<th align="right">meansq</th>
-<th align="right">statistic</th>
-<th align="right">p.value</th>
+<th align="center">term</th>
+<th align="center">df</th>
+<th align="center">sumsq</th>
+<th align="center">meansq</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">month</td>
-<td align="right">11</td>
-<td align="right">5347936</td>
-<td align="right">486176.01</td>
-<td align="right">14.1524</td>
-<td align="right">0</td>
+<td align="center">susp_sex</td>
+<td align="center">2</td>
+<td align="center">22482073</td>
+<td align="center">11241036.36</td>
+<td align="center">397.0255</td>
+<td align="center">0</td>
 </tr>
 <tr class="even">
-<td align="left">Residuals</td>
-<td align="right">141</td>
-<td align="right">4843764</td>
-<td align="right">34352.94</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="center">Residuals</td>
+<td align="center">456</td>
+<td align="center">12910789</td>
+<td align="center">28313.13</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<p>There is a significant difference in the number of male and female
+suspects. Through the boxplot in EDA part, we could easily see that male
+is more likely to be suspencts than females if we consider the
+unknown.</p>
+</div>
+<div id="anova-test---victims-gender" class="section level2">
+<h2>Anova test - victims’ gender</h2>
+<p>We wonder whether there is a significant difference in the number of
+male and female victims. So we calculate how many male and female
+victims in month, year, then plot the disturbution of number of male and
+female victims. And I also do the same steps for vic_sex include
+D=Business/Organization, E=PSNY/People of the State of New York.</p>
+<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)
+female &lt;- data %&gt;%  
+  group_by(year, month, vic_sex) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  mutate(vic_sex = as.factor(vic_sex)) %&gt;%
+  filter(vic_sex %in% c(&quot;F&quot;))
+
+male &lt;- data %&gt;%  
+  group_by(year, month, vic_sex) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  mutate(vic_sex = as.factor(vic_sex)) %&gt;%
+  filter(vic_sex %in% c(&quot;M&quot;))
+
+t.test(pull(female, number), pull(male, number)) %&gt;% broom::glance() %&gt;% 
+  knitr::kable(digits = 4, align = &#39;c&#39;)</code></pre>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="20%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">estimate</th>
+<th align="center">estimate1</th>
+<th align="center">estimate2</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+<th align="center">parameter</th>
+<th align="center">conf.low</th>
+<th align="center">conf.high</th>
+<th align="center">method</th>
+<th align="center">alternative</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">-117.817</td>
+<td align="center">469.2353</td>
+<td align="center">587.0523</td>
+<td align="center">-11.0482</td>
+<td align="center">0</td>
+<td align="center">286.4321</td>
+<td align="center">-138.8066</td>
+<td align="center">-96.8274</td>
+<td align="center">Welch Two Sample t-test</td>
+<td align="center">two.sided</td>
+</tr>
+</tbody>
+</table>
+<p>There is a significant difference in the number of male and female
+suspects. Through the boxplot, though compared to the suspect, the
+female victim number rises a lot, male is still more likely to be
+victims than females.</p>
+</div>
+<div
+id="logistic-regression---suspects-gender-and-crime-successful-rate"
+class="section level2">
+<h2>Logistic regression - suspects’ gender and crime successful
+rate</h2>
+<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)
+gender_data_rate &lt;- data %&gt;%  
+  filter(susp_sex %in% c(&quot;F&quot;, &quot;M&quot;, &quot;U&quot;)) %&gt;%
+  mutate(success_fail = ifelse(success_fail == &quot;COMPLETED&quot;, 1, 0))
+
+reg_successrate = glm(success_fail ~ susp_sex, family=binomial(link=&quot;logit&quot;), data = gender_data_rate)
+
+reg_successrate %&gt;% 
+  broom::tidy() %&gt;%
+  knitr::kable(digits = 4, align = &#39;c&#39;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">term</th>
+<th align="center">estimate</th>
+<th align="center">std.error</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">(Intercept)</td>
+<td align="center">4.0271</td>
+<td align="center">0.0475</td>
+<td align="center">84.8640</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">susp_sexM</td>
+<td align="center">-0.4020</td>
+<td align="center">0.0512</td>
+<td align="center">-7.8548</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">susp_sexU</td>
+<td align="center">0.3592</td>
+<td align="center">0.0613</td>
+<td align="center">5.8628</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>gender_data_rate %&gt;% 
+  group_by(year, success_fail, susp_sex) %&gt;% 
+  summarise(number = n()) %&gt;%
+  mutate(success_fail = ifelse(success_fail == 1, &quot;COMPLETED&quot;, &quot;ATTEMPTED&quot;)) %&gt;%
+  pivot_wider(
+  names_from = &quot;success_fail&quot;, 
+  values_from = &quot;number&quot;) %&gt;%
+  mutate(total = ATTEMPTED+COMPLETED, 
+         rate = COMPLETED/total) %&gt;%
+  plot_ly(x = ~ susp_sex, y = ~ rate, type = &quot;box&quot;, color = ~ susp_sex, colors = &quot;viridis&quot;) %&gt;% 
+  layout(xaxis = list(title = &quot;Suspects&#39; Gender&quot;), yaxis = list(title = &quot;Rate&quot;))</code></pre>
+<div id="htmlwidget-52f3b762ef02c4c69cf2" style="width:75%;height:307.2px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-52f3b762ef02c4c69cf2">{"x":{"visdat":{"5c265c409828":["function () ","plotlyVisDat"]},"cur_data":"5c265c409828","attrs":{"5c265c409828":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Suspects' Gender","type":"category","categoryorder":"array","categoryarray":["F","M","U"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Rate"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,1,84,0.5)","x":["F","F","F","F","F","F","F","F","F","F","F","F","F"],"y":[0.98740377886634,0.982089552238806,0.976951672862454,0.985998526160649,0.981098641464855,0.980605120248254,0.980213692125049,0.98111753371869,0.979537703675635,0.985616956850871,0.982175783650891,0.985825331504344,0.98539751216874],"type":"box","name":"F","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"line":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(33,144,141,0.5)","x":["M","M","M","M","M","M","M","M","M","M","M","M","M"],"y":[0.967706259677063,0.964928057553957,0.962820512820513,0.968861771512729,0.974316759960487,0.973011909335382,0.971693602371617,0.973509933774834,0.975790921595598,0.977116505699121,0.97785051827605,0.979504851727578,0.977955478711908],"type":"box","name":"M","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"line":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(253,231,37,0.5)","x":["U","U","U","U","U","U","U","U","U","U","U","U","U"],"y":[0.987708066581306,0.985647530040053,0.984214898919967,0.984870958172649,0.989798657718121,0.987642807181161,0.987602390967456,0.988103408830931,0.985812356979405,0.988991237924062,0.990720193665524,0.987683823529412,0.989216092907507],"type":"box","name":"U","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"line":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>There is a significant relationship between gender of suspects and
+successful rate. Through the boxplot, we could see that distribution of
+the successful rate of male suspects is lower than distribution of the
+successful rate of female suspects.</p>
+</div>
+<div id="logistic-regression---victims-gender-and-crime-successful-rate"
+class="section level2">
+<h2>Logistic regression - victims’ gender and crime successful rate</h2>
+<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)
+gender_data_rate_1 &lt;- data %&gt;%  
+  filter(vic_sex %in% c(&quot;F&quot;, &quot;M&quot;)) %&gt;%
+  mutate(success_fail = ifelse(success_fail == &quot;COMPLETED&quot;, 1, 0))
+
+reg_successrate_1 = glm(success_fail ~ vic_sex, family=binomial(link=&quot;logit&quot;), data = gender_data_rate_1)
+
+reg_successrate_1 %&gt;% 
+  broom::tidy() %&gt;%
+  knitr::kable(digits = 4, align = &#39;c&#39;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">term</th>
+<th align="center">estimate</th>
+<th align="center">std.error</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">(Intercept)</td>
+<td align="center">4.1047</td>
+<td align="center">0.0295</td>
+<td align="center">138.9947</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">vic_sexM</td>
+<td align="center">-0.4281</td>
+<td align="center">0.0365</td>
+<td align="center">-11.7174</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>gender_data_rate_1 %&gt;% 
+  group_by(year, success_fail, vic_sex) %&gt;% 
+  summarise(number = n()) %&gt;%
+  mutate(success_fail = ifelse(success_fail == 1, &quot;COMPLETED&quot;, &quot;ATTEMPTED&quot;)) %&gt;%
+  pivot_wider(
+  names_from = &quot;success_fail&quot;, 
+  values_from = &quot;number&quot;) %&gt;%
+  mutate(total = ATTEMPTED+COMPLETED, 
+         rate = COMPLETED/total) %&gt;%
+  plot_ly(x = ~ vic_sex, y = ~rate, type = &quot;box&quot;, color = ~ vic_sex, colors = &quot;viridis&quot;) %&gt;% 
+  layout(xaxis = list(title = &quot;Victims&#39; Gender&quot;), yaxis = list(title = &quot;Rate&quot;))</code></pre>
+<div id="htmlwidget-35c4aab66fac747470e9" style="width:75%;height:307.2px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-35c4aab66fac747470e9">{"x":{"visdat":{"5c2638dac726":["function () ","plotlyVisDat"]},"cur_data":"5c2638dac726","attrs":{"5c2638dac726":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Victims' Gender","type":"category","categoryorder":"array","categoryarray":["F","M"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Rate"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,1,84,0.5)","x":["F","F","F","F","F","F","F","F","F","F","F","F","F"],"y":[0.983039896624132,0.982822737736851,0.97986798679868,0.982315648982316,0.986401673640167,0.986036519871106,0.983784716232534,0.985963041933191,0.983447790103891,0.984496124031008,0.984165923282783,0.98097936058276,0.986450466459351],"type":"box","name":"F","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"line":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(253,231,37,0.5)","x":["M","M","M","M","M","M","M","M","M","M","M","M","M"],"y":[0.974923801607093,0.969040744305422,0.971039929793769,0.971753016323634,0.977906445223221,0.975440090857467,0.976180164573408,0.976368706883898,0.976406779661017,0.975854584915898,0.979375537095388,0.977492877492877,0.976835185475035],"type":"box","name":"M","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"line":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Through the summary, we could see that crimes on male is
+significantly less to success (though still at a high ratio). According
+to the boxplot, we could see that distribution of the successful rate of
+male victims is also lower than distribution of the successful rate of
+male victims.</p>
+</div>
+</div>
+<div id="correlation-between-crime-number-and-time"
+class="section level1">
+<h1>Correlation between crime number and time</h1>
+<p>In the EDA part, we see that there exist some pattern in month and
+time in one day, but is it only random error and fluctuation, or there
+exist a significant difference?</p>
+<div id="anova-test---crime-number-and-month" class="section level2">
+<h2>Anova test - crime number and month</h2>
+<p>We use group_by and summarize function to get the number of cases in
+each month and year, and then use the number of cases and month_data to
+make an ANOVA model to test whether there is a significant difference of
+number of crime cases among each month.</p>
+<pre class="r"><code>data &lt;- read_csv(&quot;../data/full_filter_data.csv&quot;)
+
+month_data &lt;- data %&gt;%  
+  group_by(year, month) %&gt;% 
+  summarise(number = n()) %&gt;% 
+  mutate(month = as.factor(month),
+         year = as.factor(year))
+
+aov_model &lt;- aov(number ~ month, data = month_data) 
+
+aov_model %&gt;% 
+  broom::tidy() %&gt;% 
+  knitr::kable(digits = 4, align = &#39;c&#39;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center">term</th>
+<th align="center">df</th>
+<th align="center">sumsq</th>
+<th align="center">meansq</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">month</td>
+<td align="center">11</td>
+<td align="center">5347936</td>
+<td align="center">486176.01</td>
+<td align="center">14.1524</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">Residuals</td>
+<td align="center">141</td>
+<td align="center">4843764</td>
+<td align="center">34352.94</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
 </tr>
 </tbody>
 </table>
@@ -542,8 +810,8 @@ aov_fig2 &lt;- aov_group %&gt;%
   labs(x = &quot;Month&quot;, y = &quot;Count&quot;,title = 
          &quot;Months Having Fewer Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
 
-aov_fig1 + aov_fig2</code></pre>
-<p><img src="Hypothesis-testing-and-linear-model_files/figure-html/unnamed-chunk-2-1.png" width="60%" /></p>
+aov_fig1 / aov_fig2</code></pre>
+<p><img src="Hypothesis-testing-and-linear-model_files/figure-html/unnamed-chunk-6-1.png" width="75%" style="display: block; margin: auto;" /></p>
 <p>After pairwise independent multiple tests, we can draw the
 conclusion. We can roughly divide the months in one year into 3 groups.
 July, August, October, May, June, September generally have more crimes.
@@ -552,8 +820,8 @@ April is at medium level, the crime number in this two months are
 significantly less than those months with excessive crimes, but also
 significantly more than months that have fewest crimes.</p>
 </div>
-<div id="time" class="section level2">
-<h2>Time</h2>
+<div id="anova-test---crime-number-and-hour" class="section level2">
+<h2>Anova test - crime number and hour</h2>
 <p>Next, we repeat the steps, to see whether crime number at different
 time in a day have significant difference.We use group_by and summarize
 function to get the number of cases in each hour, arrange hour from 0 to
@@ -565,10 +833,9 @@ hour_data = data %&gt;%
   group_by(year, month, hour) %&gt;% 
   summarise(number = n()) %&gt;%
   mutate(hour = as.factor(hour),
-    hour = fct_inseq(hour)) </code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;, &#39;month&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>aov_hour &lt;- aov(number ~ hour, data = hour_data)
+    hour = fct_inseq(hour)) 
+
+aov_hour &lt;- aov(number ~ hour, data = hour_data)
 
 aov_hour %&gt;% 
   broom::tidy() %&gt;% 
@@ -603,15 +870,10 @@ aov_hour %&gt;%
 </tr>
 </tbody>
 </table>
-<p>Firstly, we use Turkey methods to analyze the ANOVA model, select the
-variables which p-value are smaller than 0.05, and arrange them by adj
-p_value. Then, we separate the contrast to A and B and add two variables
-“high” and “low” depending on whether estimate is larger than 0 to
-decide how A and B to fit high and low. Finally, we make a two panel
-plot to show the order of the hours become “high” and “low” in the
-process of comparing.</p>
 <p>By the result above, there are also significant difference in the
 mean number of crimes between different hours in one day.</p>
+<p>Afterwards, we use Turkey methods to analyze the ANOVA model, steps
+is consistent with text above.</p>
 <pre class="r"><code>hour_posthoc &lt;- TukeyHSD(aov_hour, conf.level = .95) %&gt;% 
   broom::tidy() %&gt;% 
   filter(adj.p.value &lt; 0.05) %&gt;% 
@@ -628,41 +890,41 @@ aov_fig3 &lt;- hour_group %&gt;%
   ggplot(aes(x = high, fill = high)) +
   geom_bar(stat = &quot;count&quot;) +
   labs(x = &quot;Hour&quot;, y = &quot;Count&quot;, title = 
-         &quot;Hours Having More Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
+         &quot;Hours Having More Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)+
+  theme(plot.title = element_text(hjust = 0.5))
 
 aov_fig4 &lt;- hour_group %&gt;% 
   ggplot(aes(x = low, fill = low)) +
   geom_bar(stat = &quot;count&quot;) +
   labs(x = &quot;Hour&quot;, y = &quot;Count&quot;,title = 
-         &quot;Hours Having Fewer Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
+         &quot;Hours Having Fewer Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)+
+  theme(plot.title = element_text(hjust = 0.5))
 
-aov_fig3 + aov_fig4</code></pre>
-<p><img src="Hypothesis-testing-and-linear-model_files/figure-html/unnamed-chunk-4-1.png" width="60%" /></p>
+aov_fig3 / aov_fig4</code></pre>
+<p><img src="Hypothesis-testing-and-linear-model_files/figure-html/unnamed-chunk-8-1.png" width="75%" style="display: block; margin: auto;" /></p>
 <p>The result corresponded with the findings in EDA part. The most
 dangerous hour is 12:00 - 21:00, all of them are at high ranks in the
 left figure. Comparatively, 1:00 - 9:00 is the most peaceful time. But
 it’s our consensus that midnights are more hazardous. So we questioned
-on if more server levels of crime take place more in the midnights.</p>
+on if more severe levels of crimes take place more in the midnights.</p>
+</div>
+<div id="anova-test---felony-crime-number-and-hour"
+class="section level2">
+<h2>Anova test - FELONY crime number and hour</h2>
 <p>We use group_by and summarize function to get the number of cases in
 each level, hour, month and year, and select the data which level equals
 FELONY, then use the number of cases and hour_level to make an ANOVA
 model to test whether there is a significant difference of level of
 crime cases among each hour. Then, we use Turkey methods to analyze the
-ANOVA model, select the variables which p-value are smaller than 0.05,
-and arrange them by adj p_value. Then, we separate the contrast to A and
-B and add two variables “high” and “low” depending on whether estimate
-is larger than 0 to decide how A and B to fit high and low. Finally, we
-make a two panel plot to show the order of the hours become “high” and
-“low” in the process of comparing.</p>
+ANOVA model. The other steps is consistent with text above.</p>
 <pre class="r"><code>hour_level = data %&gt;% 
   group_by(year, month, hour, level) %&gt;% 
   filter(level == &quot;FELONY&quot;) %&gt;% 
   summarise(number = n()) %&gt;%
   mutate(hour = as.factor(hour),
-    hour = fct_inseq(hour)) </code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;, &#39;month&#39;, &#39;hour&#39;. You can override
-## using the `.groups` argument.</code></pre>
-<pre class="r"><code>aov_level &lt;- aov(number ~ hour, data = hour_level)
+    hour = fct_inseq(hour)) 
+
+aov_level &lt;- aov(number ~ hour, data = hour_level)
 
 aov_level %&gt;% 
   broom::tidy() %&gt;% 
@@ -713,81 +975,424 @@ aov_fig5 &lt;- level_group %&gt;%
   ggplot(aes(x = high, fill = high)) +
   geom_bar(stat = &quot;count&quot;) +
   labs(x = &quot;Hour&quot;, y = &quot;Count&quot;, title = 
-         &quot;Hours Having More Felony Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
+         &quot;Hours Having More Felony Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)+
+  theme(plot.title = element_text(hjust = 0.5))
 
 aov_fig6 &lt;- level_group %&gt;% 
   ggplot(aes(x = low, fill = low)) +
   geom_bar(stat = &quot;count&quot;) +
   labs(x = &quot;Hour&quot;, y = &quot;Count&quot;,title = 
-         &quot;Hours Having Fewer Felony Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)
+         &quot;Hours Having Fewer Felony Crimes \n in Multiple Comparisons&quot;) + guides(fill = &quot;none&quot;)+
+  theme(plot.title = element_text(hjust = 0.5))
 
-aov_fig5 + aov_fig6</code></pre>
-<p><img src="Hypothesis-testing-and-linear-model_files/figure-html/unnamed-chunk-5-1.png" width="60%" /></p>
-<p>The conclusion still holds true. Be cautious! What time you think is
-safe may be dangerous than your thought.</p>
+aov_fig5 / aov_fig6</code></pre>
+<p><img src="Hypothesis-testing-and-linear-model_files/figure-html/unnamed-chunk-9-1.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>The conclusion still holds true: afternoon is more dangerous. Be
+cautious! What time you think is safe may be dangerous than your
+thought.</p>
 </div>
-<div id="build-a-linear-model-for-prediction" class="section level2">
-<h2>Build a linear model for prediction</h2>
+</div>
+<div id="build-linear-model-for-prediction" class="section level1">
+<h1>Build linear model for prediction</h1>
 <p>All variables are categorical, except the response variable crime
 number. After plotting the histogram, we find the crime number is
-strongly right-skewed. Using boxcox transformation, we take logrithm of
+strongly right-skewed. Using boxcox transformation, we take logarithm of
 number and the data looks much more normally distributed. We decide to
 select meaningful age and male and female of gender to do the following
 prediction. Then we make a lm model to use month, hour, vic_age,
 vic_race, and vic_sex as predictors. Then we summary the model to get
 results to test significance of each predictor. Finally, we make a
-boxplot of the distribution of RMSE/IQR</p>
+boxplot of the distribution of RMSE/IQR (normalized RMSE).</p>
 <pre class="r"><code># find that group by day, every day there are too few cases, not appropriate for prediction, so we choose to ignore the day variable
-
+set.seed(1244)
 lm_data &lt;- data %&gt;% 
   filter(vic_age %in% c(&quot;&lt;18&quot;, &quot;18-24&quot;, &quot;25-44&quot;, &quot;45-64&quot;, &quot;65+&quot;)) %&gt;% 
   filter(vic_sex %in% c(&quot;M&quot;, &quot;F&quot;)) %&gt;%
   filter(vic_race != &quot;(null)&quot;) %&gt;% 
   mutate_at(c(&quot;month&quot;, &quot;hour&quot;, &quot;vic_age&quot;, &quot;vic_race&quot;, &quot;vic_sex&quot;), as.factor) %&gt;% 
   group_by(month, hour, vic_age, vic_race, vic_sex) %&gt;% 
-  summarise(log_number = log(n())) </code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;month&#39;, &#39;hour&#39;, &#39;vic_age&#39;, &#39;vic_race&#39;. You
-## can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>lm_model &lt;- lm(log_number ~ . , data = lm_data)
+  summarise(log_number = log(n())) 
+
+lm_model &lt;- lm(log_number ~ . , data = lm_data)
 
 options(digits = 4)
 
 summary(lm_model, correlation = FALSE) %&gt;% 
-  broom::glance() %&gt;% 
-  knitr::kable()</code></pre>
-<table style="width:100%;">
-<colgroup>
-<col width="14%" />
-<col width="20%" />
-<col width="10%" />
-<col width="14%" />
-<col width="11%" />
-<col width="4%" />
-<col width="17%" />
-<col width="8%" />
-</colgroup>
+  broom::tidy() %&gt;% 
+  knitr::kable(align = &#39;c&#39;, caption = &quot;Linear model parameters&quot;)</code></pre>
+<table>
+<caption>Linear model parameters</caption>
 <thead>
 <tr class="header">
-<th align="right">r.squared</th>
-<th align="right">adj.r.squared</th>
-<th align="right">sigma</th>
-<th align="right">statistic</th>
-<th align="right">p.value</th>
-<th align="right">df</th>
-<th align="right">df.residual</th>
-<th align="right">nobs</th>
+<th align="center">term</th>
+<th align="center">estimate</th>
+<th align="center">std.error</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">0.7564</td>
-<td align="right">0.7556</td>
-<td align="right">0.5803</td>
-<td align="right">1009</td>
-<td align="right">0</td>
-<td align="right">45</td>
-<td align="right">14622</td>
-<td align="right">14668</td>
+<td align="center">(Intercept)</td>
+<td align="center">-1.5058</td>
+<td align="center">0.0393</td>
+<td align="center">-38.3320</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">month2</td>
+<td align="center">-0.0464</td>
+<td align="center">0.0238</td>
+<td align="center">-1.9533</td>
+<td align="center">0.0508</td>
+</tr>
+<tr class="odd">
+<td align="center">month3</td>
+<td align="center">0.0774</td>
+<td align="center">0.0236</td>
+<td align="center">3.2781</td>
+<td align="center">0.0010</td>
+</tr>
+<tr class="even">
+<td align="center">month4</td>
+<td align="center">0.0735</td>
+<td align="center">0.0236</td>
+<td align="center">3.1104</td>
+<td align="center">0.0019</td>
+</tr>
+<tr class="odd">
+<td align="center">month5</td>
+<td align="center">0.2214</td>
+<td align="center">0.0235</td>
+<td align="center">9.4388</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">month6</td>
+<td align="center">0.2671</td>
+<td align="center">0.0234</td>
+<td align="center">11.3998</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">month7</td>
+<td align="center">0.2909</td>
+<td align="center">0.0233</td>
+<td align="center">12.4718</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">month8</td>
+<td align="center">0.2773</td>
+<td align="center">0.0234</td>
+<td align="center">11.8505</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">month9</td>
+<td align="center">0.2856</td>
+<td align="center">0.0235</td>
+<td align="center">12.1713</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">month10</td>
+<td align="center">0.1403</td>
+<td align="center">0.0235</td>
+<td align="center">5.9638</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">month11</td>
+<td align="center">0.0413</td>
+<td align="center">0.0235</td>
+<td align="center">1.7554</td>
+<td align="center">0.0792</td>
+</tr>
+<tr class="even">
+<td align="center">month12</td>
+<td align="center">-0.0171</td>
+<td align="center">0.0236</td>
+<td align="center">-0.7247</td>
+<td align="center">0.4686</td>
+</tr>
+<tr class="odd">
+<td align="center">hour1</td>
+<td align="center">-0.1825</td>
+<td align="center">0.0344</td>
+<td align="center">-5.3102</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour2</td>
+<td align="center">-0.3163</td>
+<td align="center">0.0349</td>
+<td align="center">-9.0652</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour3</td>
+<td align="center">-0.3901</td>
+<td align="center">0.0352</td>
+<td align="center">-11.0760</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour4</td>
+<td align="center">-0.4544</td>
+<td align="center">0.0360</td>
+<td align="center">-12.6362</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour5</td>
+<td align="center">-0.6499</td>
+<td align="center">0.0363</td>
+<td align="center">-17.8809</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour6</td>
+<td align="center">-0.7334</td>
+<td align="center">0.0358</td>
+<td align="center">-20.4907</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour7</td>
+<td align="center">-0.3137</td>
+<td align="center">0.0341</td>
+<td align="center">-9.2079</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour8</td>
+<td align="center">-0.0269</td>
+<td align="center">0.0332</td>
+<td align="center">-0.8111</td>
+<td align="center">0.4173</td>
+</tr>
+<tr class="odd">
+<td align="center">hour9</td>
+<td align="center">0.0293</td>
+<td align="center">0.0330</td>
+<td align="center">0.8868</td>
+<td align="center">0.3752</td>
+</tr>
+<tr class="even">
+<td align="center">hour10</td>
+<td align="center">0.1247</td>
+<td align="center">0.0330</td>
+<td align="center">3.7783</td>
+<td align="center">0.0002</td>
+</tr>
+<tr class="odd">
+<td align="center">hour11</td>
+<td align="center">0.1929</td>
+<td align="center">0.0327</td>
+<td align="center">5.8923</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour12</td>
+<td align="center">0.3899</td>
+<td align="center">0.0324</td>
+<td align="center">12.0161</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour13</td>
+<td align="center">0.3674</td>
+<td align="center">0.0326</td>
+<td align="center">11.2777</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour14</td>
+<td align="center">0.4884</td>
+<td align="center">0.0322</td>
+<td align="center">15.1804</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour15</td>
+<td align="center">0.6093</td>
+<td align="center">0.0323</td>
+<td align="center">18.8838</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour16</td>
+<td align="center">0.6033</td>
+<td align="center">0.0322</td>
+<td align="center">18.7278</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour17</td>
+<td align="center">0.5842</td>
+<td align="center">0.0323</td>
+<td align="center">18.0674</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour18</td>
+<td align="center">0.5743</td>
+<td align="center">0.0323</td>
+<td align="center">17.7643</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour19</td>
+<td align="center">0.4524</td>
+<td align="center">0.0325</td>
+<td align="center">13.9123</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour20</td>
+<td align="center">0.4142</td>
+<td align="center">0.0326</td>
+<td align="center">12.6987</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour21</td>
+<td align="center">0.2844</td>
+<td align="center">0.0331</td>
+<td align="center">8.6005</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">hour22</td>
+<td align="center">0.1839</td>
+<td align="center">0.0335</td>
+<td align="center">5.4892</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">hour23</td>
+<td align="center">0.0922</td>
+<td align="center">0.0337</td>
+<td align="center">2.7384</td>
+<td align="center">0.0062</td>
+</tr>
+<tr class="even">
+<td align="center">vic_age18-24</td>
+<td align="center">0.6691</td>
+<td align="center">0.0165</td>
+<td align="center">40.4323</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">vic_age25-44</td>
+<td align="center">1.7845</td>
+<td align="center">0.0163</td>
+<td align="center">109.7964</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">vic_age45-64</td>
+<td align="center">1.1759</td>
+<td align="center">0.0164</td>
+<td align="center">71.8018</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">vic_age65+</td>
+<td align="center">-0.2352</td>
+<td align="center">0.0178</td>
+<td align="center">-13.1836</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">vic_raceASIAN/PACIFIC</td>
+<td align="center">1.2560</td>
+<td align="center">0.0263</td>
+<td align="center">47.8290</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">vic_raceBLACK</td>
+<td align="center">2.9660</td>
+<td align="center">0.0255</td>
+<td align="center">116.4605</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">vic_raceBLACK HISPANIC</td>
+<td align="center">1.5530</td>
+<td align="center">0.0258</td>
+<td align="center">60.2901</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">vic_raceUNKNOWN</td>
+<td align="center">0.9728</td>
+<td align="center">0.0263</td>
+<td align="center">36.9415</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">vic_raceWHITE</td>
+<td align="center">2.1920</td>
+<td align="center">0.0256</td>
+<td align="center">85.4883</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="odd">
+<td align="center">vic_raceWHITE HISPANIC</td>
+<td align="center">2.5362</td>
+<td align="center">0.0255</td>
+<td align="center">99.4092</td>
+<td align="center">0.0000</td>
+</tr>
+<tr class="even">
+<td align="center">vic_sexM</td>
+<td align="center">0.2796</td>
+<td align="center">0.0097</td>
+<td align="center">28.9211</td>
+<td align="center">0.0000</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summary(lm_model) %&gt;% 
+  broom::glance() %&gt;% 
+  knitr::kable(align = &#39;c&#39;, caption = &quot;Linear model statistics&quot;)</code></pre>
+<table>
+<caption>Linear model statistics</caption>
+<colgroup>
+<col width="14%" />
+<col width="19%" />
+<col width="10%" />
+<col width="14%" />
+<col width="11%" />
+<col width="5%" />
+<col width="16%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">r.squared</th>
+<th align="center">adj.r.squared</th>
+<th align="center">sigma</th>
+<th align="center">statistic</th>
+<th align="center">p.value</th>
+<th align="center">df</th>
+<th align="center">df.residual</th>
+<th align="center">nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.7564</td>
+<td align="center">0.7556</td>
+<td align="center">0.5803</td>
+<td align="center">1009</td>
+<td align="center">0</td>
+<td align="center">45</td>
+<td align="center">14622</td>
+<td align="center">14668</td>
 </tr>
 </tbody>
 </table>
@@ -798,10 +1403,9 @@ summary(lm_model, correlation = FALSE) %&gt;%
                          ~rmse(model = .x, data = .y)))
 
 sum_number &lt;- summary(lm_data$log_number) %&gt;% 
-  broom::tidy()</code></pre>
-<pre><code>## Warning: `tidy.summaryDefault()` is deprecated. Please use `skimr::skim()`
-## instead.</code></pre>
-<pre class="r"><code>IQR &lt;- sum_number$q3 - sum_number$q1
+  broom::tidy()
+
+IQR &lt;- sum_number$q3 - sum_number$q1
 
 cv_result %&gt;% 
   select(starts_with(&quot;rmse&quot;)) %&gt;% 
@@ -812,11 +1416,14 @@ cv_result %&gt;%
     names_prefix = &quot;rmse_&quot;) %&gt;% 
   mutate(model = fct_inorder(model)) %&gt;% 
   ggplot(aes(x = model, y = rmse/IQR)) + geom_boxplot() +
-  labs(x = &quot;&quot;, y = &quot;RMSE/IQR&quot;, title = &quot;Distribution of RMSDIQR&quot;)</code></pre>
-<p><img src="Hypothesis-testing-and-linear-model_files/figure-html/unnamed-chunk-6-1.png" width="60%" /></p>
-<p>We used normalized RMSE as the reference to evaluate the prediction
-ability of this model. It turnns of to be good.</p>
-</div>
+  labs(x = &quot;Model&quot;, y = &quot;RMSE/IQR&quot;, title = &quot;Distribution of RMSDIQR&quot;) +
+  theme(plot.title = element_text(hjust = 0.5))</code></pre>
+<p><img src="Hypothesis-testing-and-linear-model_files/figure-html/unnamed-chunk-10-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p>The model fits so well as the adjusted R squared is 0.756 with a
+extreme small p value. Moreover, we use normalized RMSE as the reference
+to evaluate the prediction ability of this model. It turns out to be
+good compared to the IQR, which means it’s prediction error is less than
+<span class="math inline">\(\frac{1}{3}\)</span> IQR.</p>
 </div>
 
 
@@ -854,6 +1461,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

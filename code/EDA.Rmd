@@ -31,7 +31,7 @@ scale_fill_discrete = scale_fill_viridis_d
 After reading this page, you will have an overall sense about the crimes around Columbia University campus (including CUIMC). 
 We pictured the proportion of each level of crimes, and the charactristic of suspects and victims. We also focused on the total crime numbers across the years, showing a pattern of the fluctation of offense number with the months and times, so that we can have an idea about when it will be more dangerous and need more caution. At the same time, we also captured some interesting point of offense number.
 
-## Overview about crimes around CU campus
+# Overview about crimes around CU campus
 
 ## Numerical characteristics
 ```{r EDA, message=F}
